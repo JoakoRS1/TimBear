@@ -9,11 +9,10 @@ app.use(bodyParser.urlencoded({
     extended:true
 }))
 
-
 app.use(express.static('assets'))
 app.set('view engine','ejs')
 
-app.get('/inicio',(req,res)=>{
+app.get('/',(req,res)=>{
     res.render('inicio')
 })
 
