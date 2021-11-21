@@ -1,10 +1,11 @@
 
 
 #imgreglas{
-width: 30px;
+width: 200px;
+
 }
 
 
-p{
-    color: blue;
+#alineacionder{
+    text-align: right;
 }
