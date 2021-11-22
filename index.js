@@ -15,9 +15,15 @@ app.set('view engine','ejs')
 app.get('/',(req,res)=>{
     res.render('inicio')
 })
+app.get('/TerminosYCondiciones',(req,res)=>{
+    res.render('terminosycondiciones')
+})
 
 app.get('/reglas',(req,res)=>{
     res.render('reglas')
+})
+app.get('/PoliticasPrivacidad',(req,res)=>{
+    res.render('PoliticasPrivacidad')
 })
 
 app.listen(PORT,()=>{
