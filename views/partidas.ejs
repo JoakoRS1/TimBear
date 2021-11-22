@@ -14,26 +14,11 @@
         <a class="link" href="/"> <-Regresar</a>
         <%- include('banners') %>
         <div class="container">
-            <input type="radio" class="btn-check" name="options" id="option1" autocomplete="off">
-            <label class="btn btn-secondary" for="option1">Fútbol</label>
-
-            <input type="radio" class="btn-check" name="options" id="option2" autocomplete="off">
-            <label class="btn btn-secondary" for="option2">Baloncesto</label>
-
-            <input type="radio" class="btn-check" name="options" id="option3" autocomplete="off">
-            <label class="btn btn-secondary" for="option3">E-Sports</label>
-
+            <% juegos.forEach( (juego) => { %>
+            <input type="radio" class="btn-check" name="partida_juego_id" id="<%= juego.id %>" autocomplete="off">
+            <label class="btn btn-secondary"><%= juego.nombre %></label>
+            <% }) %>
             <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Fecha</th>
-                        <th>Hora</th>
-                        <th></th>
-                        <th>Empate</th>
-                        <th>Equipo B</th>
-                    </tr>
-                </thead>
                 <tbody>
                     <% partidas.forEach( (partida) => { %>
                         <tr>
