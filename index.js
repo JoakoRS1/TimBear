@@ -1,6 +1,7 @@
 const  express=require('express')
 const PORT =8080
 const bodyParser = require('body-parser')
+const db = require('./dao/models')
 
 const app = express()
 
@@ -24,6 +25,27 @@ app.get('/reglas',(req,res)=>{
 })
 app.get('/PoliticasPrivacidad',(req,res)=>{
     res.render('PoliticasPrivacidad')
+})
+
+app.get('/partidas',(req,res)=>{
+
+    res.render('partidas')
+})
+
+//Iniciar sesion para poder usar el menu de opciones (aun falta)
+app.post('/login',  (req, res) => {
+    const username = req.body.username
+    const password = req.body.password
+
+    if (username == "pw" && password == "123")
+    {
+        //login correcto -> llamar al endpoint torneos
+        req.session.username = username //guardando variable en sesion (no se pierde la variable)
+        res.redirect("/")
+    }
+    else {
+        res.redirect('/login')
+    }
 })
 
 app.listen(PORT,()=>{
