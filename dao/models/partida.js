@@ -11,6 +11,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
        // falta definir asociacion con partida !!!
+       Partida.belongsTo(models.Juego, {
+        foreignKey : 'juegoId'
+      })
+
     }
   };
   Partida.init({
@@ -24,7 +28,8 @@ module.exports = (sequelize, DataTypes) => {
     equipoB: DataTypes.STRING,
     factorA: DataTypes.FLOAT,
     factorB: DataTypes.FLOAT,
-    factorEmpate: DataTypes.FLOAT
+    factorEmpate: DataTypes.FLOAT,
+    Resultado: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Partida',

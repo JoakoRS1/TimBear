@@ -38,6 +38,12 @@ app.get('/partidas',(req,res)=>{
     res.render('partidas')
 })
 
+app.get('/administrarCategorias', (req, res) => {
+
+    
+    res.render('administrarCategorias')
+})
+
 app.get('/login', (req,res) => {
     if(req.session.usuario != undefined){
         res.redirect('/')

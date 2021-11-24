@@ -4,30 +4,31 @@
         <title>Tim-Bear</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
         <link rel="stylesheet" href="/css/index.css" type="text/css"> 
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
     </head>
     <body class="">
-        <h1 class="">Partidas</h1>
+        <h1 class="">Categorías</h1>
         <%- include('menu') %>
         <div class="card-body">
         <a class="link" href="/"> <-Regresar</a>
         <div class="container">
-            <% juegos.forEach( (juego) => { %>
-            <input type="radio" class="btn-check" name="partida_juego_id" id="<%= juego.id %>" autocomplete="off">
-            <label class="btn btn-secondary"><%= juego.nombre %></label>
-            <% }) %>
             <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Id de Categoría</th>
+                        <th>Nombre</th>
+                        <th></th>
+                    </tr>
+                </thead>
                 <tbody>
-                    <% partidas.forEach( (partida) => { %>
+                    <% categorias.forEach( (categoria) => { %>
                         <tr>
-                            <td><%= partida.nombre %></td>
-                            <td><%= partida.fecha.toISOString().substring(0,10) %></td>
-                            <td><%= partida.hora %></td>
-                            <td><%= partida.equipoA %>    <%= partida.factorA %></td>
-                            <td><%= partida.factorEmpate %></td>
-                            <td><%= partida.equipoB %>    <%= partida.factorB %></td>
+                            <td><%= categoria.id %></td>
+                            <td><%= categoria.nombre %></td>
+                            <td><a href="#">Editar</a></td>
                         </tr>
                     <% }) %>
                 </tbody>
