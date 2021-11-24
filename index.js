@@ -21,7 +21,8 @@ app.use(session({
 
 app.get('/',(req,res)=>{
     res.render('inicio',{
-        rol: req.session.rol
+        rol: req.session.rol,
+        nombre: req.session.nombre
     })
 })
 app.get('/TerminosYCondiciones',(req,res)=>{
@@ -54,8 +55,6 @@ app.get('/login', (req,res) => {
     res.render('login')}
 })
 
-
-//Iniciar sesion para poder usar el menu de opciones (aun falta)
 app.post('/login', async (req, res) => {
     const correoA = req.body.correoU
     const passwordA = req.body.passwordU
@@ -75,7 +74,9 @@ app.post('/login', async (req, res) => {
         if(usuarioA.password == passwordA){
             console.log("la clave ta bien")
             req.session.rol = usuarioA.rol
-            console.log("req.session.rol: ", req.session.rol)
+            req.session.nombre = usuarioA.nombre
+            console.log("sesion rol: ", req.session.rol)
+            console.log("sesion nombre: ", req.session.nombre)
             res.redirect('/')
         }
         else{
@@ -88,6 +89,12 @@ app.post('/login', async (req, res) => {
         
 })
 
+app.get('/logout', (req, res) => {
+    req.session.destroy(() => {
+        res.redirect('/')
+    })
+    console.log("Se cerró la sesión")
+})
 
 app.listen(PORT,()=>{
     console.log(`El servidor se inicio en el puerto: ${PORT}`)
