@@ -24,7 +24,7 @@ module.exports = {
         type: Sequelize.DATE
       },
       estado: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.INTEGER
       },
       equipoA: {
         type: Sequelize.STRING

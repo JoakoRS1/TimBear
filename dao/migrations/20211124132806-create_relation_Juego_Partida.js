@@ -10,7 +10,7 @@ module.exports = {
      */
     await queryInterface.addColumn('Partida','juegoId',{
       type : Sequelize.INTEGER,
-      allowNull:true
+      allowNull: true
     })
 
     await queryInterface.addConstraint('Partida',{
