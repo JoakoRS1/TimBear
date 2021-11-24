@@ -12,18 +12,19 @@
         <h1 class="m-lg-3">Partidas</h1>
         <div class="card-body">
             <a class="link" href="/"> <-Regresar</a>
-            <%- include('banners') %>
+            <!-- Banner -->
+            <div class="mb-3">
+                <img id="banner" class="m-md-5 img-fluid img-responsive" src="/imagenes/apuestas1.png"/>
+            </div>
             <div class="container">
-                <table class="table table-hover">
+                <table class="table table-responsive-md table-hover">
                     <thead>
                         <tr>
                             <th>Partida</th>
                             <th>Fecha</th>
                             <th>Hora</th>
                             <th>Duración</th>
-                            <th>Ganador Equipo 1</th>
-                            <th>Empate</th>
-                            <th>Ganador Equipo 2</th>
+                            <th class="text-center" colspan="3" >Ganador del Partido</th>
                         </tr>
                     </thead>
                     <tbody>
