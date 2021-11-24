@@ -40,8 +40,7 @@ app.get('/partidas',(req,res)=>{
 
 app.get('/login', (req,res) => {
     if(req.session.usuario != undefined){
-        req.session.lastLogin = new Date().getTime()
-        res.redirect('/torneos')
+        res.redirect('/')
     }
     else{
     res.render('login')}
@@ -49,20 +48,27 @@ app.get('/login', (req,res) => {
 
 
 //Iniciar sesion para poder usar el menu de opciones (aun falta)
-app.post('/login',  (req, res) => {
-    const username = req.body.username
-    const password = req.body.password
+app.post('/login', async (req, res) => {
+    const correoA = req.body.correoU
+    const passwordA = req.body.passwordU
+    //const listaUsuarios = await getUsuarios()
 
-    if (username == "pw" && password == "123")
-    {
-        //login correcto -> llamar al endpoint torneos
-        req.session.username = username //guardando variable en sesion (no se pierde la variable)
-        res.redirect("/")
+    
+    const usuarioA = await db.Usuario.findOne({
+        where: {
+            correo: correoA
+            }   
+        })
+    if(usuarioA.password == passwordA){
+        console.log("la clave ta bien")
+        res.redirect('/')
     }
-    else {
-        res.redirect('/login')
+    else{
+        console.log("la clave ta mal")
+        res.redirect('/reglas')
     }
 })
+
 
 app.listen(PORT,()=>{
     console.log(`El servidor se inicio en el puerto: ${PORT}`)
