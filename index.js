@@ -36,9 +36,18 @@ app.get('/PoliticasPrivacidad',(req,res)=>{
     res.render('PoliticasPrivacidad')
 })
 
-app.get('/partidas',(req,res)=>{
+app.get('/partidas', async(req,res)=>{
+    //Si se inicio sesion buscar usuario para mostrar su nombre en la parte de menu
+    const usuarios = await db.Usuario.findOne({
+        where : 
+        { id : 1}
+    });
 
-    res.render('partidas')
+    const partidas = await db.Partida.findAll();
+    res.render('partidas', {
+        partidas : partidas,
+        usuario : usuarios
+    })
 })
 
 app.get('/administrarCategorias', (req, res) => {
