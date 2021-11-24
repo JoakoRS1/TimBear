@@ -41,6 +41,9 @@ module.exports = {
       factorEmpate: {
         type: Sequelize.FLOAT
       },
+      Resultado: {
+        type: Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
