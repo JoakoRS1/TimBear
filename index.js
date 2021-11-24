@@ -3,6 +3,7 @@ const PORT =8080
 const bodyParser = require('body-parser')
 const session = require('express-session')
 const db = require('./dao/models')
+const usuario = require('./dao/models/usuario')
 const app = express()
 
 app.use(bodyParser.json())
@@ -19,7 +20,9 @@ app.use(session({
 }))
 
 app.get('/',(req,res)=>{
-    res.render('inicio')
+    res.render('inicio',{
+        rol: req.session.rol
+    })
 })
 app.get('/TerminosYCondiciones',(req,res)=>{
     res.render('terminosycondiciones')
@@ -63,22 +66,26 @@ app.post('/login', async (req, res) => {
         if(usuario.correo == correoA){
         usuarioA = usuario}
         else{
+            usuarioA = null
             console.log("NO EXISTE")
         }
     })
     
-    if(usuarioA.correo!= null){
-    if(usuarioA.password == passwordA){
-        console.log("la clave ta bien")
-        res.redirect('/')
-    }
-    else{
-        console.log("la clave ta mal")
-        res.redirect('/reglas')
-    }}
-    else{
-        console("todo mal")
-    }
+    if(usuarioA!= null){
+        if(usuarioA.password == passwordA){
+            console.log("la clave ta bien")
+            req.session.rol = usuarioA.rol
+            console.log("req.session.rol: ", req.session.rol)
+            res.redirect('/')
+        }
+        else{
+            console.log("la clave ta mal")
+            res.render('errorlogin')
+        }}
+        else{
+            res.render('errorlogin')
+        }
+        
 })
 
 
