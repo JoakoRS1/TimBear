@@ -3,7 +3,6 @@ const PORT =8080
 const bodyParser = require('body-parser')
 const session = require('express-session')
 const db = require('./dao/models')
-
 const app = express()
 
 app.use(bodyParser.json())
@@ -57,14 +56,18 @@ app.get('/login', (req,res) => {
 app.post('/login', async (req, res) => {
     const correoA = req.body.correoU
     const passwordA = req.body.passwordU
-    //const listaUsuarios = await getUsuarios()
-
     
-    const usuarioA = await db.Usuario.findOne({
-        where: {
-            correo: correoA
-            }   
-        })
+    
+    const Usuarios = await db.Usuario.findAll()
+    Usuarios.forEach((usuario) =>{
+        if(usuario.correo == correoA){
+        usuarioA = usuario}
+        else{
+            console.log("NO EXISTE")
+        }
+    })
+    
+    if(usuarioA.correo!= null){
     if(usuarioA.password == passwordA){
         console.log("la clave ta bien")
         res.redirect('/')
@@ -72,6 +75,9 @@ app.post('/login', async (req, res) => {
     else{
         console.log("la clave ta mal")
         res.redirect('/reglas')
+    }}
+    else{
+        console("todo mal")
     }
 })
 
