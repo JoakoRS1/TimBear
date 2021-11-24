@@ -16,6 +16,9 @@
             <div class="mb-3">
                 <img id="banner" class="m-md-5 img-fluid img-responsive" src="/imagenes/apuestas1.png"/>
             </div>
+            <div class="m-md-5">
+            <% partidas.forEach( (partida) => { %><a href="/partidas/<%=partida.juegoId %>" ><%= partida.juego %> |</a><% }) %>
+            </div>
             <div class="container">
                 <table class="table table-responsive-md table-hover">
                     <thead>
