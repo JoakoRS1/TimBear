@@ -36,6 +36,19 @@ app.get('/PoliticasPrivacidad',(req,res)=>{
     res.render('PoliticasPrivacidad')
 })
 
+app.get('/administrarPartidas',async (req,res)=>{
+    const partidas = await db.Partida.findAll({
+        order:[
+            ['id','ASC']
+        ]
+    });
+
+    res.render('administrarPartidas',{
+        partidas:partidas
+    })
+})
+
+
 app.get('/partidas', async(req,res)=>{
     //Si se inicio sesion buscar usuario para mostrar su nombre en la parte de menu
     const usuarios = await db.Usuario.findOne({
