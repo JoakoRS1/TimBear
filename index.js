@@ -1,6 +1,7 @@
 const  express=require('express')
 const PORT =8080
 const bodyParser = require('body-parser')
+const session = require('express-session')
 const db = require('./dao/models')
 
 const app = express()
@@ -12,6 +13,11 @@ app.use(bodyParser.urlencoded({
 
 app.use(express.static('assets'))
 app.set('view engine','ejs')
+app.use(session({
+    secret : "sam",
+    resave : false,
+    saveUninitialized : false
+}))
 
 app.get('/',(req,res)=>{
     res.render('inicio')
@@ -31,6 +37,16 @@ app.get('/partidas',(req,res)=>{
 
     res.render('partidas')
 })
+
+app.get('/login', (req,res) => {
+    if(req.session.usuario != undefined){
+        req.session.lastLogin = new Date().getTime()
+        res.redirect('/torneos')
+    }
+    else{
+    res.render('login')}
+})
+
 
 //Iniciar sesion para poder usar el menu de opciones (aun falta)
 app.post('/login',  (req, res) => {
