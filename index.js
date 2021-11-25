@@ -137,6 +137,28 @@ app.get('/administrarCategorias', (req, res) => {
     res.render('administrarCategorias')
 })
 
+app.get('/AdministrarJuegos', async(req, res) => {
+    const juegos = await db.Juego.findAll();
+    const UsuarioA = await db.Usuario.findOne({
+        where: {
+            id : 1
+        }
+    });
+    
+    res.render('administrarJuegos', {
+        juegos : juegos,
+        usuario : UsuarioA
+    })
+})
+
+app.get('/AdministrarClientes', async(req, res) => {
+    const usuarios = await db.Usuario.findAll();
+    
+    res.render('administrarClientes', {
+        clientes : usuarios
+    })
+})
+
 app.get('/login', (req,res) => {
     if(req.session.usuario != undefined){
         res.redirect('/')
