@@ -12,10 +12,10 @@ module.exports = {
         type: Sequelize.DATE
       },
       hora: {
-        type: Sequelize.DATE
+        type: Sequelize.TIME
       },
       duracion: {
-        type: Sequelize.DATE
+        type: Sequelize.INTEGER
       },
       estado: {
         type: Sequelize.INTEGER
