@@ -19,22 +19,29 @@ app.use(session({
     saveUninitialized : false
 }))
 
+
+
 app.get('/',(req,res)=>{
     res.render('inicio',{
         rol: req.session.rol,
         nombre: req.session.nombre
     })
 })
+
 app.get('/TerminosYCondiciones',(req,res)=>{
     res.render('terminosycondiciones')
 })
 
 app.get('/reglas',(req,res)=>{
-    res.render('reglas')
+    res.render('reglas',{
+        rol: req.session.rol,
+        nombre: req.session.nombre})
 })
 
 app.get('/nosotros',(req,res)=>{
-    res.render('nosotros')
+    res.render('nosotros',{
+        rol: req.session.rol,
+        nombre: req.session.nombre})
 })
 
 
