@@ -3,12 +3,13 @@
     <head>
         <title>Tim-Bear</title>
         <meta charset="utf-8" />
+        <link rel="shortcut icon" href="/imagenes/logo.png" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
     </head>
     <body class="">
         <%- include('menu') %>
-        <h2>Administrar Partidas</h2>
+        <h2 class="container">Administrar Partidas</h2>
 
         <div>
             <table class="table container table-hover">
@@ -29,11 +30,16 @@
                     <% partidas.forEach((partidas)=>{ %>
                         <tr>
                             <td><%=  %></td>
-                            <td><%=  %></td>
-                            <td><%=    %></td>
+                            <td><%=partidas.fecha.toISOString().substring(0,10)%></td>
+                            <td><%=partidas.hora%></td>
+                            <td><%=partidas.duracion  %></td>
+                            <td><%=partidas.equipoA%></td>
+                            <td><%=partidas.equipoB  %></td>
+                            <td><%=partidas.estado  %></td>
+                            <td><%=partidas.Resultado  %></td>
                             <td>
-                                <a href="/torneos/edit/<%= %>">Editar</a>
-                                <a href="/torneos/eliminar/<%=  %>">Eliminar</a>
+                                <a href="/administrarPartidas/editar/<%= %>">Editar</a>
+                                <a href="/administrarPartidas/eliminar/<%=partidas.id%>">Eliminar</a>
                             </td>
                         </tr>
                     <%})%>

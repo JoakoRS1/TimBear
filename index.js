@@ -70,14 +70,14 @@ app.post('/administrarPartidas',async (req,res)=>{
     const inicio = req.body.partida_inicio
     const duracion = req.body.partida_duracion
     const estadoP = req.body.partida_Estado
-    const estado = 0
+    var estado = 0
     if(estadoP=="Pendiente"){
         estado = 0
     }
-    else if(estadoP="Iniciado"){
+    else if(estadoP=="Iniciado"){
         estado = 1
     }
-    else if(estadoP="Finalizado"){
+    else if(estadoP=="Finalizado"){
         estado = 2
     }
     else{
@@ -103,9 +103,17 @@ app.post('/administrarPartidas',async (req,res)=>{
         factorEmpate: FE,
         Resultado: resultado
     })
-
+    res.redirect('/administrarPartidas')
 })
-
+app.get('/administrarPartidas/eliminar/:codigo',async(req,res)=>{
+    const idPartida = req.params.codigo
+    await db.Partida.destroy({
+        where :{
+            id : idPartida
+        }
+    })
+    res.redirect('/administrarPartidas')
+})
 
 
 app.get('/partidas', async(req,res)=>{
