@@ -32,6 +32,12 @@ app.get('/TerminosYCondiciones',(req,res)=>{
 app.get('/reglas',(req,res)=>{
     res.render('reglas')
 })
+
+app.get('/nosotros',(req,res)=>{
+    res.render('nosotros')
+})
+
+
 app.get('/PoliticasPrivacidad',(req,res)=>{
     res.render('PoliticasPrivacidad')
 })
