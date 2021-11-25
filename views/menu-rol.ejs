@@ -1,0 +1,8 @@
+<% if(rol =="admin"){ %>
+    <%- include('menuadmin')  %>
+<% if(rol =="user"){ %>
+    <%- include('menuusuario')  %>
+    <% }%>
+<% } else {%>
+    <%- include('menu')  %>
+<% }%>
