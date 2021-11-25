@@ -54,7 +54,6 @@ app.get('/administrarPartidas',async (req,res)=>{
     })
 })
 
-
 app.get('/partidas', async(req,res)=>{
     //Si se inicio sesion buscar usuario para mostrar su nombre en la parte de menu
     const usuarios = await db.Usuario.findOne({
@@ -63,9 +62,10 @@ app.get('/partidas', async(req,res)=>{
     });
 
     const partidas = await db.Partida.findAll();
+
     res.render('partidas', {
         partidas : partidas,
-        usuario : usuarios
+        usuario : usuarios,
     })
 })
 
