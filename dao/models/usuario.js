@@ -14,7 +14,6 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Usuario.init({
-    rol: DataTypes.STRING,
     nombre: DataTypes.STRING,
     apellido: DataTypes.STRING,
     DNI: DataTypes.INTEGER,
@@ -22,14 +21,13 @@ module.exports = (sequelize, DataTypes) => {
     password: DataTypes.STRING,
     numero: DataTypes.INTEGER,
     direccion: DataTypes.STRING,
-    departamento: DataTypes.STRING,
-    provincia: DataTypes.STRING,
     distrito: DataTypes.STRING,
+    provincia: DataTypes.STRING,
+    departamento: DataTypes.STRING,
     PEP: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Usuario',
-    freezeTableName: true
   });
   return Usuario;
 };

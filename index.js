@@ -171,6 +171,55 @@ app.post('/login', async (req, res) => {
         
 })
 
+app.get('/registro1', async (req,res) => {
+    const Usuarios = await db.Usuario.findAll()
+    res.render('registro1', {
+        Usuarios: Usuarios
+    })
+})
+
+app.post('/registro1', async (req, res) => {
+    const nombreU = req.body.nombreU
+    const apellidoU = req.body.apellidoU
+
+    await db.Usuario.create({
+        nombre : nombreU,
+        apellido : apellidoU
+    })
+
+    res.redirect('/registro2')
+})
+
+app.get('/registro2', async (req,res) => {
+    const Usuarios = await db.Usuario.findAll()
+    res.render('registro2',{
+        Usuarios: Usuarios
+    })
+})
+
+app.post('/registro2', async (req, res) => {
+    const dniU = req.body.dniU
+
+    await db.Usuario.create({
+        dni : dniU,
+    })
+
+    res.redirect('/registro3')
+})
+
+app.get('/registro3', async (req,res)=>{
+    const Usuarios = await db.Usuario.findAll()
+    res.render('registro3',{
+        Usuarios: Usuarios
+    })
+})
+app.get('/registro4', (req,res)=>{
+    res.render('registro4')
+})
+app.get('/registro5', (req,res)=>{
+    res.render('registro5')
+})
+
 app.get('/logout', (req, res) => {
     req.session.destroy(() => {
         res.redirect('/')
