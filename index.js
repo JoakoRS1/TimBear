@@ -56,7 +56,7 @@ app.get('/administrarPartidas',async (req,res)=>{
     })
 })
 
-<<<<<<< HEAD
+
 app.post('/administrarPartidas',async (req,res)=>{
     const juego = req.body.partida_JuegoID
     const fecha = req.body.partida_fecha
@@ -100,8 +100,7 @@ app.post('/administrarPartidas',async (req,res)=>{
 })
 
 
-=======
->>>>>>> c1d77d1c24e4ddee52665d8195f3a683a27344c1
+
 app.get('/partidas', async(req,res)=>{
     //Si se inicio sesion buscar usuario para mostrar su nombre en la parte de menu
     const usuarios = await db.Usuario.findOne({
