@@ -37,6 +37,7 @@ app.get('/PoliticasPrivacidad',(req,res)=>{
 })
 
 app.get('/administrarPartidas',async (req,res)=>{
+    const juego = await db.Juego.findAll()
     const partidas = await db.Partida.findAll({
         order:[
             ['id','ASC']
@@ -44,8 +45,51 @@ app.get('/administrarPartidas',async (req,res)=>{
     });
 
     res.render('administrarPartidas',{
-        partidas:partidas
+        partidas:partidas,
+        juego:juego
     })
+})
+
+app.post('/administrarPartidas',async (req,res)=>{
+    const juego = req.body.partida_JuegoID
+    const fecha = req.body.partida_fecha
+    const inicio = req.body.partida_inicio
+    const duracion = req.body.partida_duracion
+    const estadoP = req.body.partida_Estado
+    const estado = 0
+    if(estadoP=="Pendiente"){
+        estado = 0
+    }
+    else if(estadoP="Iniciado"){
+        estado = 1
+    }
+    else if(estadoP="Finalizado"){
+        estado = 2
+    }
+    else{
+        estado = 3
+    }
+    const EA = req.body.partida_EA
+    const EB = req.body.partida_EB
+    const FA = req.body.partida_FA
+    const FB = req.body.partida_FB
+    const FE = req.body.partida_FE
+    const resultado = req.body.partida_Resultado
+
+    await db.Partida.create({
+        juegoId: juego,
+        fecha: fecha,
+        hora: inicio,
+        duracion: duracion,
+        estado:estado,
+        equipoA: EA,
+        equipoB: EB,
+        factorA: FA,
+        factorB: FB,
+        factorEmpate: FE,
+        Resultado: resultado
+    })
+
 })
 
 
