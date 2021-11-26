@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Tim-Bear</title>
+        <title>Tim-Bear - Partidas</title>
         <meta charset="utf-8" />
         <link rel="shortcut icon" href="/imagenes/logo.png" />
         <link rel="stylesheet" href="/css/index.css" type="text/css"> 
@@ -14,13 +14,16 @@
         <div class="card-body">
             <a class="link" href="/"> <-Regresar</a>
             <!-- Banner -->
-            <div class="mb-3">
-                <img id="banner" class="m-md-5 img-fluid img-responsive" src="/imagenes/apuestas1.png"/>
-            </div>
+            <%- include('banner') %>
             <div class="m-md-5">
-            <% partidas.forEach( (partida) => { %><a href="/partidas/<%=partida.juegoId %>" ><%= partida.juego %> |</a><% }) %>
+            <% if(juegos.length>1){ 
+                 juegos.forEach( (juego) => { %><a href="/partidas/<%=juego.id %>" ><%= juego.nombre %> |</a><% }) %>
+            <% } else { %>
+                <h2> <%= juegos.nombre %> </h2>
+            <% } %>
             </div>
             <div class="container">
+                <% if(partidas.length > 0){ %> 
                 <table class="table table-responsive-md table-hover">
                     <thead>
                         <tr>
@@ -34,7 +37,7 @@
                     <tbody>
                         <% partidas.forEach( (partida) => { %>
                             <tr>
-                                <td><%= partida.nombre %></td>
+                                <td><%= partida.equipoA %> vs. <%= partida.equipoB %></td>
                                 <td><%= partida.fecha.toISOString().substring(0,10) %></td>
                                 <td><%= partida.hora.toLocaleTimeString('en', {
                                     timeStyle: 'short',
@@ -51,6 +54,9 @@
                         <% }) %>
                     </tbody>
                 </table>
+                <% } else { %>
+                    <p>No hay partidas disponibles aun.</p>
+                <% } %>
             </div>
         </div>
 
