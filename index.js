@@ -1,5 +1,5 @@
 const  express=require('express')
-const PORT =8080
+const PORT = 8080
 const bodyParser = require('body-parser')
 const session = require('express-session')
 const db = require('./dao/models')
@@ -38,6 +38,7 @@ app.get('/reglas',(req,res)=>{
         nombre: req.session.nombre})
 })
 
+
 app.get('/nosotros',(req,res)=>{
     res.render('nosotros',{
         rol: req.session.rol,
@@ -66,7 +67,7 @@ app.get('/administrarPartidas',async (req,res)=>{
 })
 
 
-app.post('/administrarPartidas',async (req,res)=>{
+app.post('/administrarPartidas/agregar',async (req,res)=>{
     const juego = req.body.partida_JuegoID
     const fecha = req.body.partida_fecha
     const inicio = req.body.partida_inicio
@@ -106,6 +107,52 @@ app.post('/administrarPartidas',async (req,res)=>{
         Resultado: resultado
     })
     res.redirect('/administrarPartidas')
+})
+app.post('/administrarPartidas/editar',async(req,res)=>{
+    const idPartida = req.body.partida_id2
+    console.log("id: "+idPartida)
+    const juego = req.body.partida_JuegoID2
+    const fecha = req.body.partida_fecha2
+    const inicio = req.body.partida_inicio2
+    const duracion = req.body.partida_duracion2
+    const estadoP = req.body.partida_Estado2
+    var estado = 0
+    if(estadoP=="Pendiente"){
+        estado = 0
+    }
+    else if(estadoP=="Iniciado"){
+        estado = 1
+    }
+    else if(estadoP=="Finalizado"){
+        estado = 2
+    }
+    else{   
+        estado = 3
+    }
+    const EA = req.body.partida_EA2
+    const EB = req.body.partida_EB2
+    const FA = req.body.partida_FA2
+    const FB = req.body.partida_FB2
+    const FE = req.body.partida_FE2
+    const resultado = req.body.partida_Resultado2
+    const partida = await db.Partida.findOne({
+        where:{
+            id:idPartida
+        }
+    })
+        partida.juegoId= juego
+        partida.fecha= fecha
+        partida.hora= inicio
+        partida.duracion= duracion
+        partida.estado=estado
+        partida.equipoA= EA
+        partida.equipoB= EB
+        partida.factorA= FA
+        partida.factorB= FB
+        partida.factorEmpate= FE
+        partida.Resultado= resultado
+        await partida.save()
+        res.redirect('/administrarPartidas')
 })
 app.get('/administrarPartidas/eliminar/:codigo',async(req,res)=>{
     const idPartida = req.params.codigo
