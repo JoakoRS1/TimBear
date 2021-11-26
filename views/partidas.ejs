@@ -19,7 +19,8 @@
             <% if(juegos.length>1){ 
                  juegos.forEach( (juego) => { %><a href="/partidas/<%=juego.id %>" ><%= juego.nombre %> |</a><% }) %>
             <% } else { %>
-                <h2> <%= juegos.nombre %> </h2>
+                <a class="link" href="/partidas"><- Regresar a Partidas</a>
+                <h2> Partidas de <%= juegos.nombre %> </h2>
             <% } %>
             </div>
             <div class="container">

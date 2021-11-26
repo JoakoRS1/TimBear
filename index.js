@@ -241,8 +241,8 @@ app.get('/administrarPartidas/eliminar/:codigo',async(req,res)=>{
     res.redirect('/administrarPartidas')
 })
 
+//Partidas
 app.get('/partidas', async(req,res)=>{
-    //Si se inicio sesion buscar usuario para mostrar su nombre en la parte de menu
     const rol = req.session.rol 
     const usuario = req.session.nombre 
 
@@ -258,7 +258,7 @@ app.get('/partidas', async(req,res)=>{
     res.render('partidas', {
         partidas : partidas,
         rol: rol,
-        usuario : usuario,
+        nombre : usuario,
         juegos : juegos,
         banners : banners
     })
@@ -268,6 +268,7 @@ app.get('/partidas/:id_juego', async(req,res)=>{
     //Si se inicio sesion buscar usuario para mostrar su nombre en la parte de menu
     const rol = req.session.rol    
     const juegoId = req.params.id_juego;
+    const nombre = req.session.nombre
 
     const banners = await db.Banner.findAll({
         order :[
@@ -289,6 +290,7 @@ app.get('/partidas/:id_juego', async(req,res)=>{
     res.render('partidas', {
         partidas : partidas,
         rol: rol,
+        nombre: nombre,
         juegos : juegos,
         banners : banners
     })
