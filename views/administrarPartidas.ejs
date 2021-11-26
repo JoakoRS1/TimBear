@@ -11,45 +11,124 @@
         <%- include('menu') %>
         <h2 class="container">Administrar Partidas</h2>
 
-        <div>
+        <div class="container ">
             <table class="table container table-hover">
                 <thead>
                     <tr>
                         <th>Juego</th>
                         <th>Fecha</th>
                         <th>Hora inicio</th>
-                        <th>Duracion</th>
                         <th>Equipo A</th>
                         <th>Equipo B</th>
                         <th>Estado</th>
-                        <th>Resultado</th>
-                        <th>Accion</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <% partidas.forEach((partidas)=>{ %>
+                    <% partidas.forEach((evento)=>{ %>
                         <tr>
                             <td><%=  %></td>
-                            <td><%=partidas.fecha.toISOString().substring(0,10)%></td>
-                            <td><%=partidas.hora%></td>
-                            <td><%=partidas.duracion  %></td>
-                            <td><%=partidas.equipoA%></td>
-                            <td><%=partidas.equipoB  %></td>
-                            <td><%=partidas.estado  %></td>
-                            <td><%=partidas.Resultado  %></td>
+                            <td><%=evento.fecha.toISOString().substring(0,10)%></td>
+                            <td><%= evento.hora %></td>
+                            <td><%=evento.equipoA %></td>
+                            <td><%=evento.equipoB %></td>
+                            <td><%=evento.estado  %></td>
                             <td>
-                                <a href="/administrarPartidas/editar/<%= %>">Editar</a>
-                                <a href="/administrarPartidas/eliminar/<%=partidas.id%>">Eliminar</a>
+                                <button type="button" class="mt-1 mx-1 btn btn-primary" data-bs-toggle="modal" data-bs-target="#editar">Editar</button>
+                                <div class="modal fade" id="editar" tabindex="-1" aria-hidden="true" aria-labelledby="modalTitle">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <form class="form" method="post" action="/administrarPartidas/editar">
+                                                <input type="hidden" name="partida_id" value="<%= evento.id %>"> 
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title" id="exampleModalLabel" >Editar Partida</h4>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"class="btn-close" aria-hidden="true" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="form-group ">
+                                                                <label  for="input_starttime" class="form-label">Juego:</label>
+                                                                <select class="form-select" name="partida_JuegoID2" >
+                                                                    <option value="-1">---Seleccione---</option>
+                                                                    <% juego.forEach((env)=>{ %> 
+                                                                        <option value="<%= env.id%>"><%= env.nombre %></option>
+                                                                    <% })%>
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group mt-3">
+                                                                <label  for="input_starttime" class="form-label">Fecha:</label>
+                                                                <input name="partida_fecha2" value="<%=evento.fecha.toISOString().substring(0,10)%>" type="date" id="inputMDEx1" class="form-control">         
+                                                            </div>
+                                                            <div class="form-group mt-3">
+                                                                <label  for="input_starttime" class="form-label">Hora Inicio:</label>
+                                                                <input name="partida_inicio2" value="<%=evento.hora %>" type="time" class="form-control">         
+                                                            </div>
+                                                            <div class="form-group mt-3">
+                                                                <label  for="input_starttime" class="form-label">Duracion:</label>
+                                                                <input name="partida_duracion2"  value="<%=evento.duracion %>" type="number" class="form-control" >       
+                                                            </div>
+                                                            <div class="form-group mt-3">
+                                                                <label  for="input_starttime" class="form-label">Estado:</label>
+                                                                <select name="partida_Estado2" class="form-select ">
+                                                                    <option >---Seleccione---</option>
+                                                                    <option>Pendiente</option>
+                                                                    <option>Iniciado</option>
+                                                                    <option>Finalizado</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label class="form-label">Equipo A:</label>
+                                                                <input name="partida_EA2" value="<%=evento.equipoA %>" type="text" class="form-control" >
+                                                            </div>
+                                                            <div class="form-group mt-3">
+                                                                <label class="form-label">Equipo B:</label>
+                                                                <input name="partida_EB2" value="<%=evento.equipoB %>"type="text" class="form-control" >
+                                                            </div>
+                                                            <div class="form-group mt-3">
+                                                                <label class="form-label">Factor A:</label>
+                                                                <input name="partida_FA2" value="<%=evento.factorA %>"  type="number" step="0.01" class="form-control" >
+                                                            </div>
+                                                            <div class="form-group mt-3">
+                                                                <label class="form-label">Factor B:</label>
+                                                                <input name="partida_FB2"value="<%=evento.factorB %>" type="number" step="0.01" class="form-control" >
+                                                            </div>
+                                                            <div class="form-group mt-3">
+                                                                <label class="form-label">Factor Empate:</label>
+                                                                <input name="partida_FE2" value="<%=evento.factorEmpate %>" type="number" step="0.01" class="form-control" >
+                                                            </div>
+                                                            <div class="form-group mt-3">
+                                                                <label  for="input_starttime" class="form-label">Resultado:</label>
+                                                                <select name="partida_Resultado2" class="form-select ">
+                                                                    <option>---Seleccione---</option>
+                                                                    <option>EQUIPO A</option>
+                                                                    <option>EQUIPO B</option>
+                                                                    <option>EMPATE</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">   
+                                                        <button type="submit" class="btn btn-primary">Guardar</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a class="btn btn-primary mx-1 mt-1" href="/administrarPartidas/eliminar/<%=partidas.id%>">Eliminar</a>
+
                             </td>
                         </tr>
                     <%})%>
                 </tbody>
             </table>
-                <button type="button" class="mt-5 mx-5 btn btn-primary" data-bs-toggle="modal" data-bs-target="#miModal">Agregar</button>
-                <div class="modal fade" id="miModal" tabindex="-1" aria-hidden="true" aria-labelledby="modalTitle">
+                <button type="button" class="mt-5 mx-5 btn btn-primary" data-bs-toggle="modal" data-bs-target="#agregar">Agregar</button>
+                <div class="modal fade" id="agregar" tabindex="-1" aria-hidden="true" aria-labelledby="modalTitle">
                     <div class="modal-dialog">
                         <div class="modal-content">
-                            <form class="form" method="post" action="/administrarPartidas">
+                            <form class="form" method="post" action="/administrarPartidas/agregar">
 
                                 <div class="modal-header">
                                     <h4 class="modal-title" id="exampleModalLabel" >Agregar Partida</h4>
@@ -82,6 +161,7 @@
                                             <div class="form-group mt-3">
                                                 <label  for="input_starttime" class="form-label">Estado:</label>
                                                 <select name="partida_Estado" class="form-select ">
+                                                    <option>---Seleccione---</option>
                                                     <option>Pendiente</option>
                                                     <option>Iniciado</option>
                                                     <option>Finalizado</option>
