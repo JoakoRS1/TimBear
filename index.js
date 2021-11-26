@@ -167,16 +167,13 @@ app.get('/administrarPartidas/eliminar/:codigo',async(req,res)=>{
 
 app.get('/partidas', async(req,res)=>{
     //Si se inicio sesion buscar usuario para mostrar su nombre en la parte de menu
-    const usuarios = await db.Usuario.findOne({
-        where : 
-        { id : 1}
-    });
+    const rol = req.session.rol    
 
     const partidas = await db.Partida.findAll();
 
     res.render('partidas', {
         partidas : partidas,
-        usuario : usuarios,
+        rol: rol
     })
 })
 
