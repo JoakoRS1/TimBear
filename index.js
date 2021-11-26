@@ -434,15 +434,13 @@ app.post('/login', async (req, res) => {
     const correoA = req.body.correoU
     const passwordA = req.body.passwordU
     usuarioA = null
-    
-    
+  
     const Usuarios = await db.Usuario.findAll()
     
     Usuarios.forEach((usuario) =>{
         if(usuario.correo == correoA){
                 usuarioA = usuario
             }
-
     })
 
     if(usuarioA!= null){
