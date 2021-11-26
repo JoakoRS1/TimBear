@@ -265,7 +265,6 @@ app.get('/partidas', async(req,res)=>{
 })
 
 app.get('/partidas/:id_juego', async(req,res)=>{
-    //Si se inicio sesion buscar usuario para mostrar su nombre en la parte de menu
     const rol = req.session.rol    
     const juegoId = req.params.id_juego;
     const nombre = req.session.nombre
