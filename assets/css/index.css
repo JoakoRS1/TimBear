@@ -18,8 +18,8 @@ width: 200px;
 
 /*form styles*/
 .msform {
-    width: 900px;
-    margin: 30px auto;
+    width: auto;
+    margin: auto;
     text-align: center;
     position: relative;
 }
