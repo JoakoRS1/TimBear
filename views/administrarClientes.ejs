@@ -11,115 +11,124 @@
         <%- include('menu') %>
         <h2 class="container">Administrar Clientes</h2>
 
-        <div>
+        <div class="container ">
             <table class="table container table-hover">
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>Id Cliente</th>
                         <th>Nombre</th>
-                       
-                        <th>Accion</th>
+                        <th>Apellido</th>
+                        <th>DNI</th>
+                        <th>Foto</th>
+                        <th>Correo Electrónico</th>
+                        <th>Número telefonico</th>
+                        <th>Dirección</th>
+                        <th>Distrito</th>
+                        <th>Provincia</th>
+                        <th>Departamento</th>
+                        <th>PEP</th>
+                        <th>Estado</th>
                     </tr>
                 </thead>
                 <tbody>
                     <% clientes.forEach((cliente)=>{ %>
+                        <% if(cliente.rol == "user"){%>
                         <tr>
-                            <td><%=  %></td>
-                            <td><%=cliente.noombre%></td>
-                            
+                            <td><%= cliente.id %></td>
+                            <td><%= cliente.nombre %></td>
+                            <td><%= cliente.apellido %></td>
+                            <td><%= cliente.DNI %></td>
+                            <td><%= cliente.foto %></td>
+                            <td><%= cliente.correo %></td>
+                            <td><%= cliente.numero %></td>
+                            <td><%= cliente.direccion %></td>
+                            <td><%= cliente.distrito %></td>
+                            <td><%= cliente.provincia %></td>
+                            <td><%= cliente.departamento %></td>
+                            <td><%= cliente.PEP %></td>
+                            <td><%= cliente.estado  %></td>
                             <td>
-                                <a href="/administrarClientes/editar/<%=cliente.id %>">Editar</a>
-                                <a href="/administrarClientes/eliminar/<%=cliente.id%>">Eliminar</a>
-                            </td>
-                        </tr>
-                    <%})%>
-                </tbody>
-            </table>
-                <button type="button" class="mt-5 mx-5 btn btn-primary" data-bs-toggle="modal" data-bs-target="#miModal">Agregar</button>
-                <div class="modal fade" id="miModal" tabindex="-1" aria-hidden="true" aria-labelledby="modalTitle">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <form class="form" method="post" action="/administrarPartidas">
-
-                                <div class="modal-header">
-                                    <h4 class="modal-title" id="exampleModalLabel" >Agregar Partida</h4>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"class="btn-close" aria-hidden="true" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="row">
-                                        <div class="col">
-                                            <div class="form-group ">
-                                                <label  for="input_starttime" class="form-label">Juego:</label>
-                                                <select class="form-select" name="partida_JuegoID" >
-                                                    <option value="-1">---Seleccione---</option>
-                                                    <% juego.forEach((env)=>{ %> 
-                                                        <option value="<%= env.id%>"><%= env.nombre %></option>
-                                                    <% })%>
-                                                </select>
-                                            </div>
-                                            <div class="form-group mt-3">
-                                                <label  for="input_starttime" class="form-label">Fecha:</label>
-                                                <input name="partida_fecha" type="date" id="inputMDEx1" class="form-control">         
-                                            </div>
-                                            <div class="form-group mt-3">
-                                                <label  for="input_starttime" class="form-label">Hora Inicio:</label>
-                                                <input name="partida_inicio" type="time" class="form-control">         
-                                            </div>
-                                            <div class="form-group mt-3">
-                                                <label  for="input_starttime" class="form-label">Duracion:</label>
-                                                <input name="partida_duracion" type="number" class="form-control" >       
-                                            </div>
-                                            <div class="form-group mt-3">
-                                                <label  for="input_starttime" class="form-label">Estado:</label>
-                                                <select name="partida_Estado" class="form-select ">
-                                                    <option>Pendiente</option>
-                                                    <option>Iniciado</option>
-                                                    <option>Finalizado</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="form-group">
-                                                <label class="form-label">Equipo A:</label>
-                                                <input name="partida_EA"type="text" class="form-control" >
-                                            </div>
-                                            <div class="form-group mt-3">
-                                                <label class="form-label">Equipo B:</label>
-                                                <input name="partida_EB"type="text" class="form-control" >
-                                            </div>
-                                            <div class="form-group mt-3">
-                                                <label class="form-label">Factor A:</label>
-                                                <input name="partida_FA" type="number" step="0.01" class="form-control" >
-                                            </div>
-                                            <div class="form-group mt-3">
-                                                <label class="form-label">Factor B:</label>
-                                                <input name="partida_FB" type="number" step="0.01" class="form-control" >
-                                            </div>
-                                            <div class="form-group mt-3">
-                                                <label class="form-label">Factor Empate:</label>
-                                                <input name="partida_FE" type="number" step="0.01" class="form-control" >
-                                            </div>
-                                            <div class="form-group mt-3">
-                                                <label  for="input_starttime" class="form-label">Resultado:</label>
-                                                <select name="partida_Resultado" class="form-select ">
-                                                    <option>---Seleccione---</option>
-                                                    <option>EQUIPO A</option>
-                                                    <option>EQUIPO B</option>
-                                                    <option>EMPATE</option>
-                                                </select>
-                                            </div>
+                                <button type="button" class="mt-1 mx-1 btn btn-primary" data-bs-toggle="modal" data-bs-target="#editar">Editar</button>
+                                <div class="modal fade" id="editar" tabindex="-1" aria-hidden="true" aria-labelledby="modalTitle">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <form class="form" method="post" action="/AdministrarClientes/editar">
+                                                <input type="hidden" name="cliente_id" value="<%= cliente.id %>"> 
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title" id="exampleModalLabel" >Editar Cliente</h4>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"class="btn-close" aria-hidden="true" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="form-group ">
+                                                                <div class="form-group">
+                                                                    <label class="form-label">Nombre Completo:</label>
+                                                                    <label class="form-label" ><%= cliente.nombre%> <%= cliente.apellido%></label>
+                                                                </div>                                                                
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="form-label">DNI:</label>
+                                                                <label class="form-label" ><%= cliente.DNI%></label>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="form-label">Foto:</label>
+                                                                <label class="form-label" ><%= cliente.foto%></label>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="form-label">Correo electrónico:</label>
+                                                                <label class="form-label" ><%= cliente.correo%></label>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="form-label">Número telefonico:</label>
+                                                                <label class="form-label" ><%= cliente.numero%></label>
+                                                            </div>
+                                                            <div class="form-group mt-3">
+                                                                <label  for="input_starttime" class="form-label">Estado:</label>
+                                                                <select name="cliente_Estado2" class="form-select ">
+                                                                    <option >---Seleccione---</option>
+                                                                    <option>Pendiente de Validación</option>
+                                                                    <option>Validado</option>
+                                                                    <option>Dado de Baja</option>
+                                                                </select>
+                                                            </div>                                  
+                                                            <div class="form-group">
+                                                                <label class="form-label">Dirección:</label>
+                                                                <label class="form-label" ><%= cliente.direccion%></label>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="form-label">Distrito:</label>
+                                                                <label class="form-label" ><%= cliente.distrito%></label>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="form-label">Provincia:</label>
+                                                                <label class="form-label" ><%= cliente.provincia%></label>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="form-label">Departamento:</label>
+                                                                <label class="form-label" ><%= cliente.departamento%></label>
+                                                            </div>                                                        
+                                                            <div class="form-group mt-3">
+                                                                <label class="form-label">PEP:</label>
+                                                                <label class="form-label" ><%= cliente.PEP%></label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">   
+                                                        <button type="submit" class="btn btn-primary">Guardar</button>
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="modal-footer">
-                                    
-                                        <button type="submit" class="btn btn-primary">Guardar</button>
-                                    
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+                                <a class="btn btn-primary mx-1 mt-1" href="/AdministrarClientes/eliminar/<%=cliente.id%>">Eliminar</a>
+
+                            </td>
+                        </tr>
+                    <%} })%>
+                </tbody>
+            </table>
         </div>
         
         <%- include('footer')%>

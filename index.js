@@ -243,13 +243,54 @@ app.get('/administrarPartidas/eliminar/:codigo',async(req,res)=>{
 
 app.get('/partidas', async(req,res)=>{
     //Si se inicio sesion buscar usuario para mostrar su nombre en la parte de menu
-    const rol = req.session.rol    
+    const rol = req.session.rol 
+    const usuario = req.session.nombre 
+
+    const banners = await db.Banner.findAll({
+        order :[
+            ['id', 'ASC']
+        ]
+    });  
 
     const partidas = await db.Partida.findAll();
+    const juegos = await db.Juego.findAll();
 
     res.render('partidas', {
         partidas : partidas,
-        rol: rol
+        rol: rol,
+        usuario : usuario,
+        juegos : juegos,
+        banners : banners
+    })
+})
+
+app.get('/partidas/:id_juego', async(req,res)=>{
+    //Si se inicio sesion buscar usuario para mostrar su nombre en la parte de menu
+    const rol = req.session.rol    
+    const juegoId = req.params.id_juego;
+
+    const banners = await db.Banner.findAll({
+        order :[
+            ['id', 'ASC']
+        ]
+    });
+
+    const partidas = await db.Partida.findAll({
+        where: {
+            juegoId : juegoId
+        }
+    });
+    const juegos = await db.Juego.findOne({
+        where: {
+            id : juegoId
+        }
+    })
+
+    res.render('partidas', {
+        partidas : partidas,
+        rol: rol,
+        juegos : juegos,
+        banners : banners
     })
 })
 
@@ -259,28 +300,125 @@ app.get('/administrarCategorias', (req, res) => {
     res.render('administrarCategorias')
 })
 
+//Mantenimiento Juego 
 app.get('/AdministrarJuegos', async(req, res) => {
     const juegos = await db.Juego.findAll();
-    const UsuarioA = await db.Usuario.findOne({
-        where: {
-            id : 1
-        }
-    });
     
     res.render('administrarJuegos', {
         juegos : juegos,
-        usuario : UsuarioA,
+        rol: req.session.rol,
         nombre: req.session.nombre
     })
 })
 
-app.get('/AdministrarClientes', async(req, res) => {
-    const usuarios = await db.Usuario.findAll();
-    
-    res.render('administrarClientes', {
-        clientes : usuarios
+app.get('/AdministrarJuegos/new', (req, res)=>{
+    res.render('newJuego',{
+        rol: req.session.rol,
+        nombre: req.session.nombre
     })
 })
+
+app.post('/AdministrarJuegos/new', async(req, res) => {
+    const jnombre = req.body.nuevonombre
+    const jcategoria = req.body.nuevacategoria
+    await db.Juego.create({
+        nombre: jnombre,
+        categoria: jcategoria,
+    });
+
+    res.redirect('/AdministrarJuegos')
+})
+
+app.get('/AdministrarJuego/editar/:id', async (req,res) =>{  
+    const idJuego = req.params.id
+    const juego = await db.Juego.findOne({
+        where: {
+            id: idJuego
+        }
+    })
+    res.render('editarJuego', {
+        juego: juego,
+        rol: req.session.rol,
+        nombre: req.session.nombre
+    })
+})
+
+app.post('/AdministrarJuegos/editar', async (req,res)=>{
+    const idJuego = req.body.idJ
+    const jnombre = req.body.nuevonombre
+    const jcategoria = req.body.nuevacategoria
+    
+    const juego = await db.Juego.findOne({
+        where: {
+            id: idJuego
+        }
+    })
+    
+    juego.nombre = jnombre
+    juego.categoria = jcategoria
+    
+    await juego.save()
+    res.redirect('/AdministrarJuegos')
+})
+
+app.get('/AdministrarJuegos/eliminar/:codigo',async(req,res)=>{
+    const idJuego = req.params.codigo
+    await db.Juego.destroy({
+        where :{
+            id : idJuego
+        }
+    })
+    res.redirect('/AdministrarJuegos')
+})
+//fin mantenimiento juego
+
+//Mantenimiento de clientes
+app.get('/AdministrarClientes',async (req,res)=>{
+    const clientes = await db.Usuario.findAll()
+
+    res.render('AdministrarClientes',{
+        clientes : clientes,
+        rol : req.session.rol,
+        nombre: req.session.nombre
+    })
+})
+
+app.post('/AdministrarClientes/editar',async(req,res)=>{
+    const idCliente = req.body.cliente_id2
+    console.log("id: "+ idCliente)
+    const estadoC = req.body.cliente_Estado2
+    var estado = 0
+    if(estadoC=="Pendiente de Validación"){
+        estado = 0
+    }
+    else if(estadoC=="Validado"){
+        estado = 1
+    }
+    else{
+        estado = 2
+    }
+
+    const cliente = await db.Usuario.findOne({
+        where:{
+            id : idCliente
+        }
+    })
+        
+        usuario.estado=estado
+    
+        await cliente.save()
+        res.redirect('/administrarClientes')
+})
+app.get('/AdministrarClientes/eliminar/:codigo',async(req,res)=>{
+    const idCliente = req.params.codigo
+    await db.Usuario.destroy({
+        where :{
+            id : idCliente
+        }
+    })
+    res.redirect('/AdministrarClientes')
+})
+//fin mantenimiento cliente
 
 app.get('/login', (req,res) => {
     if(req.session.rol != undefined){
