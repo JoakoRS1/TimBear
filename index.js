@@ -330,6 +330,7 @@ app.post('/AdministrarJuegos/new', async(req, res) => {
 })
 
 app.get('/AdministrarJuego/editar/:id', async (req,res) =>{  
+    console.log(juego)
     const idJuego = req.params.id
     const juego = await db.Juego.findOne({
         where: {
