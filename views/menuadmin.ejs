@@ -31,7 +31,7 @@
                         <ul class="dropdown-menu" style="background-color: gainsboro" aria-labelledby="navbarDropdownMenuLink">
                             <li><a class="dropdown-item" href="#">Administrar Banners</a></li>
                             <li><a class="dropdown-item" href="#">Administrar Categorias</a></li>
-                            <li><a class="dropdown-item" href="#">Administrar Juegos</a></li>
+                            <li><a class="dropdown-item" href="/AdministrarJuegos">Administrar Juegos</a></li>
                             <li><a class="dropdown-item" href="#">Administrar Partidas</a></li>
                             <li><a class="dropdown-item" href="#">Administrar Clientes</a></li>
                         </ul>
@@ -39,7 +39,7 @@
                 </ul>
             </div>
             
-            <a href="/login"><button type="button" class="btn btn-light btn-success" >Admin <%= nombre %></button></a>
+            <a href="/login"><button type="button" class="btn btn-light btn-success" >Admin <%= usuario.nombre %></button></a>
             <a href="/logout"><button type="button" class="btn btn-light btn-success" >Cerrar Sesion</button></a>
         </div>
     </nav>
