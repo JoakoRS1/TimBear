@@ -10,34 +10,34 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
     </head>
     <body class="">
-        <h1 class="">Categorías</h1>
-        <%- include('menu') %>
+        <h1 class="">Administrar Juegos</h1>
+        <%- include('menuadmin') %>
         <div class="card-body">
         <a class="link" href="/"> <-Regresar</a>
         <div class="container">
+            <a class="btn btn-success" href="/AdministrarJuegos/new">Nuevo</a>
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th>Id de Categoría</th>
+                        <th>Id de Juego</th>
                         <th>Nombre</th>
+                        <th>Categoria</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <% categorias.forEach( (categoria) => { %>
+                    <% juegos.forEach( (juego) => { %>
                         <tr>
-                            <td><%= categoria.id %></td>
-                            <td><%= categoria.nombre %></td>
+                            <td><%= juego.id %></td>
+                            <td><%= juego.nombre %></td>
+                            <td><%= juego.categoria %></td>
                             <td><a href="#">Editar</a></td>
                         </tr>
                     <% }) %>
                 </tbody>
             </table>
         </div>
-
         </div>
-
-
         <%- include('footer')%>
     </body>
 </html>

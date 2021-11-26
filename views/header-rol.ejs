@@ -1,11 +1,18 @@
 
 
 
-<% if(rol =="admin"){ %>
+
+<% switch (rol) {
+    case 'admin' : %>
     <%- include('menuadmin')  %>
-<% if(rol =="user"){ %>
+            <% break;
+    
+    case 'user' : %>
     <%- include('menuusuario')  %>
-    <% }%>
-<% } else {%>
+            <% break;
+    
+    default : %>
     <%- include('menu')  %>
-<% }%>
+            <% break;
+    
+    } %>
