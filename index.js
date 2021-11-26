@@ -53,6 +53,23 @@ app.get('/PoliticasPrivacidad',(req,res)=>{
         nombre: req.session.nombre})
 })
 
+app.get('/administrarBanners', async (req, res)=>{
+    const banners = await db.Banner.findAll({
+        order :[
+            ['id', 'ASC']
+        ]
+    });
+
+    //console.log(torneos);
+    res.render('administrarBanner',{
+        banners: banners,
+        rol: req.session.rol,
+        nombre: req.session.nombre
+    })
+
+})
+
+
 app.get('/administrarPartidas',async (req,res)=>{
     const juego = await db.Juego.findAll()
     const partidas = await db.Partida.findAll({

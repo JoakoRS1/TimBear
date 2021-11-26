@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Tim-Bear</title>
+        <meta charset="utf-8" />
+        <link rel="shortcut icon" href="/imagenes/logo.png" />
+        <link rel="stylesheet" href="/css/index.css" type="text/css"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+    </head>
+    <body class="">
+        <%- include('header-rol')  %>
+    <div class="container">
+    <h2>Administrar Banners</h2>
+    <a class="btn btn-success mt-2 mb-3" href="/new">Nuevo</a>
+    <% if (banners.length > 0) { %>
+    <table class="table table-hover">
+        <thead class="table-light">
+            <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>url</th>
+            <!--th>Estado</th-->
+            <th></th>
+            <th></th>            
+        </tr>
+        </thead>
+        <tbody>    
+            <% banners.forEach((banner) =>{%>
+            <tr>
+                <td><%= banner.id%> </td>
+                <td><%= banner.nombre%> </td>
+                <td><%= banner.url%> </td>
+                <!--td><%= banner.estado%> </td-->
+                <td><a href="/modificar/<%= banner.id %>">Editar</a></td>
+                <td><a href="/eliminar/<%= banner.id %>">Eliminar</a></td>
+            </tr>
+            <% })%>
+           
+        </tbody>
+    </table>
+    <% }else { %>
+        <p>No hay Banners</p>
+     <% } %>
+    </div>
+
+
+    
+    <%- include('footer')%>
+</body>
+</html>
