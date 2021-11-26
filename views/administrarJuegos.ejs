@@ -16,14 +16,13 @@
         <div class="card-body">
         <a class="link" href="/"> <-Regresar</a>
         <div class="container">
-            <a class="btn btn-success" href="/AdministrarJuegos/new">Nuevo</a>
             <table class="table table-hover">
                 <thead>
                     <tr>
                         <th>Id de Juego</th>
                         <th>Nombre</th>
                         <th>Categoria</th>
-                        <th></th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -32,11 +31,15 @@
                             <td><%= juego.id %></td>
                             <td><%= juego.nombre %></td>
                             <td><%= juego.categoria %></td>
-                            <td><a href="#">Editar</a></td>
+                            <td><a href="/AdministrarJuegos/editar/<%=juego.id %>">Editar</a>
+                            <a href="/AdministrarJuegos/eliminar/<%=juego.id %>">Eliminar</a></td>
                         </tr>
                     <% }) %>
                 </tbody>
             </table>
+            <div align="right">
+                <a class="btn btn-success" href="/AdministrarJuegos/new">Nuevo</a>
+            </div>  
         </div>
         </div>
         <%- include('footer')%>
