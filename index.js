@@ -216,18 +216,18 @@ app.get('/login', (req,res) => {
 app.post('/login', async (req, res) => {
     const correoA = req.body.correoU
     const passwordA = req.body.passwordU
+    usuarioA = null
     
     
     const Usuarios = await db.Usuario.findAll()
+    
     Usuarios.forEach((usuario) =>{
         if(usuario.correo == correoA){
-        usuarioA = usuario}
-        else{
-            usuarioA = null
-            console.log("NO EXISTE")
-        }
+                usuarioA = usuario
+            }
+
     })
-    
+
     if(usuarioA!= null){
         if(usuarioA.password == passwordA){
             console.log("la clave ta bien")
@@ -243,6 +243,7 @@ app.post('/login', async (req, res) => {
         }}
         else{
             res.render('errorlogin')
+            console.log("NO EXISTE")
         }
         
 })
