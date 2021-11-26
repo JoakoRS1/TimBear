@@ -46,7 +46,9 @@ app.get('/nosotros',(req,res)=>{
 
 
 app.get('/PoliticasPrivacidad',(req,res)=>{
-    res.render('PoliticasPrivacidad')
+    res.render('PoliticasPrivacidad',{
+        rol: req.session.rol,
+        nombre: req.session.nombre})
 })
 
 app.get('/administrarPartidas',async (req,res)=>{
