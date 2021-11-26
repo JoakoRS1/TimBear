@@ -7,29 +7,31 @@ module.exports = (sequelize, DataTypes) => {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
-     * The models/index file will call this method automatically.
+     * The `models/index` file will call this method automatically.
      */
     static associate(models) {
       // define association here
     }
   };
   Usuario.init({
+    rol: DataTypes.STRING,
     nombre: DataTypes.STRING,
     apellido: DataTypes.STRING,
-    rol: DataTypes.STRING,
-    DNI: DataTypes.INTEGER,
+    DNI: DataTypes.STRING,
     correo: DataTypes.STRING,
     password: DataTypes.STRING,
     numero: DataTypes.INTEGER,
     direccion: DataTypes.STRING,
-    distrito: DataTypes.STRING,
-    provincia: DataTypes.STRING,
     departamento: DataTypes.STRING,
-    PEP: DataTypes.INTEGER
+    provincia: DataTypes.STRING,
+    distrito: DataTypes.STRING,
+    PEP: DataTypes.INTEGER,
+    estado: DataTypes.INTEGER,
+    foto: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Usuario',
-    freezeTableName: true
+    freezeTableName : true
   });
   return Usuario;
 };
