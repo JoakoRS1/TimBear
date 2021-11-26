@@ -22,8 +22,14 @@ app.use(session({
 
 
 
-app.get('/',(req,res)=>{
+app.get('/', async(req,res)=>{
+    const banners = await db.Banner.findAll({
+        order :[
+            ['id', 'ASC']
+        ]
+    });
     res.render('inicio',{
+        banners: banners,
         rol: req.session.rol,
         nombre: req.session.nombre
     })
@@ -59,16 +65,69 @@ app.get('/administrarBanners', async (req, res)=>{
             ['id', 'ASC']
         ]
     });
-
     //console.log(torneos);
     res.render('administrarBanner',{
         banners: banners,
         rol: req.session.rol,
         nombre: req.session.nombre
     })
-
 })
 
+app.get('/administrarBanners/new', (req, res)=>{
+    res.render('newBanner',{
+        rol: req.session.rol,
+        nombre: req.session.nombre
+    })
+})
+
+app.post('/administrarBanners/new', async (req, res)=>{
+
+    const bnombre = req.body.nuevonombre
+    const burl = req.body.nuevourl
+    const bestado = req.body.nuevoestado
+    
+    await db.Banner.create({
+        nombre: bnombre,
+        url: burl,
+        estado: bestado
+    })
+    res.redirect('/administrarBanners')
+    
+})
+
+app.get('/administrarBanners/editar/:id', async (req,res) =>{  
+    const idBanner = req.params.id
+    const banner = await db.Banner.findOne({
+        where: {
+            id: idBanner
+        }
+    })
+    res.render('editarBanner', {
+        banner: banner,
+        rol: req.session.rol,
+        nombre: req.session.nombre
+    })
+})
+
+app.post('/administrarBanners/editar', async(req,res)=>{
+    const idBanner = req.body.idB
+    const bnombre = req.body.nuevonombre
+    const burl = req.body.nuevourl
+    const bestado = req.body.nuevoestado
+    
+    const banner = await db.Banner.findOne({
+        where: {
+            id: idBanner
+        }
+    })
+    
+    banner.nombre = bnombre
+    banner.url = burl
+    banner.estado = bestado
+    
+    await banner.save()
+    res.redirect('/administrarBanners')
+})
 
 app.get('/administrarPartidas',async (req,res)=>{
     const juego = await db.Juego.findAll()
@@ -80,10 +139,10 @@ app.get('/administrarPartidas',async (req,res)=>{
 
     res.render('administrarPartidas',{
         partidas:partidas,
-        juego:juego
+        juego:juego,
+        nombre: req.session.nombre
     })
 })
-
 
 app.post('/administrarPartidas/agregar',async (req,res)=>{
     const juego = req.body.partida_JuegoID
@@ -182,7 +241,6 @@ app.get('/administrarPartidas/eliminar/:codigo',async(req,res)=>{
     res.redirect('/administrarPartidas')
 })
 
-
 app.get('/partidas', async(req,res)=>{
     //Si se inicio sesion buscar usuario para mostrar su nombre en la parte de menu
     const rol = req.session.rol    
@@ -211,7 +269,8 @@ app.get('/AdministrarJuegos', async(req, res) => {
     
     res.render('administrarJuegos', {
         juegos : juegos,
-        usuario : UsuarioA
+        usuario : UsuarioA,
+        nombre: req.session.nombre
     })
 })
 
@@ -224,7 +283,7 @@ app.get('/AdministrarClientes', async(req, res) => {
 })
 
 app.get('/login', (req,res) => {
-    if(req.session.usuario != undefined){
+    if(req.session.rol != undefined){
         res.redirect('/')
     }
     else{
