@@ -265,6 +265,7 @@ app.get('/registro1', async (req,res) => {
 
 app.post('/registro1', async (req, res) => {
     const nombreU = req.body.nombreU
+    console.log(req.body.nombreU)
     const apellidoU = "Cornejo"
     const dniU = req.body.dniU
     const correoU = req.body.correoU
@@ -292,6 +293,10 @@ app.post('/registro1', async (req, res) => {
     })
 
     res.redirect('/paginaespera')
+})
+
+app.get('/verbanner', (req,res)=>{
+    res.redirect('/')
 })
 
 
