@@ -395,7 +395,7 @@ app.get('/AdministrarClientes', async (req,res)=>{
 })
 
 app.post('/AdministrarClientes/editar',async(req,res)=>{
-    const idCliente = req.body.id_cliente
+    const idCliente = req.body.cliente_id
     console.log("id: "+ idCliente)
     const estadoC = req.body.cliente_Estado2
     var estado = 0
@@ -415,10 +415,10 @@ app.post('/AdministrarClientes/editar',async(req,res)=>{
         }
     })
         
-        usuario.estado=estado
+    cliente.estado=estado
     
-        await cliente.save()
-        res.redirect('/administrarClientes')
+    await cliente.save()
+    res.redirect('/administrarClientes')
 })
 
 app.get('/AdministrarClientes/eliminar/:codigo',async(req,res)=>{

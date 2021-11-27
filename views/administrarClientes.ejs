@@ -41,30 +41,31 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <% clientes.forEach((cliente)=>{ %>
-                        <% if(cliente.rol == "user"){%>
+                    <% if(clientes.length){ 
+                        for(var i = 0;i < clientes.length;i++) { 
+                        if(clientes[i].rol == "user"){ %>
                         <tr>
-                            <td><%=  %></td>
-                            <td><%= cliente.nombre %></td>
-                            <td><%= cliente.apellido %></td>
-                            <td><%= cliente.DNI %></td>
-                            <td><%= cliente.foto %></td>
-                            <td><%= cliente.correo %></td>
-                            <td><%= cliente.numero %></td>
-                            <td><%= cliente.direccion %></td>
-                            <td><%= cliente.distrito %></td>
-                            <td><%= cliente.provincia %></td>
-                            <td><%= cliente.departamento %></td>
-                            <td><%= cliente.PEP %></td>
-                            <td><%= cliente.estado  %></td>
+                            <td><%= clientes[i].id %></td>
+                            <td><%= clientes[i].nombre %></td>
+                            <td><%= clientes[i].apellido %></td>
+                            <td><%= clientes[i].DNI %></td>
+                            <td><%= clientes[i].foto %></td>
+                            <td><%= clientes[i].correo %></td>
+                            <td><%= clientes[i].numero %></td>
+                            <td><%= clientes[i].direccion %></td>
+                            <td><%= clientes[i].distrito %></td>
+                            <td><%= clientes[i].provincia %></td>
+                            <td><%= clientes[i].departamento %></td>
+                            <td><%= clientes[i].PEP %></td>
+                            <td><%= clientes[i].estado  %></td>
 
                             <td>
-                                <button type="button" class="mt-1 mx-1 btn btn-primary" data-bs-toggle="modal" data-bs-target="#editar">Editar</button>
-                                <div class="modal fade" id="editar" tabindex="-1" aria-hidden="true" aria-labelledby="modalTitle">
+                                <button type="button" class="mt-1 mx-1 btn btn-primary" data-bs-toggle="modal" data-bs-target="#editar_<%=i%>">Editar</button>
+                                <div class="modal fade" id="editar_<%=i%>" tabindex="-1" aria-hidden="true" aria-labelledby="modalTitle">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <form class="form" method="post" action="/AdministrarClientes/editar">
-                                                <input type="hidden" name="cliente_id" value="<%= cliente.id %>"> 
+                                                <input type="hidden" name="cliente_id" value="<%= clientes[i].id %>"> 
                                                 <div class="modal-header">
                                                     <h4 class="modal-title" id="exampleModalLabel" >Editar Cliente</h4>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal"class="btn-close" aria-hidden="true" aria-label="Close"></button>
@@ -75,24 +76,24 @@
                                                             <div class="form-group ">
                                                                 <div class="form-group">
                                                                     <label class="form-label">Nombre Completo:</label>
-                                                                    <label class="form-label" ><%= cliente.nombre%> <%= cliente.apellido%></label>
+                                                                    <label class="form-label" ><%= clientes[i].nombre%> <%= clientes[i].apellido%></label>
                                                                 </div>                                                                
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="form-label">DNI:</label>
-                                                                <label class="form-label" ><%= cliente.DNI%></label>
+                                                                <label class="form-label" ><%= clientes[i].DNI%></label>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="form-label">Foto:</label>
-                                                                <label class="form-label" ><%= cliente.foto%></label>
+                                                                <label class="form-label" ><%= clientes[i].foto%></label>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="form-label">Correo electrónico:</label>
-                                                                <label class="form-label" ><%= cliente.correo%></label>
+                                                                <label class="form-label" ><%= clientes[i].correo%></label>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="form-label">Número telefonico:</label>
-                                                                <label class="form-label" ><%= cliente.numero%></label>
+                                                                <label class="form-label" ><%= clientes[i].numero%></label>
                                                             </div>
 
                                                             <div class="form-group mt-3">
@@ -106,23 +107,23 @@
                                                             </div>   
                                                             <div class="form-group">
                                                                 <label class="form-label">Dirección:</label>
-                                                                <label class="form-label" ><%= cliente.direccion%></label>
+                                                                <label class="form-label" ><%= clientes[i].direccion%></label>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="form-label">Distrito:</label>
-                                                                <label class="form-label" ><%= cliente.distrito%></label>
+                                                                <label class="form-label" ><%= clientes[i].distrito%></label>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="form-label">Provincia:</label>
-                                                                <label class="form-label" ><%= cliente.provincia%></label>
+                                                                <label class="form-label" ><%= clientes[i].provincia%></label>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="form-label">Departamento:</label>
-                                                                <label class="form-label" ><%= cliente.departamento%></label>
+                                                                <label class="form-label" ><%= clientes[i].departamento%></label>
                                                             </div>                                                        
                                                             <div class="form-group mt-3">
                                                                 <label class="form-label">PEP:</label>
-                                                                <label class="form-label" ><%= cliente.PEP%></label>
+                                                                <label class="form-label" ><%= clientes[i].PEP%></label>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -134,11 +135,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a class="btn btn-primary mx-1 mt-1" href="/AdministrarClientes/eliminar/<%=cliente.id%>">Eliminar</a>
+                                <a class="btn btn-primary mx-1 mt-1" href="/AdministrarClientes/eliminar/<%=clientes[i].id%>">Eliminar</a>
 
                             </td>
                         </tr>
-                    <%} })%>
+                    <%}} }%>
                 </tbody>
             </table>
         </div>
