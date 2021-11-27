@@ -18,7 +18,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       DNI: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       correo: {
         type: Sequelize.STRING
@@ -43,6 +43,12 @@ module.exports = {
       },
       PEP: {
         type: Sequelize.INTEGER
+      },
+      estado: {
+        type: Sequelize.INTEGER
+      },
+      foto: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,

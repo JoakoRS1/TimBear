@@ -9,15 +9,14 @@
     </head>
     <body class="">
         <%- include('header-rol') %>
-        <h2 class="container">Administrar Clientes</h2>
+        <h2 class="container">Lista de Clientes Filtrada</h2>
+        <form method="post" action="/AdministrarClientes/filtro">
         <div class="table-responsive container-fluid">
-            <a class="link" href="/"> <-Regresar</a>
+            <a class="link" href="/AdministrarClientes"> <-Regresar</a>
 
+            <% if(clientes.length>0){ %>
             <div class="input-group rounded mb-3 mt-4">
-                <input type="text" placeholder="Search" class="form-control rounded mx-1 mt-1" name="<%filtro%>">
-                <a href="/administrarClientes/filtrar" class="btn">
-                    <img src="/imagenes/search.png" alt="Busqueda" class="img-fluid" width="18px" height="18px">
-                </a>
+                <h3>Se encontro <%=filtro.length %> coincidencias.</h3>
             </div>
 
             <table class="table container table-hover">
@@ -141,8 +140,11 @@
                     <%}} }%>
                 </tbody>
             </table>
-        </div>
-        
+            <% } else{%>
+                <p>No existen coincidencias.</p>
+            <% } %>
+            </form>
+        </div>   
         <%- include('footer')%>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 

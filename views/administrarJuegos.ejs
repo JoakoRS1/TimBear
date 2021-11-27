@@ -16,14 +16,14 @@
         <div class="card-body">
         <a class="link" href="/"> <-Regresar</a>
         <div class="container">
-            <a class="btn btn-success" href="/AdministrarJuegos/new">Nuevo</a>
+            <% if(juegos.length>0){ %>
             <table class="table table-hover">
                 <thead>
                     <tr>
                         <th>Id de Juego</th>
                         <th>Nombre</th>
                         <th>Categoria</th>
-                        <th></th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -32,13 +32,24 @@
                             <td><%= juego.id %></td>
                             <td><%= juego.nombre %></td>
                             <td><%= juego.categoria %></td>
-                            <td><a href="#">Editar</a></td>
+                            <td><a href="/AdministrarJuegos/editar/<%=juego.id %>">Editar</a>
+                            <a href="/AdministrarJuegos/eliminar/<%=juego.id %>">Eliminar</a></td>
                         </tr>
+
+                        <!--Usar modal-->
                     <% }) %>
                 </tbody>
             </table>
+            <% }else{ %>
+                <h2>No hay Juegos aún</h2>
+            <% } %>
+            <div align="right">
+                <a class="btn btn-success" href="/AdministrarJuegos/new">Nuevo</a>
+            </div> 
         </div>
         </div>
-        <%- include('footer')%>
-    </body>
+
+    
+    <%- include('footer')%>
+</body>
 </html>
