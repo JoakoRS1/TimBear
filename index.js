@@ -397,6 +397,13 @@ app.get('/AdministrarClientes', async (req,res)=>{
 app.post('/AdministrarClientes/editar',async(req,res)=>{
     const idCliente = req.body.cliente_id
     console.log("id: "+ idCliente)
+
+    const cliente = await db.Usuario.findOne({
+        where:{
+            id : idCliente
+        }
+    })
+
     const estadoC = req.body.cliente_Estado2
     var estado = 0
     if(estadoC=="Pendiente de Validación"){
@@ -405,15 +412,12 @@ app.post('/AdministrarClientes/editar',async(req,res)=>{
     else if(estadoC=="Validado"){
         estado = 1
     }
-    else{
+    else if(estadoC=="Dado de Baja"){
         estado = 2
     }
-
-    const cliente = await db.Usuario.findOne({
-        where:{
-            id : idCliente
-        }
-    })
+    else{ //No se selecciono estado (se queda con el estado anteriormente asignado)
+        estado = cliente.estado
+    }
         
     cliente.estado=estado
     
