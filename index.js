@@ -386,11 +386,13 @@ app.get('/AdministrarJuegos/eliminar/:codigo',async(req,res)=>{
 //Mantenimiento de clientes
 app.get('/AdministrarClientes', async (req,res)=>{
     const clientes = await db.Usuario.findAll()
+    const filtro = 0;
 
     res.render('AdministrarClientes',{
         clientes : clientes,
         rol : req.session.rol,
-        nombre: req.session.nombre
+        nombre: req.session.nombre,
+        filtro : filtro
     })
 })
 
@@ -433,6 +435,35 @@ app.get('/AdministrarClientes/eliminar/:codigo',async(req,res)=>{
         }
     })
     res.redirect('/AdministrarClientes')
+})
+
+app.get('/AdministrarClientes/filtrar', async(req, res) => {
+    const filtro = req.body.filtro;
+    const clientes = await Usuario.findAll();
+
+    res.render('filtroClientes',{
+        filtro : filtro,
+        clientes : clientes
+    })
+
+})
+
+app.post('/AdministrarClientes/filtrar', async(req, res) => {
+    const filtro = req.body.filtro;
+    const clientes = await Usuario.findAll();
+
+    for(var i =0; i< clientes.length(); i++){
+        if(clientes[i].DNI.contains(filtro) || 
+            clientes[i].nombre.contains(filtro) ||     
+            clientes[i].apellido.contains(filtro)){
+            clientesFiltrados.push(clientes[i])
+        }
+    }
+    console.log(clientesFiltrados)
+
+    res.render('filtroClientes',{
+        clientes : clientesFiltrados
+    })
 })
 //fin mantenimiento cliente
 
