@@ -312,10 +312,14 @@ app.get('/AdministrarJuegos', async(req, res) => {
     })
 })
 
-app.get('/AdministrarJuegos/new', (req, res)=>{
+app.get('/AdministrarJuegos/new', async(req, res)=>{
+    //Cuando se cree la base de datos categoria:
+    const categorias = await db.Categoria.findAll();
+
     res.render('newJuego',{
         rol: req.session.rol,
-        nombre: req.session.nombre
+        nombre: req.session.nombre,
+        categorias : categorias
     })
 })
 
@@ -338,10 +342,15 @@ app.get('/AdministrarJuego/editar/:id', async (req,res) =>{
             id: idJuego
         }
     })
+
+    //Cuando se cree la base de datos categoria:
+    const categorias = await db.Categoria.findAll();
+
     res.render('editarJuego', {
         juego: juego,
         rol: req.session.rol,
-        nombre: req.session.nombre
+        nombre: req.session.nombre,
+        categorias : categorias
     })
 })
 
@@ -375,7 +384,7 @@ app.get('/AdministrarJuegos/eliminar/:codigo',async(req,res)=>{
 //fin mantenimiento juego
 
 //Mantenimiento de clientes
-app.get('/AdministrarClientes',async (req,res)=>{
+app.get('/AdministrarClientes', async (req,res)=>{
     const clientes = await db.Usuario.findAll()
 
     res.render('AdministrarClientes',{
@@ -386,7 +395,7 @@ app.get('/AdministrarClientes',async (req,res)=>{
 })
 
 app.post('/AdministrarClientes/editar',async(req,res)=>{
-    const idCliente = req.body.cliente_id2
+    const idCliente = req.body.id_cliente
     console.log("id: "+ idCliente)
     const estadoC = req.body.cliente_Estado2
     var estado = 0
@@ -411,6 +420,7 @@ app.post('/AdministrarClientes/editar',async(req,res)=>{
         await cliente.save()
         res.redirect('/administrarClientes')
 })
+
 app.get('/AdministrarClientes/eliminar/:codigo',async(req,res)=>{
     const idCliente = req.params.codigo
     await db.Usuario.destroy({

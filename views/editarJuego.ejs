@@ -21,7 +21,16 @@
         </div>
         <div class="mb-3">
             <label class="form-label">Categoria:</label>
-            <input type="text" class="form-control" name="nuevacategoria" value="<%= juego.categoria %>">
+            <select class="form-select" name="nuevacategoria">
+                <option value="-1">----Seleccione una opción----</option>
+                <% categorias.forEach( (categoria)=> { %>
+                    <% if(categoria.id == juego.categoria_id) { %>
+                    <option selected value="<%=categoria.id %>"><%= categoria.nombre %></option>
+                    <% } else { %>
+                    <option value="<%=categoria.id %>"><%= categoria.nombre %></option>
+                    <% } %>
+                <% }) %>
+            </select>
         </div>
 
         <button type="submit" class="btn btn-success">Guardar</button>
