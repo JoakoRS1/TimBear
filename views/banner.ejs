@@ -1,7 +1,7 @@
 
 
 <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-inner">
+    <!--div class="carousel-inner">
       <div class="carousel-item active">
         <a href="https://cdn1.inkabet.pe/img/land/inkabet-apuesta-y-gana-el-ultimo-carro-y-450mil-efectivo.jpg" target="_blank"><img 
           src="https://cdn1.inkabet.pe/img/land/inkabet-apuesta-y-gana-el-ultimo-carro-y-450mil-efectivo.jpg" class="d-block w-100"
@@ -17,24 +17,26 @@
           src="https://cdn1.inkabet.pe/img/land/inkabet_promo_duplica_tu_primer_deposito_land.jpg" action="/verbanner" 
           onError="this.onerror=null;this.src='/imagenes/bannererror.png';" class="d-block w-100" alt="3"></a>
       </div>
-    </div>
-    <!--div class="carousel-inner">
-      <% banners.forEach((banner) =>{%>
-       <% const urlA = banner.url
-       console.log(urlA) %>
+    </div-->
+    <div class="carousel-inner">
+      <% banners.forEach((banner,index) =>{%>
+       <!--% const urlA = banner.url
+       console.log(urlA) %-->
+       <% if(index==0){ %>
       <div class="carousel-item active">
         <a href="https://cdn1.inkabet.pe/img/land/inkabet-apuesta-y-gana-el-ultimo-carro-y-450mil-efectivo.jpg" target="_blank">
           <img src= '<%= banner.url%>' class="d-block w-100"
           onError="this.onerror=null;this.src='<%= banner.url%>';" alt="la fe"></a>
       </div>
-      
+      <% } else {%>
        <div class="carousel-item">
          <a href="https://cdn1.inkabet.pe/img/land/inkabet-apuesta-y-gana-el-ultimo-carro-y-450mil-efectivo.jpg" target="_blank">
            <img src= '<%= banner.url%>' class="d-block w-100"
            onError="this.onerror=null;this.src='<%= banner.url%>';" alt="la fe"></a>
        </div>
+       <% }%>
        <% })%>
-    </div-->
+    </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
       <span class="visually-hidden">Previous</span>
