@@ -10,21 +10,23 @@
     </head>
     <body class="">
         <%- include('header-rol') %>
-        <h1 class="m-lg-3">Partidas</h1>
+        <h1 class="">Partidas</h1>
         <div class="card-body">
             <a class="link" href="/"> <-Regresar</a>
-            <!-- Banner -->
+            <%- include('banner') %>
             
             <div class="m-md-5">
+            <% if(partidas.length > 0){ %> 
             <% if(juegos.length>1){ 
-                 juegos.forEach( (juego) => { %><a href="/partidas/<%=juego.id %>" ><%= juego.nombre %> |</a><% }) %>
+                 juegos.forEach( (juego) => { %><a href="/partidas/<%=juego.id %>" ><%= juego.nombre %> | </a><% }) %>
             <% } else { %>
-                <a class="link" href="/partidas"><- Regresar a Partidas</a>
-                <h2> Partidas de <%= juegos.nombre %> </h2>
+                    <a class="link" href="/partidas"><- Regresar a Partidas</a>
+                    <h2> Partidas de <%= juegos.nombre %> </h2>
             <% } %>
             </div>
+
             <div class="container">
-                <% if(partidas.length > 0){ %> 
+                
                 <table class="table table-responsive-md table-hover">
                     <thead>
                         <tr>
@@ -40,19 +42,13 @@
                             <tr>
                                 <td><%= partida.equipoA %> vs. <%= partida.equipoB %></td>
                                 <td><%= partida.fecha.toISOString().substring(0,10) %></td>
-                                <td><%= partida.hora.toLocaleTimeString('en', {
-                                    timeStyle: 'short',
-                                    hour12: true
-                                 }); %></td>
-                                <td><%= partida.duracion.toLocaleTimeString('en', {
-                                    timeStyle: 'short',
-                                    hour12: false
-                                 }); %> h</td>
+                                <td><%= partida.hora %></td>
+                                <td><%= partida.duracion %> h</td>
                                 <td><%= partida.equipoA %> <%= partida.factorA %></td>
                                 <td>Empate <%= partida.factorEmpate %></td>
                                 <td><%= partida.equipoB %> <%= partida.factorB %></td>
                             </tr>
-                        <% }) %>
+                        <% })  %>
                     </tbody>
                 </table>
                 <% } else { %>

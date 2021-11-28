@@ -17,15 +17,20 @@
         
         <div class="mb-3 mt-3">
             <label class="form-label">Nombre:</label>
-            <input type="text" class="form-control" name="nuevonombre">
+            <input type="text" class="form-control" required="required" name="nuevonombre">
         </div>
         <div class="mb-3">
-            <label for="formFile" class="form-label">Imagen</label>
-            <input class="form-control" type="file" id="formFile">
+            <label for="formFile" class="form-label">Imagen:</label>
+          <div class="row">
+              <div class="col-4">
+            <input class="form-control" type="file" >
+          </div><div class="col-8">
+            <input class="form-control" type="text" id="formFile" name="urlimagen">
+          </div></div>
           </div>
         <div class="mb-3">
             <label class="form-label">url:</label>
-            <input type="text" class="form-control" name="nuevourl">
+            <input type="text" class="form-control" required="required" name="nuevourl">
         </div>
         
         <div class="mb-3">
