@@ -367,6 +367,65 @@ app.get('/administrarCategorias', async (req, res) => {
     }
 })
 
+app.get('/administrarCategorias/nuevo', (req, res) => {
+    if(req.session.rol == "admin")
+    {
+        res.render('nuevaCategoria')
+    }
+    else
+    {
+        res.redirect('/noAutorizado')
+    }
+})
+app.post('/administrarCategorias/nuevo', async (req, res) => {
+    const categoriaNombre = req.body.categoriaNombre
+
+    await db.Categoria.create({
+        nombre: categoriaNombre
+    })
+
+    res.redirect('/administrarCategorias')
+})
+
+
+app.get('administrarCategorias/modificar/:id', async (req, res) => {
+    if(req.session.rol == "admin")
+    {
+        const idCategoria = req.params.id
+
+        const categoria = await db.Categoria.findOne({
+            where : {
+                id : idCategoria
+            }
+        })
+
+        res.render('modificarCategoria', {
+            categoria : categoria
+        })
+    }
+    else
+    {
+        res.redirect('/noAutorizado')
+    }
+})
+
+app.post('/administrarCategorias/modificar', async (req, res) => {
+    const idCategoria = req.body.categoria_id
+    const nombreCategoria = req.body.categoria_nombre
+
+    const categoria = await db.Categoria.findOne({
+        where :{
+            id: idCategoria
+        }
+    })
+
+    categoria.nombre = nombreCategoria
+
+    await categoria.save()
+
+    res.redirect('/administrarCategorias')
+})
+
 //Mantenimiento Juego 
 app.get('/AdministrarJuegos', async(req, res) => {
     const juegos = await db.Juego.findAll();
