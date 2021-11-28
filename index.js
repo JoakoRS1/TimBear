@@ -159,15 +159,23 @@ app.get('/administrarPartidas',async (req,res)=>{
             juegoNombre: Juego.nombre
         })
     }
-
-    res.render('administrarPartidas',{
-        partidas:nlistapartidas,
-        juego:juego,
+    if(req.session.rol=="admin"){
+        res.render('administrarPartidas',{
+            partidas:nlistapartidas,
+            juego:juego,
+            rol: req.session.rol,
+            nombre: req.session.nombre
+        })
+    }else{
+        res.redirect('/noAutorizado')
+    }
+})
+app.get('/noAutorizado',(req,res)=>{
+    res.render('noeresAdmin',{
         rol: req.session.rol,
-        nombre: req.session.nombre
+            nombre: req.session.nombre
     })
 })
-
 app.post('/administrarPartidas/agregar',async (req,res)=>{
     const juego = req.body.partida_JuegoID
     const fecha = req.body.partida_fecha
