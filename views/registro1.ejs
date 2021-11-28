@@ -5,10 +5,7 @@
         <meta charset="utf-8" />
         <link rel="shortcut icon" href="/imagenes/logo.png" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
-        <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -24,13 +21,9 @@
     </head>
     <body class="">
         <%- include('menu')  %>
-        
-        <!-- MultiStep Form -->
-<div class="row">
     <div class="col">
         <center><h1>¡Crea una nueva cuenta!</h1></center>
         <br>
-        <!-- progressbar -->
         <ul id="progressbar" role="progressbar">
             <li class="active">Paso 1</li>
             <li>Paso 2</li>
@@ -39,78 +32,49 @@
             <li>Paso 5</li>
         </ul>
 <form id="msform1" class="msform container" method="post" action="/registro1">
-            <!-- fieldsets -->
-            <fieldset>
+            <div class="div-form" id="sf1">
                 <h2 class="fs-title">Paso 1</h2>
-                <center><div class="mb-3 mt-3 col-8" >
-                    <input type="text" placeholder="Nombre" class="form-control" name='nombreU' required>
-                </div> 
-                </center>
                 <center>
-                <div class="mb-3 col-8">
-                    <input type="text" placeholder="Apellido" class="form-control" name='apellidoU' required>
-                </div></center>
-                <input type="button" name="submit1" class="next action-button" value="Siguiente">
-            </fieldset>
-        </form>
-
-        <form id="msform2" class="msform container" method="post" action="/registro1">
-            <fieldset>
+                    <input type="text" placeholder="Nombre" class="form-control" name='nombreU' required> 
+                    <input type="text" placeholder="Apellido" class="form-control" name='apellidoU' required></center>
+                <button type="button" name="sig1" class="next action-button" value="Siguiente">Siguiente</button>
+            </div>
+            <div class="div-form" id="sf2" >
                 <h2 class="fs-title">Paso 2</h2>
                 <center>
-                    <div class="mb-3 mt-3 col-6" >
                     <label id="etiqueta" class="form-label">DNI:</label>
                     <input type="text" placeholder="Dni" class="form-control" name='dniU' required>
-                    </div>
                 </center>
                 <center>
-                    <div class="mb-3 col-6">
                         <label for="formFile" class="form-label">Adjuntar foto</label>
                         <input class="form-control" type="file" id="fotoU">
-                    </div>
                 </center>
-
-                <input type="button" name="previous" class="previous action-button-previous" value="Anterior"/>
-                <input type="button" name="submit2" class="next action-button" value="Siguiente"/>
-            </fieldset>
-        </form>
-
-        <form id="msform3" class="msform container" method="post" action="/registro1">
-            <fieldset>
+                <button type="button" name="ant1" class="previous action-button-previous">Anterior</button>
+                <button type="button" name="sig2" class="next action-button">Siguiente</button>
+            </div>
+            <div class="div-form" id="sf3">
                 <h2 class="fs-title">Paso 3</h2>
-                <center><div class="mb-3 mt-3 col-6" >
-                    <input type="text" placeholder="Correo electrónico" class="form-control" name='correoU' required>
-                </div>
-            </center>
-            <center>
-                <div class="mb-3 col-6">
-
-                    <input type="password" placeholder="Contraseña" class="form-control" name='contraU' required>
-                </div></center>
                 <center>
-                    <div class="mb-3 col-6">
-                        <input type="password" placeholder="Confirmar contraseña" class="form-control" name='confirmarcontraU' required>
-                    </div></center>
-                    <center>
-                        <div class="mb-3 col-6">
-                            <input type="text" placeholder="Número telefónico" class="form-control" name='numeroU' required>
-                        </div></center>
-
-                <input type="button" name="previous" class="previous action-button-previous" value="Anterior"/>
-                <input type="button" name="submit3" class="next action-button" value="Siguiente"/>
-            </fieldset>
-        </form>
-
-        <form id="msform4" class="msform container" method="post" action="/registro1">
-            <fieldset>
-                <h2 class="fs-title">Paso 4</h2>
-                <center><div class="mb-3 mt-3 col-6" >
-                    <label id="etiqueta" class="form-label">Dirección:</label>
-                    <textarea class="form-control" id="direcU" rows="3" required></textarea>
-                </div>
+                    <input type="text" placeholder="Correo electrónico" class="form-control" name='correoU' required>
             </center>
             <center>
-                <div class="mb-3 col-6">
+                    <input type="password" placeholder="Contraseña" class="form-control" name='contraU' id="upass1" required></center>
+                <center>
+                        <input type="password" placeholder="Confirmar contraseña" class="form-control" id="upass2" name='confirmarcontraU' required>
+                    </center>
+                    <center>
+                            <input type="text" placeholder="Número telefónico" class="form-control" name='numeroU' required></center>
+
+                <button type="button" name="ant2" class="previous action-button-previous">Anterior</button>
+                <button type="button" name="sig3" class="next action-button">Siguiente</button>
+                    </div>
+            <div class="div-form" id="sf4">
+                <h2 class="fs-title">Paso 4</h2>
+                <center>
+                    <label id="etiqueta" class="form-label">Dirección:</label>
+                    <input type="text" class="form-control" name="direcU" rows="3" required>
+            </center>
+            <center>
                     <label id="etiqueta" class="form-label">Departamento:</label>
                     <select class="form-select" aria-label="Default select example" name="Departamento" id="Departamento">
                         <option selected>Seleccione un departamento</option>
@@ -118,9 +82,8 @@
                         <option value="2">Two</option>
                         <option value="3">Three</option>
                       </select>
-                </div></center>
+                </center>
                 <center>
-                    <div class="mb-3 col-6">
                         <label id="etiqueta" class="form-label">Provincia:</label>
                         <select class="form-select" name="Provincia" aria-label="Default select example" id="Provincia">
                             <option selected>Seleccione una provincia</option>
@@ -128,9 +91,8 @@
                             <option value="2">Two</option>
                             <option value="3">Three</option>
                           </select>
-                    </div></center>
+                    </center>
                     <center>
-                        <div class="mb-3 col-6">
                             <label id="etiqueta" class="form-label">Distrito:</label>
                             <select class="form-select" name="Distrito" aria-label="Default select example" id="Distrito">
                                 <option selected>Seleccione un distrito</option>
@@ -138,38 +100,101 @@
                                 <option value="2">Two</option>
                                 <option value="3">Three</option>
                               </select>
-                        </div></center>
+                        </center>
 
-                <input type="button" name="previous" class="previous action-button-previous" value="Anterior"/>
-                <input type="button" name="submit4" class="next action-button" value="Siguiente"/>
-            </fieldset>
-        </form>
-
-        <form id="msform5" class="msform container" method="post" action="/registro1">
-            <fieldset>
+                <button type="button" name="ant3" class="previous action-button-previous">Anterior</button>
+                <button type="button" name="sig4" class="next action-button">Siguiente</button>
+                    </div>
+            <div class="div-form" id="sf5">
                 <h2 class="fs-title">Paso 5</h2>
                 <center>
-                    <div>
                         ¿Es una persona políticamente expuesta? (PEP)
-                    </div>
-                        <div class="form-check form-check-inline" name="Checks">
-                            Si<input class="form-check-input" type="checkbox" name="PEP" value="1" id="estadoPEPU1">
-                            No<input class="form-check-input" type="checkbox" name="PEP" value="0" id="estadoPEPU2">
-                        </div>
-                        
-                    
+                    <center>
+                        <input class="form-check-input" type="radio" name="flexRadioDefault1" value="1" id="flexRadioDefault1">
+                        <label class="form-check-label" for="flexRadioDefault1">
+                          Si
+                        </label>
+                        <input class="form-check-input" type="radio" name="flexRadioDefault2" value="0" id="flexRadioDefault2" checked>
+                        <label class="form-check-label" for="flexRadioDefault2">
+                          No
+                        </label>
+                      </center>
                   <center>
 
-                <input type="button" name="previous" class="previous action-button-previous" value="Anterior"/>
-                <input type="submit" name="submit5" value="Registrar"/>
+                <button type="button" name="ant4" class="previous action-button-previous">Anterior</button>
+                <button type="submit" name="sig5" class="action-button">Registrar</button>
                   </div>
-                   
-            </fieldset>
         </form>
     </div>
-</div>
-<!-- /.MultiStep Form -->
+
+    <script type="text/javascript">
+        jQuery().ready(function() {
+          // Binding next button on first step
+          $(".sig1").click(function() {
+              if (v.form()) {
+                $(".frm").hide("fast");
+                $("#sf2").show("slow");
+              }
+           });
+           // Binding next button on second step
+           $(".sig2").click(function() {
+              if (v.form()) {
+                $(".frm").hide("fast");
+                $("#sf3").show("slow");
+              }
+            });
+             // Binding back button on second step
+            $(".ant1").click(function() {
+              $(".frm").hide("fast");
+              $("#sf1").show("slow");
+            });
+             // Binding back button on third step
+             $(".ant2").click(function() {
+              $(".frm").hide("fast");
+              $("#sf2").show("slow");
+            });
+            $(".sig3").click(function() {
+              if (v.form()) {
+                $(".frm").hide("fast");
+                $("#sf4").show("slow");
+              }
+            });
+            $(".ant3").click(function() {
+              $(".frm").hide("fast");
+              $("#sf3").show("slow");
+            });
+            $(".ant4").click(function() {
+              $(".frm").hide("fast");
+              $("#sf4").show("slow");
+            });
+            $(".sig4").click(function() {
+              if (v.form()) {
+                $(".frm").hide("fast");
+                $("#sf5").show("slow");
+              }
+            });
+        });
+        </script>
         
+        <script type="text/javascript">
+            jQuery().ready(function() {
+              var v = jQuery("#basicform").validate({
+                  rules: {
+                    
+                    upass1: {
+                      required: true,
+                      minlength: 6,
+                      maxlength: 15,
+                    },
+                    upass2: {
+                      required: true,
+                      minlength: 6,
+                      equalTo: "#upass1",
+                    }
+                  },
+                })});
+            ;
+            </script>    
     <script>
 
     //jQuery time
@@ -258,7 +283,7 @@
         next_fs = $(this).parent().parent().next().children();
 
         //activate next step on progressbar using the index of next_fs
-        $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+        $("#progressbar li").eq($("div").index(next_fs)).addClass("active");
 
         //show the next fieldset
         next_fs.show(); 
@@ -275,7 +300,7 @@
                 current_fs.css({'transform': 'scale('+scale+')'});
                 next_fs.css({'left': left, 'opacity': opacity});
             }, 
-            duration: 800, 
+            duration: 1000, 
             complete: function(){
                 current_fs.hide();
                 animating = false;
@@ -297,7 +322,7 @@
         previous_fs = $(this).parent().parent().prev().children();
 
         //de-activate current step on progressbar
-        $("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
+        $("#progressbar li").eq($("div").index(current_fs)).removeClass("active");
 
         //show the previous fieldset
         previous_fs.show(); 

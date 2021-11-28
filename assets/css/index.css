@@ -23,7 +23,7 @@ width: 200px;
     text-align: center;
     position: relative;
 }
-.msform fieldset {
+.msform div {
     background: white;
     border: auto;
     border-radius: 3px;
@@ -38,23 +38,24 @@ width: 200px;
     position: relative;
 }
 /*Hide all except first fieldset*/
-.msform:not(:first-of-type) fieldset {
+.msform:not(:first-of-type) div {
     display: none;
+    visibility: hidden
 }
 /*inputs*/
-.msform input, .msform textarea {
+.msform input:not(#flexRadioDefault1, #flexRadioDefault2), .msform textarea{
     padding: 15px;
     border: 1px solid #ccc;
     border-radius: 3px;
     margin-bottom: 10px;
-    width: 100%;
+    width: 70%;
     box-sizing: border-box;
     color: grey;
     font-size: 13px;
 }
 
 /*buttons*/
-.msform .action-button {
+.msform .action-button, .action-button-previous {
     width: 100px;
     border: 0 none;
     border-radius: 1px;
