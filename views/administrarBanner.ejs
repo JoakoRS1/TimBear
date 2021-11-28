@@ -15,13 +15,14 @@
     <h2>Administrar Banners</h2>
     
     <% if (banners.length > 0) { %>
+        <div class="table-responsive">
     <table class="table table-hover">
         <thead class="table-light">
             <tr>
             <th>ID</th>
             <th>Nombre</th>
             <th>url</th>
-            <!--th>Estado</th-->
+            <th>Estado</th>
             <th></th>
                         
         </tr>
@@ -31,8 +32,8 @@
             <tr>
                 <td><%= banner.id%> </td>
                 <td><%= banner.nombre%> </td>
-                <td><%= banner.url.slice(0,8)%>... </td>
-                <!--td><%= banner.estado%> </td-->
+                <td><%= banner.url.slice(0,25)%>... </td>
+                <td><%= banner.estado%> </td>
                 
                 <td><a href="administrarBanners/editar/<%= banner.id %>">Editar</a></td>
                 <!--td><a href="administrarBanners/eliminar/<%= banner.id %>">Eliminar</a></td-->
@@ -43,11 +44,12 @@
            
         </tbody>
     </table>
+    </div>
     <% }else { %>
         <p>No hay Banners</p>
      <% } %>
      <div align="right">
-     <a class="btn btn-success mt-2 mb-3" href="administrarBanners/new">Nuevo</a></div>
+     <a class="btn btn-success mt-2 mb-3" href="administrarBanners/new">Crear</a></div>
     </div>
 
 

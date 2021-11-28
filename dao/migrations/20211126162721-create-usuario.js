@@ -9,9 +9,11 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       rol: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       nombre: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       apellido: {
@@ -21,9 +23,11 @@ module.exports = {
         type: Sequelize.STRING
       },
       correo: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       password: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       numero: {
@@ -51,11 +55,11 @@ module.exports = {
         type: Sequelize.STRING
       },
       createdAt: {
-        allowNull: false,
+        
         type: Sequelize.DATE
       },
       updatedAt: {
-        allowNull: false,
+        
         type: Sequelize.DATE
       }
     });

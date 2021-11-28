@@ -10,10 +10,28 @@
     </head>
     <body class="">
         <%- include('menu') %>
-        <h1><center>EL USUARIO NO EXISTE</center></h1>
-
-        <h5 class="m-lg-3">o la contra esta mal (checa la consola)</h5>
-
+        <div class="container">
+            <% switch (error) {
+                case '0' : %>
+                <div class="alert alert-danger" role="alert">
+                    <center><h4 class="alert-heading mb-3">Credenciales Incorrectas</h4>
+                    <a href="/login" class="btn btn-danger">Inténtelo de nuevo</a></center>
+                  </div>
+                        <% break;
+                case '1' : %>
+                <div class="alert alert-danger" role="alert">
+                    <center><h4 class="alert-heading mb-3">No se encontró el usuario</h4>
+                    <a href="/registro1" class="btn btn-danger">Crear Cuenta</a></center>
+                  </div>
+                        <% break;
+                default : %>
+                <div class="alert alert-danger" role="alert">
+                    <center><h4 class="alert-heading mb-3">Error de inicio de sesión</h4>
+                    <a href="/login" class="btn btn-danger">Inténtelo de nuevo</a></center>
+                  </div>
+                        <% break;
+                } %>
+        </div>
         <%- include('footer')%>
     </body>
 </html>
