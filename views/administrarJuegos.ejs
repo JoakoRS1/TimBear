@@ -32,9 +32,6 @@
                             <td><%= juegos[i].id %></td>
                             <td><%= juegos[i].nombre %></td>
                             <td><%= juegos[i].categoria %></td>
-                            <td><a href="/AdministrarJuegos/editar/<%=juegos[i].id %>">Editar</a>
-                            <a href="/AdministrarJuegos/eliminar/<%=juegos[i].id %>">Eliminar</a></td>
-                        </tr>
 
                         <!--Usar modal-->
                         <td>
@@ -47,26 +44,24 @@
                                             <input type="hidden" name="idJ" value="<%= juegos[i].id %>" />
                                             <div class="mb-3 mt-3">
                                                 <label class="form-label">Nombre:</label>
-                                                <input type="text" class="form-control" name="nuevonombre" value="<%= juegos[i].nombre %>">
+                                                <input type="text" class="form-control" name="nuevonombre2" value="<%= juegos[i].nombre %>">
                                             </div>
                                             <div class="mb-3">
                                                 <label class="form-label">Categoria:</label>
-                                                <select class="form-select" name="nuevacategoria">
+                                                <select class="form-select" name="nuevacategoria2">
                                                     <option value="-1">----Seleccione una opción----</option>
                                                     <% categorias.forEach( (categoria)=> { %>
-                                                        <% if(categoria.id == juego.categoria_id) { %>
-                                                        <option selected value="<%=categoria.id %>"><%= categoria.nombre %></option>
+                                                        <% if(categoria.id == juegos[i].categoriaId) { %>
+                                                        <option selected value="<%= categoria.nombre %>"><%= juegos[i].categoria %></option>
                                                         <% } else { %>
-                                                        <option value="<%=categoria.id %>"><%= categoria.nombre %></option>
+                                                        <option value="<%=categoria.nombre %>"><%= categoria.nombre %></option>
                                                         <% } %>
                                                     <% }) %>
                                                 </select>
-                                            </div>
                                                      
                                                  </div>
-                                             </div>
                                              <div class="modal-footer">   
-                                                     <button type="submit" class="btn btn-primary">Guardar</button>
+                                                    <button type="submit" class="btn btn-primary">Guardar</button>
                                              </div>
                                          </form>
                                      </div>
@@ -74,7 +69,7 @@
                             </div>
                             <a class="btn btn-primary mx-1 mt-1" href="/AdministrarJuegos/eliminar/<%=juegos[i].id%>">Eliminar</a>
                         </td>                                                                
-                    </tr> 
+                     
                     <% } %>
                 </tbody>
             </table>
@@ -92,37 +87,30 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"class="btn-close" aria-hidden="true" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <div class="row">
+                                    
                                         <div class="mb-3 mt-3">
                                             <label class="form-label">Nombre:</label>
-                                            <input type="text" class="form-control" name="nuevonombre">
+                                            <input type="text" class="form-control" name="nuevonombre1">
                                         </div>
                                         <div class="mb-3">
                                             <label class="form-label">Categoria:</label>
-                                            <select class="form-select" name="nuevacategoria">
+                                            <select class="form-select" name="nuevacategoria1">
                                                 <option value="-1">----Seleccione una opción----</option>
                                                 <% categorias.forEach( (categoria)=> { %>
-                                                    <% if(categoria.id == juego.categoria_id) { %>
-                                                    <option selected value="<%=categoria.id %>"><%= categoria.nombre %></option>
-                                                    <% } else { %>
-                                                    <option value="<%=categoria.id %>"><%= categoria.nombre %></option>
-                                                    <% } %>
+                                                    <option value="<%=categoria.nombre %>"><%= categoria.nombre %></option>
                                                 <% }) %>
                                             </select>
                                         </div>
-                                    </div>
                                 </div>
-                                <div class="modal-footer">
-                                    
-                                        <button type="submit" class="btn btn-primary">Guardar</button>
-                                    
+                                <div class="modal-footer">                     
+                                    <button type="submit" class="btn btn-primary">Guardar</button>  
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+
+</div>
 
     <%- include('footer')%>
 </body>
