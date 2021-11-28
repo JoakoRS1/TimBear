@@ -22,8 +22,14 @@ app.use(session({
 
 
 
-app.get('/',(req,res)=>{
+app.get('/', async(req,res)=>{
+    const banners = await db.Banner.findAll({
+        order :[
+            ['id', 'ASC']
+        ]
+    });
     res.render('inicio',{
+        banners: banners,
         rol: req.session.rol,
         nombre: req.session.nombre
     })
@@ -59,16 +65,70 @@ app.get('/administrarBanners', async (req, res)=>{
             ['id', 'ASC']
         ]
     });
-
     //console.log(torneos);
     res.render('administrarBanner',{
         banners: banners,
         rol: req.session.rol,
         nombre: req.session.nombre
     })
-
 })
 
+app.get('/administrarBanners/new', (req, res)=>{
+    res.render('newBanner',{
+        rol: req.session.rol,
+        nombre: req.session.nombre
+    })
+})
+
+app.post('/administrarBanners/new', async (req, res)=>{
+
+    const bnombre = req.body.nuevonombre
+    const burl = req.body.nuevourl
+    const bestado = req.body.nuevoestado
+    
+    await db.Banner.create({
+        nombre: bnombre,
+        url: burl,
+        estado: bestado
+    })
+    res.redirect('/administrarBanners')
+    
+})
+
+app.get('/administrarBanners/editar/:id', async (req,res) =>{  
+    const idBanner = req.params.id
+    const banner = await db.Banner.findOne({
+        where: {
+            id: idBanner
+        }
+    })
+    res.render('editarBanner', {
+        banner: banner,
+        rol: req.session.rol,
+        nombre: req.session.nombre
+    })
+})
+
+app.post('/administrarBanners/editar', async(req,res)=>{
+    const idBanner = req.body.idB
+    const bnombre = req.body.nuevonombre
+    const burl = req.body.nuevourl
+    const bestado = req.body.nuevoestado
+    
+    const banner = await db.Banner.findOne({
+        where: {
+            id: idBanner
+        }
+    })
+    
+    
+    banner.nombre = bnombre
+    banner.url = burl
+    banner.estado = bestado
+    
+    await banner.save()
+    res.redirect('/administrarBanners')
+})
 
 app.get('/administrarPartidas',async (req,res)=>{
     const juego = await db.Juego.findAll()
@@ -78,12 +138,31 @@ app.get('/administrarPartidas',async (req,res)=>{
         ]
     });
 
+    let nlistapartidas = []
+    for(let partida of partidas){
+        const Juego = await partida.getJuego()
+        nlistapartidas.push({
+            id: partida.id,
+            fecha: partida.fecha,
+            hora: partida.hora,
+            duracion: partida.duracion,
+            estado: partida.estado,
+            equipoA: partida.equipoA,
+            equipoB: partida.equipoB,
+            factorA: partida.factorA,
+            factorB: partida.factorB,
+            factorEmpate: partida.factorEmpate,
+            Resultado: partida.Resultado,
+            juegoNombre: Juego.nombre
+        })
+    }
+
     res.render('administrarPartidas',{
-        partidas:partidas,
-        juego:juego
+        partidas:nlistapartidas,
+        juego:juego,
+        nombre: req.session.nombre
     })
 })
-
 
 app.post('/administrarPartidas/agregar',async (req,res)=>{
     const juego = req.body.partida_JuegoID
@@ -127,7 +206,7 @@ app.post('/administrarPartidas/agregar',async (req,res)=>{
     res.redirect('/administrarPartidas')
 })
 app.post('/administrarPartidas/editar',async(req,res)=>{
-    const idPartida = req.body.partida_id2
+    const idPartida = req.body.partida_id
     console.log("id: "+idPartida)
     const juego = req.body.partida_JuegoID2
     const fecha = req.body.partida_fecha2
@@ -182,16 +261,57 @@ app.get('/administrarPartidas/eliminar/:codigo',async(req,res)=>{
     res.redirect('/administrarPartidas')
 })
 
-
+//Partidas
 app.get('/partidas', async(req,res)=>{
-    //Si se inicio sesion buscar usuario para mostrar su nombre en la parte de menu
-    const rol = req.session.rol    
+    const rol = req.session.rol 
+    const usuario = req.session.nombre 
+
+    const banners = await db.Banner.findAll({
+        order :[
+            ['id', 'ASC']
+        ]
+    });  
 
     const partidas = await db.Partida.findAll();
+    const juegos = await db.Juego.findAll();
 
     res.render('partidas', {
         partidas : partidas,
-        rol: rol
+        rol: rol,
+        nombre : usuario,
+        juegos : juegos,
+        banners : banners
+    })
+})
+
+app.get('/partidas/:id_juego', async(req,res)=>{
+    const rol = req.session.rol    
+    const juegoId = req.params.id_juego;
+    const nombre = req.session.nombre
+
+    const banners = await db.Banner.findAll({
+        order :[
+            ['id', 'ASC']
+        ]
+    });
+
+    const partidas = await db.Partida.findAll({
+        where: {
+            juegoId : juegoId
+        }
+    });
+    const juegos = await db.Juego.findOne({
+        where: {
+            id : juegoId
+        }
+    })
+
+    res.render('partidas', {
+        partidas : partidas,
+        rol: rol,
+        nombre: nombre,
+        juegos : juegos,
+        banners : banners
     })
 })
 
@@ -201,30 +321,174 @@ app.get('/administrarCategorias', (req, res) => {
     res.render('administrarCategorias')
 })
 
+//Mantenimiento Juego 
 app.get('/AdministrarJuegos', async(req, res) => {
     const juegos = await db.Juego.findAll();
-    const UsuarioA = await db.Usuario.findOne({
-        where: {
-            id : 1
-        }
-    });
     
     res.render('administrarJuegos', {
         juegos : juegos,
-        usuario : UsuarioA
+        rol: req.session.rol,
+        nombre: req.session.nombre
     })
 })
 
-app.get('/AdministrarClientes', async(req, res) => {
-    const usuarios = await db.Usuario.findAll();
-    
-    res.render('administrarClientes', {
-        clientes : usuarios
+app.get('/AdministrarJuegos/new', async(req, res)=>{
+    //Cuando se cree la base de datos categoria:
+    const categorias = await db.Categoria.findAll();
+
+    res.render('newJuego',{
+        rol: req.session.rol,
+        nombre: req.session.nombre,
+        categorias : categorias
     })
 })
+
+app.post('/AdministrarJuegos/new', async(req, res) => {
+    const jnombre = req.body.nuevonombre
+    const jcategoria = req.body.nuevacategoria
+    await db.Juego.create({
+        nombre: jnombre,
+        categoria: jcategoria,
+    });
+
+    res.redirect('/AdministrarJuegos')
+})
+
+app.get('/AdministrarJuego/editar/:id', async (req,res) =>{  
+    console.log(juego)
+    const idJuego = req.params.id
+    const juego = await db.Juego.findOne({
+        where: {
+            id: idJuego
+        }
+    })
+
+    //Cuando se cree la base de datos categoria:
+    const categorias = await db.Categoria.findAll();
+
+    res.render('editarJuego', {
+        juego: juego,
+        rol: req.session.rol,
+        nombre: req.session.nombre,
+        categorias : categorias
+    })
+})
+
+app.post('/AdministrarJuegos/editar', async (req,res)=>{
+    const idJuego = req.body.idJ
+    const jnombre = req.body.nuevonombre
+    const jcategoria = req.body.nuevacategoria
+    
+    const juego = await db.Juego.findOne({
+        where: {
+            id: idJuego
+        }
+    })
+    
+    juego.nombre = jnombre
+    juego.categoria = jcategoria
+    
+    await juego.save()
+    res.redirect('/AdministrarJuegos')
+})
+
+app.get('/AdministrarJuegos/eliminar/:codigo',async(req,res)=>{
+    const idJuego = req.params.codigo
+    await db.Juego.destroy({
+        where :{
+            id : idJuego
+        }
+    })
+    res.redirect('/AdministrarJuegos')
+})
+//fin mantenimiento juego
+
+//Mantenimiento de clientes
+app.get('/AdministrarClientes', async (req,res)=>{
+    const clientes = await db.Usuario.findAll()
+    const filtro = 0;
+
+    res.render('AdministrarClientes',{
+        clientes : clientes,
+        rol : req.session.rol,
+        nombre: req.session.nombre,
+        filtro : filtro
+    })
+})
+
+app.post('/AdministrarClientes/editar',async(req,res)=>{
+    const idCliente = req.body.cliente_id
+    console.log("id: "+ idCliente)
+
+    const cliente = await db.Usuario.findOne({
+        where:{
+            id : idCliente
+        }
+    })
+
+    const estadoC = req.body.cliente_Estado2
+    var estado = 0
+    if(estadoC=="Pendiente de Validación"){
+        estado = 0
+    }
+    else if(estadoC=="Validado"){
+        estado = 1
+    }
+    else if(estadoC=="Dado de Baja"){
+        estado = 2
+    }
+    else{ //No se selecciono estado (se queda con el estado anteriormente asignado)
+        estado = cliente.estado
+    }
+        
+    cliente.estado=estado
+    
+    await cliente.save()
+    res.redirect('/administrarClientes')
+})
+
+app.get('/AdministrarClientes/eliminar/:codigo',async(req,res)=>{
+    const idCliente = req.params.codigo
+    await db.Usuario.destroy({
+        where :{
+            id : idCliente
+        }
+    })
+    res.redirect('/AdministrarClientes')
+})
+
+app.get('/AdministrarClientes/filtrar', async(req, res) => {
+    const filtro = req.body.filtro;
+    const clientes = await Usuario.findAll();
+
+    res.render('filtroClientes',{
+        filtro : filtro,
+        clientes : clientes
+    })
+
+})
+
+app.post('/AdministrarClientes/filtrar', async(req, res) => {
+    const filtro = req.body.filtro;
+    const clientes = await Usuario.findAll();
+
+    for(var i =0; i< clientes.length(); i++){
+        if(clientes[i].DNI.contains(filtro) || 
+            clientes[i].nombre.contains(filtro) ||     
+            clientes[i].apellido.contains(filtro)){
+            clientesFiltrados.push(clientes[i])
+        }
+    }
+    console.log(clientesFiltrados)
+
+    res.render('filtroClientes',{
+        clientes : clientesFiltrados
+    })
+})
+//fin mantenimiento cliente
 
 app.get('/login', (req,res) => {
-    if(req.session.usuario != undefined){
+    if(req.session.rol != undefined){
         res.redirect('/')
     }
     else{
@@ -235,15 +499,13 @@ app.post('/login', async (req, res) => {
     const correoA = req.body.correoU
     const passwordA = req.body.passwordU
     usuarioA = null
-    
-    
+  
     const Usuarios = await db.Usuario.findAll()
     
     Usuarios.forEach((usuario) =>{
         if(usuario.correo == correoA){
                 usuarioA = usuario
             }
-
     })
 
     if(usuarioA!= null){
