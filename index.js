@@ -24,6 +24,9 @@ app.use(session({
 
 app.get('/', async(req,res)=>{
     const banners = await db.Banner.findAll({
+        where: {
+            estado: "activo"
+        },
         order :[
             ['id', 'ASC']
         ]
@@ -120,7 +123,7 @@ app.post('/administrarBanners/editar', async(req,res)=>{
             id: idBanner
         }
     })
-    
+
     
     banner.nombre = bnombre
     banner.url = burl

@@ -14,7 +14,7 @@
         <div class="card-body">
             <a class="link" href="/"> <-Regresar</a>
             <!-- Banner -->
-            <%- include('banner') %>
+            
             <div class="m-md-5">
             <% if(juegos.length>1){ 
                  juegos.forEach( (juego) => { %><a href="/partidas/<%=juego.id %>" ><%= juego.nombre %> |</a><% }) %>
