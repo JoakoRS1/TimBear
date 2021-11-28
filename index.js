@@ -121,6 +121,7 @@ app.post('/administrarBanners/editar', async(req,res)=>{
         }
     })
     
+    
     banner.nombre = bnombre
     banner.url = burl
     banner.estado = bestado
