@@ -13,8 +13,9 @@
         <%- include('menuadmin')  %>
     <div class="container">
     <h1>Agregar Nuevo Banner</h1>
+
     <form method="post" action="/administrarBanners/new">
-        
+     
         <div class="mb-3 mt-3">
             <label class="form-label">Nombre:</label>
             <input type="text" class="form-control" required="required" name="nuevonombre">
@@ -53,6 +54,8 @@
         <button type="submit" class="btn btn-success">Guardar</button>
     </form>
         </div>
+
+        
 
     <!--cierre-->
     <%- include('footer') %>

@@ -7,6 +7,7 @@ const usuario = require('./dao/models/usuario')
 const app = express()
 
 
+
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
     extended:true
@@ -89,6 +90,7 @@ app.post('/administrarBanners/new', async (req, res)=>{
     const urlI = req.body.urlimagen
     const burl = req.body.nuevourl
     const bestado = req.body.nuevoestado
+    
     
     await db.Banner.create({
         nombre: bnombre,
