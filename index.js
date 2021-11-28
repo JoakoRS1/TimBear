@@ -86,11 +86,13 @@ app.get('/administrarBanners/new', (req, res)=>{
 app.post('/administrarBanners/new', async (req, res)=>{
 
     const bnombre = req.body.nuevonombre
+    const urlI = req.body.urlimagen
     const burl = req.body.nuevourl
     const bestado = req.body.nuevoestado
     
     await db.Banner.create({
         nombre: bnombre,
+        urlImagen: urlI,
         url: burl,
         estado: bestado
     })
