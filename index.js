@@ -134,7 +134,8 @@ app.get('/administrarPartidas',async (req,res)=>{
     const juego = await db.Juego.findAll()
     const partidas = await db.Partida.findAll({
         order:[
-            ['id','ASC']
+            ['fecha','DESC'],
+            ['hora','DESC']
         ]
     });
 
@@ -160,6 +161,7 @@ app.get('/administrarPartidas',async (req,res)=>{
     res.render('administrarPartidas',{
         partidas:nlistapartidas,
         juego:juego,
+        rol: req.session.rol,
         nombre: req.session.nombre
     })
 })
