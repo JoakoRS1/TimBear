@@ -137,8 +137,27 @@ app.get('/administrarPartidas',async (req,res)=>{
         ]
     });
 
+    let nlistapartidas = []
+    for(let partida of partidas){
+        const Juego = await partida.getJuego()
+        nlistapartidas.push({
+            id: partida.id,
+            fecha: partida.fecha,
+            hora: partida.hora,
+            duracion: partida.duracion,
+            estado: partida.estado,
+            equipoA: partida.equipoA,
+            equipoB: partida.equipoB,
+            factorA: partida.factorA,
+            factorB: partida.factorB,
+            factorEmpate: partida.factorEmpate,
+            Resultado: partida.Resultado,
+            juegoNombre: Juego.nombre
+        })
+    }
+
     res.render('administrarPartidas',{
-        partidas:partidas,
+        partidas:nlistapartidas,
         juego:juego,
         nombre: req.session.nombre
     })
@@ -186,7 +205,7 @@ app.post('/administrarPartidas/agregar',async (req,res)=>{
     res.redirect('/administrarPartidas')
 })
 app.post('/administrarPartidas/editar',async(req,res)=>{
-    const idPartida = req.body.partida_id2
+    const idPartida = req.body.partida_id
     console.log("id: "+idPartida)
     const juego = req.body.partida_JuegoID2
     const fecha = req.body.partida_fecha2
