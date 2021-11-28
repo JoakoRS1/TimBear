@@ -399,14 +399,17 @@ app.get('/administrarJuegos/eliminar/:codigo',async(req,res)=>{
 
 //Mantenimiento de clientes
 app.get('/AdministrarClientes', async (req,res)=>{
-    const clientes = await db.Usuario.findAll();
-    const filtro = 0;
+    const clientes = await db.Usuario.findAll({
+        order :[
+            ['id', 'ASC']
+        ]
+    });
 
     res.render('AdministrarClientes',{
         clientes : clientes,
         rol : req.session.rol,
         nombre: req.session.nombre,
-        filtro : filtro
+        query : null
     })
 })
 
@@ -441,29 +444,27 @@ app.post('/AdministrarClientes/editar',async(req,res)=>{
     res.redirect('/administrarClientes')
 })
 
-app.get('AdministrarClientes/filtrar', async(req,res)=> {
-    var filtro = new List('test-list', { 
-        valueNames: ['nombre', 'apellido', 'DNI']
-    })
+app.get('AdministrarClientes/filtrar', async(req, res) => {
+    const filtro = req.body.search
+
     const clientes = await Usuario.findAll();
+    const clientesFiltrados = [];
+    clientesFiltrados.push(clientes);
+    
 
-    res.render('filtroClientes', {
-        filtro : filtro,
-        clientes : clientes
+    function esBusqueda(elemento, lista) {
+        if(elemento.includes(filtro)){
+            return lista.push(elemento);
+        }
+      }
+    var filtrados = clientesFiltrados.nombre.filter(esBusqueda) 
+                    && clientesFiltrados.apellido.filter(esBusqueda) 
+                    &&  clientesFiltrados.DNI.filter(esBusqueda);
+
+    res.render('filtrarClientes', {
+        clientes : filtrados,
+        filtro : filtro
     })
-})
-
-app.get('/search',function(req,res){
-    connection.query('SELECT ALL from TABLE_NAME where nombre || apellido || DNI like "%'+req.query.key+'%"',
-    function(err, rows, fields) {
-    if (err) throw err;
-    var data=[];
-    for(i=0;i<rows.length;i++)
-    {
-    data.push(rows[i].first_name);
-    }
-    res.end(JSON.stringify(data));
-    });
 })
 
 /*
