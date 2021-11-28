@@ -432,17 +432,6 @@ app.get('/AdministrarClientes/filtrar', async(req, res) => {
     const filtro = req.body.filtro;
     const clientes = await Usuario.findAll();
 
-    res.render('filtroClientes',{
-        filtro : filtro,
-        clientes : clientes
-    })
-
-})
-
-app.post('/AdministrarClientes/filtrar', async(req, res) => {
-    const filtro = req.body.filtro;
-    const clientes = await Usuario.findAll();
-
     for(var i =0; i< clientes.length(); i++){
         if(clientes[i].DNI.contains(filtro) || 
             clientes[i].nombre.contains(filtro) ||     
@@ -453,8 +442,10 @@ app.post('/AdministrarClientes/filtrar', async(req, res) => {
     console.log(clientesFiltrados)
 
     res.render('filtroClientes',{
-        clientes : clientesFiltrados
+        clientes : clientesFiltrados,
+        filtro : filtro
     })
+
 })
 //fin mantenimiento cliente
 
