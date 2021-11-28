@@ -34,7 +34,7 @@
                                <td><%=partidas[i].equipoB%></td>                                                                
                                <td><%=partidas[i].estado%></td>                                                                
                                <td>
-                                   <button type="button" class="mt-1 mx-1 btn btn-primary" data-bs-toggle="modal" data-bs-target="#editar_<%=i%>">Editar</button>
+                                   <button type="button" class="mt-1 mx-1 btn btn-success" data-bs-toggle="modal" data-bs-target="#editar_<%=i%>">Editar</button>
                                    <div class="modal fade" id="editar_<%=i%>" tabindex="-1" aria-hidden="true" aria-labelledby="modalTitle">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
@@ -117,20 +117,20 @@
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">   
-                                                            <button type="submit" class="btn btn-primary">Guardar</button>
+                                                            <button type="submit" class="btn btn-success">Guardar</button>
                                                     </div>
                                                 </form>
                                             </div>
                                         </div>
                                    </div>
-                                   <a class="btn btn-primary mx-1 mt-1" href="/administrarPartidas/eliminar/<%=partidas[i].id%>">Eliminar</a>
+                                   <a class="btn btn-success mx-1 mt-1" href="/administrarPartidas/eliminar/<%=partidas[i].id%>">Eliminar</a>
                                </td>                                                                
                            </tr> 
                     <%}}%>
                     
                 </tbody>
             </table>
-                <button type="button" class="mt-5 mx-5 btn btn-primary" data-bs-toggle="modal" data-bs-target="#agregar">Agregar</button>
+                <button type="button" class="mt-5 mx-5 btn btn-success left" data-bs-toggle="modal" data-bs-target="#agregar">Agregar</button>
                 <div class="modal fade" id="agregar" tabindex="-1" aria-hidden="true" aria-labelledby="modalTitle">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -209,7 +209,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     
-                                        <button type="submit" class="btn btn-primary">Guardar</button>
+                                        <button type="submit" class="btn btn-success">Guardar</button>
                                     
                                 </div>
                             </form>
