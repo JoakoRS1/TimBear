@@ -602,7 +602,7 @@ app.post('/login', async (req, res) => {
 
     if(usuarioA!= null){
         if(usuarioA.password == passwordA){
-            console.log("la clave ta bien")
+            console.log("Credenciales correctas")
             req.session.rol = usuarioA.rol
             req.session.nombre = usuarioA.nombre
             console.log("sesion rol: ", req.session.rol)
@@ -610,12 +610,14 @@ app.post('/login', async (req, res) => {
             res.redirect('/')
         }
         else{
-            console.log("la clave ta mal")
-            res.render('errorlogin')
+            const error = "0"
+            console.log("Contraseña incorrecta")
+            res.render('errorlogin', {error: error})
         }}
         else{
-            res.render('errorlogin')
+            error = "1"
             console.log("NO EXISTE")
+            res.render('errorlogin', {error: error})
         }
         
 })
