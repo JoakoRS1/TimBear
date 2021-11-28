@@ -345,10 +345,22 @@ app.get('/partidas/:id_juego', async(req,res)=>{
     })
 })
 
-app.get('/administrarCategorias', (req, res) => {
+app.get('/administrarCategorias', async (req, res) => {
 
     if(req.session.rol=="admin"){
         res.render('administrarCategorias')
+        const categorias = await db.Categoria.findAll({
+            order :[
+                ['id', 'ASC']
+            ]
+        })
+
+        res.render('administrarCategorias', {
+            categorias : categorias,
+            rol: req.session.rol,
+            nombre: req.session.nombre
+        })
+
     }
     else{
         res.redirect('/noAutorizado')
