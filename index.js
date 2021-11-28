@@ -324,19 +324,10 @@ app.get('/administrarCategorias', (req, res) => {
 //Mantenimiento Juego 
 app.get('/AdministrarJuegos', async(req, res) => {
     const juegos = await db.Juego.findAll();
+    const categorias = await db.Categoria.findAll();
     
     res.render('administrarJuegos', {
         juegos : juegos,
-        rol: req.session.rol,
-        nombre: req.session.nombre
-    })
-})
-
-app.get('/AdministrarJuegos/new', async(req, res)=>{
-    //Cuando se cree la base de datos categoria:
-    const categorias = await db.Categoria.findAll();
-
-    res.render('newJuego',{
         rol: req.session.rol,
         nombre: req.session.nombre,
         categorias : categorias
@@ -352,26 +343,6 @@ app.post('/AdministrarJuegos/new', async(req, res) => {
     });
 
     res.redirect('/AdministrarJuegos')
-})
-
-app.get('/AdministrarJuego/editar/:id', async (req,res) =>{  
-    console.log(juego)
-    const idJuego = req.params.id
-    const juego = await db.Juego.findOne({
-        where: {
-            id: idJuego
-        }
-    })
-
-    //Cuando se cree la base de datos categoria:
-    const categorias = await db.Categoria.findAll();
-
-    res.render('editarJuego', {
-        juego: juego,
-        rol: req.session.rol,
-        nombre: req.session.nombre,
-        categorias : categorias
-    })
 })
 
 app.post('/AdministrarJuegos/editar', async (req,res)=>{
@@ -392,7 +363,7 @@ app.post('/AdministrarJuegos/editar', async (req,res)=>{
     res.redirect('/AdministrarJuegos')
 })
 
-app.get('/AdministrarJuegos/eliminar/:codigo',async(req,res)=>{
+app.get('/AdministrarJuegos/eliminar/:codigo', async(req,res)=>{
     const idJuego = req.params.codigo
     await db.Juego.destroy({
         where :{
@@ -405,7 +376,7 @@ app.get('/AdministrarJuegos/eliminar/:codigo',async(req,res)=>{
 
 //Mantenimiento de clientes
 app.get('/AdministrarClientes', async (req,res)=>{
-    const clientes = await db.Usuario.findAll()
+    const clientes = await db.Usuario.findAll();
     const filtro = 0;
 
     res.render('AdministrarClientes',{
