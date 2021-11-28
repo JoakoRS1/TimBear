@@ -282,20 +282,21 @@ app.get('/registro1', async (req,res) => {
 
 app.post('/registro1', async (req, res) => {
     const nombreU = req.body.nombreU
-    console.log(req.body.nombreU)
-    const apellidoU = "Cornejo"
+    const apellidoU = req.body.apellidoU
     const dniU = req.body.dniU
     const correoU = req.body.correoU
     const contraU = req.body.contraU
     const confirmacontraU = req.body.confirmarcontraU
     const numeroU = req.body.numeroU
-    const direccionU = req.body.direcU 
+    var direccionU = req.body.direcU 
     var depaU = req.body.Departamento
     var provinciaU = req.body.Provincia    
     var distritoU = req.body.Distrito
-    var inputElements = req.body.Checks;
+    var pepsU = req.body.flexRadioDefault1;
+    var pepnU = req.body.flexRadioDefault2;
 
     await db.Usuario.create({
+        rol : 'usuario',
         nombre : nombreU,
         apellido : apellidoU,
         DNI: dniU,
@@ -306,16 +307,11 @@ app.post('/registro1', async (req, res) => {
         departamento: depaU,
         provincia: provinciaU,
         distrito: distritoU,
-        PEP: inputElements
+        PEP: pepsU
     })
 
     res.redirect('/paginaespera')
 })
-
-app.get('/verbanner', (req,res)=>{
-    res.redirect('/')
-})
-
 
 app.get('/logout', (req, res) => {
     req.session.destroy(() => {
