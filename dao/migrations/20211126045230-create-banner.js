@@ -11,18 +11,21 @@ module.exports = {
       nombre: {
         type: Sequelize.STRING
       },
+      urlImagen: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
       url: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       estado: {
         type: Sequelize.STRING
       },
-      createdAt: {
-        allowNull: false,
+      createdAt: {    
         type: Sequelize.DATE
       },
-      updatedAt: {
-        allowNull: false,
+      updatedAt: {       
         type: Sequelize.DATE
       }
     });

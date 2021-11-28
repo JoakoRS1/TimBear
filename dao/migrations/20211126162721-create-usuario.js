@@ -51,9 +51,7 @@ module.exports = {
       estado: {
         type: Sequelize.INTEGER
       },
-      foto: {
-        type: Sequelize.STRING
-      },
+      
       createdAt: {
         
         type: Sequelize.DATE
