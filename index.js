@@ -370,6 +370,8 @@ app.get('/administrarCategorias', async (req, res) => {
     }
 })
 
+//NUEVA CATEGORÍA
+
 app.get('/administrarCategorias/nuevo', (req, res) => {
     if(req.session.rol == "admin")
     {
@@ -390,6 +392,7 @@ app.post('/administrarCategorias/nuevo', async (req, res) => {
     res.redirect('/administrarCategorias')
 })
 
+//MODIFICAR CATEGORIAS
 
 app.get('administrarCategorias/modificar/:id', async (req, res) => {
     if(req.session.rol == "admin")
@@ -428,6 +431,22 @@ app.post('/administrarCategorias/modificar', async (req, res) => {
 
     res.redirect('/administrarCategorias')
 })
+
+//ELIMINAR CATEGORIAS
+app.get('/administrarCategorias/eliminar/:id', async (req, res) => {
+    const categoriaId = req.params.id
+
+    await db.Categoria.destroy({
+        where : {
+            id : categoriaId
+        }
+    })
+
+    res.redirect('/administrarCategorias')
+
+
+})
+
 
 //Mantenimiento Juego 
 app.get('/AdministrarJuegos', async(req, res) => {
