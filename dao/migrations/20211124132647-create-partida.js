@@ -18,7 +18,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       estado: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       equipoA: {
         type: Sequelize.STRING

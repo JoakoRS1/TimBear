@@ -181,20 +181,8 @@ app.post('/administrarPartidas/agregar',async (req,res)=>{
     const fecha = req.body.partida_fecha
     const inicio = req.body.partida_inicio
     const duracion = req.body.partida_duracion
-    const estadoP = req.body.partida_Estado
-    var estado = 0
-    if(estadoP=="Pendiente"){
-        estado = 0
-    }
-    else if(estadoP=="Iniciado"){
-        estado = 1
-    }
-    else if(estadoP=="Finalizado"){
-        estado = 2
-    }
-    else{
-        estado = 3
-    }
+    const estado = req.body.partida_Estado
+   
     const EA = req.body.partida_EA
     const EB = req.body.partida_EB
     const FA = req.body.partida_FA
@@ -224,20 +212,9 @@ app.post('/administrarPartidas/editar',async(req,res)=>{
     const fecha = req.body.partida_fecha2
     const inicio = req.body.partida_inicio2
     const duracion = req.body.partida_duracion2
-    const estadoP = req.body.partida_Estado2
-    var estado = 0
-    if(estadoP=="Pendiente"){
-        estado = 0
-    }
-    else if(estadoP=="Iniciado"){
-        estado = 1
-    }
-    else if(estadoP=="Finalizado"){
-        estado = 2
-    }
-    else{   
-        estado = 3
-    }
+    const estado = req.body.partida_Estado2
+    
+   
     const EA = req.body.partida_EA2
     const EB = req.body.partida_EB2
     const FA = req.body.partida_FA2
