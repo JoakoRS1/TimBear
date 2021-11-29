@@ -312,7 +312,7 @@ module.exports = {
     
     ])
 
-    await queryInterface.bulkInsert('Banner', [
+    await queryInterface.bulkInsert('Apuesta', [
       {
         equipoA: "Equipo1",
         equipoB: "Equipo2",
