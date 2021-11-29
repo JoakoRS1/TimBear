@@ -397,11 +397,8 @@ app.get('/partidas/filtro/:id', async(req,res)=>{
         ]
     });
 
-    const categorias=await db.Categoria.findAll({
-        where: {
-            id: categoriaid
-        }
-    })
+    const categorias=await db.Categoria.findAll()
+    
     const partidas=await db.Partida.findAll({
         where: {
             categoriaId: categoriaid
