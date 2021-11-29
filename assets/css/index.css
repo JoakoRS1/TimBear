@@ -21,13 +21,13 @@ width: 200px;
 }
 
 /*form styles*/
-.msform {
+.div-form {
     width: auto;
     margin: auto;
     text-align: center;
     position: relative;
 }
-.msform div {
+.div-form {
     background: white;
     border: auto;
     border-radius: 3px;
@@ -41,13 +41,12 @@ width: 200px;
     /*stacking fieldsets above each other*/
     position: relative;
 }
-/*Hide all except first fieldset*/
-.msform:not(:first-of-type) div {
-    display: none;
-    visibility: hidden
+/*Hide all except first div*/
+.msform div:not(:first-of-type) {
+    display: none
 }
 /*inputs*/
-.msform input:not(#flexRadioDefault1, #flexRadioDefault2), .msform textarea{
+.div-form input, .div-form textarea{
     padding: 15px;
     border: 1px solid #ccc;
     border-radius: 3px;
@@ -59,7 +58,7 @@ width: 200px;
 }
 
 /*buttons*/
-.msform .action-button, .action-button-previous {
+.div-form .action-button, .action-button-previous {
     width: 100px;
     border: 0 none;
     border-radius: 1px;
@@ -67,7 +66,7 @@ width: 200px;
     padding: 10px 5px;
     margin: 10px 5px;
 }
-.msform .action-button:hover, .msform .action-button:focus {
+.div-form .action-button:hover, .div-form .action-button:focus {
     box-shadow: 0 0 0 2px white, 0 0 0 3px black;
 }
 /*headings*/
@@ -132,7 +131,6 @@ width: 200px;
     top: 15px;
     z-index: -1; /*put it behind the numbers*/
 }
-
 
 /*marking active/completed steps green*/
 /*The number of the step and the connector before it = green*/
