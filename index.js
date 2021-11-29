@@ -905,7 +905,7 @@ app.post('/login', async (req, res) => {
         }}
         else{
             error = "1"
-            console.log("NO EXISTE")
+            console.log("No se encontró el usuario")
             res.render('errorlogin', {error: error})
         }
         
