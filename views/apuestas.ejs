@@ -15,35 +15,35 @@
             <div class="container">
                 
                 <a class="link" href="/"> <-Regresar</a>
-                <h1 class="">Administrar Categorías</h1>
+                <h1 class="">Hoja de Apuestas</h1>
 
-                <a href="/administrarCategorias/nuevo" class="btn btn-success mb-3">Nueva Categoría</a>
-
-                <% if(categorias.length >0) {%>
+                <% if(apuestas.length >0) {%>
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th>Id de Categoría</th>
-                            <th>Nombre</th>
-                            <th></th>
+                            <th>Equipo A</th>
+                            <th>Equipo B</th>
+                            <th>Apuesta</th>
+                            <th>Factor</th>
+                            <th>Monto</th>
+                            <th>Ganancia posible</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <% categorias.forEach( (categoria) => { %>
+                        <% apuestas.forEach( (apuesta) => { %>
                             <tr>
-                                <td><%= categoria.id %></td>
-                                <td><%= categoria.nombre %></td>
-                                <td>
-                                    <a href="/administrarCategorias/modificar/<%= categoria.id%>">Editar</a>
-                                    <a href="/administrarCategorias/eliminar/<%= categoria.id%>">Eliminar</a>
-                                </td>
-                            </tr>
+                                <td><%= apuesta.equipoA %></td>
+                                <td><%= apuesta.equipoB %></td>
+                                <td><%= apuesta.equipoApostado %></td>
+                                <td><%= apuesta.factorApostado %></td>
+                                <td><input name="apuesta_monto" type="text" value="<%= apuesta.monto %>"></td>
+                                <td><%= apuesta.gananciaPosible %></td>
                         <% }) %>
                     </tbody>
                 </table>
                 <% } else{ %>
                 
-                <h3>No hay categorías disponibles</h3>
+                <h3>No hay apuestas disponibles</h3>
 
                 <% } %>
             </div>

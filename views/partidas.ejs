@@ -14,18 +14,7 @@
         <div class="card-body">
             <a class="link" href="/"> <-Regresar</a>
             <%- include('bannerspartidas') %>
-            
-            <div class="m-md-5 mt-3">
-            <% if(partidas.length > 0){ %> 
-            <% if(juegos.length>1){ 
-                 juegos.forEach( (juego) => { %><a href="/partidas/<%=juego.id %>" ><%= juego.nombre %> | </a><% }) %>
-            <% } else { %>
-                    <a class="link" href="/partidas"><- Regresar a Partidas</a>
-                    <h2> Partidas de <%= juegos.nombre %> </h2>
-            <% } %>
-            </div>
-
-                             
+                                     
             <div class="mb-3">
                 <form method="post" action="partidas/filtro" >
                     <div class="dropdown">
@@ -50,7 +39,21 @@
                 <a href="/partidas/fechasantiguas" class="btn btn-success">Fechas Antiguas</a>
             </div>
             
+            <!--Tablas partidas por juego-->
+            
+                
+                    <div class="m-md-5 mt-3">
+                        <% juegos.forEach( (juego)=>{ %>
+        
+                            <h2> Partidas de <%= juego.nombre %> </h2>
+                       
+                        </div>
                 <div class="table-responsive">
+                  <% if(partidas.length > 0){ %> 
+                        <% partidas.forEach( (partida)=> { %>
+                            
+                               
+                                                          
                 
                 <table class="table table-hover">
                 
@@ -64,7 +67,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <% partidas.forEach( (partida) => { %>
+                       
+                            
                             <tr>
                                 <td><%= partida.equipoA %> vs. <%= partida.equipoB %></td>
                                 <td><%= partida.fecha.toISOString().substring(0,10) %></td>
@@ -73,14 +77,18 @@
                                 <td><%= partida.equipoA %> <%= partida.factorA %></td>
                                 <td>Empate <%= partida.factorEmpate %></td>
                                 <td><%= partida.equipoB %> <%= partida.factorB %></td>
+                                <td><a href="/partidas/eliminar/<%= partida.id%>">Eliminar</a></td>
+                                <td><input type="text" class="form-control" name="monto" rows="3" required>Monto</td>
+                                <td><%=partida.monto%>*<%=partida.factorA%></td>
                             </tr>
-                        <% })  %>
+                            <% })  %>
                     </tbody>
-                </table>
-                <% } else { %>
+                </table> 
+                <% }  else { %>
                     <p>No hay partidas disponibles aun.</p>
                 <% } %>
             </div>
+       <%})  %>
         </div>
 
         <%- include('footer')%>
