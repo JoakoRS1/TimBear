@@ -765,7 +765,7 @@ app.get('/AdministrarClientes', async (req,res)=>{
         ]
     });
     if(req.session.rol=="admin"){
-    res.render('AdministrarClientes',{
+    res.render('administrarClientes',{
         clientes : clientes,
         rol : req.session.rol,
         nombre: req.session.nombre
