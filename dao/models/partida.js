@@ -13,10 +13,14 @@ module.exports = (sequelize, DataTypes) => {
       Partida.belongsTo(models.Juego, {
         foreignKey : 'juegoId'
       })
+      Partida.belongsTo(models.Categoria,{
+        foreignKey : 'categoriaId'
+      })
     }
   };
   Partida.init({
     juegoId: DataTypes.INTEGER,
+    categoriaId: DataTypes.INTEGER,
     fecha: DataTypes.DATE,
     hora: DataTypes.TIME,
     duracion: DataTypes.INTEGER,
