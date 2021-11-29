@@ -13,10 +13,6 @@ module.exports = (sequelize, DataTypes) => {
       Partida.belongsTo(models.Juego, {
         foreignKey : 'juegoId'
       })
-
-      Partida.belongsTo(models.Categoria, {
-        foreignKey : 'categoriaId'
-      })
     }
   };
   Partida.init({
