@@ -10,9 +10,9 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      //Juego.belongsTo(models, Categoria, {
+      Juego.belongsTo(models.Categoria, {
         foreignKey : 'categoriaId'
-      //})
+      })
     }
   };
   Juego.init({

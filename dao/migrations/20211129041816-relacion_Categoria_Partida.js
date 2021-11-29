@@ -8,16 +8,16 @@ module.exports = {
      * Example:
      * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
      */
-     await queryInterface.addColumn('Partida', 'categoriaId', {
+    await queryInterface.addColumn('Partida','categoriaId',{
       type : Sequelize.INTEGER,
-      allownull : false
+      allowNull: true
     })
 
-    await queryInterface.addConstraint('Partida', {
+    await queryInterface.addConstraint('Partida',{
       fields : ['categoriaId'],
-      type : 'FOREIGN_KEY',
+      type : 'FOREIGN KEY',
       name : 'FK_PARTIDA_CATEGORIA',
-      references : {
+      references :{
         table : 'Categoria',
         field : 'id'
       }
@@ -31,5 +31,7 @@ module.exports = {
      * Example:
      * await queryInterface.dropTable('users');
      */
+     await queryInterface.removeConstraint('Partida','FK_PARTIDA_CATEGORIA')
+     await queryInterface.removeColumn('Partida', 'categoriaId')
   }
 };

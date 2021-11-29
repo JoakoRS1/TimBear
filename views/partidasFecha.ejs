@@ -11,6 +11,7 @@
     <body class="">
         <%- include('header-rol') %>
         <h1 class="container">Partidas</h1>
+        <form method="post" action="/partidas/fechasproximas">
         <div class="card-body">
             <a class="link" href="/"> <-Regresar</a>
             <%- include('bannerspartidas') %>
@@ -40,7 +41,6 @@
                     <h2> Partidas de <%= categorias.nombre %> </h2>
             <% } %>
         </form>
-        <a href="/partidas/fechasproximas" class="btn btn-success">Fechas Proximas</a>
             </div>
             
                 <div class="table-responsive">
@@ -71,11 +71,12 @@
                     </tbody>
                 </table>
                 <% } else { %>
-                    <p>No hay partidas disponibles aun.</p>
+                    <p>No hay partidas proximas aun.</p>
                 <% } %>
             </div>
+        
         </div>
-
+    </form>
         <%- include('footer')%>
     </body>
 </html>
