@@ -492,8 +492,7 @@ app.get('/AdministrarClientes', async (req,res)=>{
     res.render('AdministrarClientes',{
         clientes : clientes,
         rol : req.session.rol,
-        nombre: req.session.nombre,
-        query : null
+        nombre: req.session.nombre
     })
     }else{
         res.redirect('/noAutorizado')
@@ -532,56 +531,33 @@ app.post('/AdministrarClientes/editar',async(req,res)=>{
 })
 
 app.get('/AdministrarClientes/filtrar', async(req, res) => {
-    if(req.session.rol=="admin"){
-    const filtro = req.body.search
+    const filtroA = req.query.filtro;
+    console.log(filtroA);
+    const clientes = await db.Usuario.findAll();
 
-    const clientes = await Usuario.findAll();
     const clientesFiltrados = [];
-    clientesFiltrados.push(clientes);
-    
 
-    function esBusqueda(elemento, lista) {
-        if(elemento.includes(filtro)){
-            return lista.push(elemento);
-        }
-      }
-    var filtrados = clientesFiltrados.nombre.filter(esBusqueda) 
-                    && clientesFiltrados.apellido.filter(esBusqueda) 
-                    &&  clientesFiltrados.DNI.filter(esBusqueda);
-
-    res.render('filtrarClientes', {
-        clientes : filtrados,
-        filtro : filtro
-    })
-    }else{
-        res.redirect('/noAutorizado')
+    clientes.forEach( (cliente)=> {
+        if(cliente.DNI.includes(filtroA) || 
+        cliente.nombre.includes((filtroA)) ||     
+        cliente.apellido.includes(filtroA)){
+        clientesFiltrados.push(cliente);
     }
-})
-
-/*
-app.get('/AdministrarClientes/filtrar', async(req, res) => {
+    })
+           
+    console.log(clientesFiltrados);
     if(req.session.rol=="admin"){
-    const filtro = req.body.filtro;
-    const clientes = await Usuario.findAll();
 
-    for(var i =0; i< clientes.length(); i++){
-        if(clientes[i].DNI.contains(filtro) || 
-            clientes[i].nombre.contains(filtro) ||     
-            clientes[i].apellido.contains(filtro)){
-            clientesFiltrados.push(clientes[i])
-        }
-    }
-    console.log(clientesFiltrados)
-
-    res.render('filtroClientes',{
+    res.render('filtroClientes', {
         clientes : clientesFiltrados,
-        filtro : filtro
+        filtro : filtroA,
+        nombre : req.session.nombre
     })
     }else{
         res.redirect('/noAutorizado')
     }
-
 })
+
 //fin mantenimiento cliente */
 
 app.get('/login', (req,res) => {
