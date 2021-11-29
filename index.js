@@ -154,8 +154,9 @@ app.get('/administrarPartidas',async (req,res)=>{
     const partidas = await db.Partida.findAll({
         order:[
             ['fecha','DESC'],
-            ['hora','DESC']
-        ]
+            ['hora','DESC'],
+        ],
+        
     });
 
     let nlistapartidas = []
