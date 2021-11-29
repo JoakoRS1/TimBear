@@ -149,13 +149,16 @@ app.post('/administrarBanners/editar', async(req,res)=>{
     res.redirect('/administrarBanners')
 })
 
-app.get('/administrarPartidas',async (req,res)=>{
+app.get('/administrarPartidas', async (req,res)=>{
     const juego = await db.Juego.findAll()
+    const categoria = await db.Categoria.findAll()
+
     const partidas = await db.Partida.findAll({
         order:[
             ['fecha','DESC'],
-            ['hora','DESC']
-        ]
+            ['hora','DESC'],
+        ],
+        
     });
 
     let nlistapartidas = []
@@ -174,12 +177,14 @@ app.get('/administrarPartidas',async (req,res)=>{
             factorEmpate: partida.factorEmpate,
             Resultado: partida.Resultado,
             juegoNombre: Juego.nombre
+            
         })
     }
     if(req.session.rol=="admin"){
         res.render('administrarPartidas',{
             partidas:nlistapartidas,
             juego:juego,
+            categoria :categoria ,
             rol: req.session.rol,
             nombre: req.session.nombre
         })
@@ -195,6 +200,7 @@ app.get('/noAutorizado',(req,res)=>{
 })
 app.post('/administrarPartidas/agregar',async (req,res)=>{
     const juego = req.body.partida_JuegoID
+    const categoria = req.body.partida_CategoriaID
     const fecha = req.body.partida_fecha
     const inicio = req.body.partida_inicio
     const duracion = req.body.partida_duracion
@@ -209,6 +215,7 @@ app.post('/administrarPartidas/agregar',async (req,res)=>{
 
     await db.Partida.create({
         juegoId: juego,
+        categoriaId:categoria,
         fecha: fecha,
         hora: inicio,
         duracion: duracion,
@@ -227,6 +234,7 @@ app.post('/administrarPartidas/editar',async(req,res)=>{
     const idPartida = req.body.partida_id
     console.log("id: "+idPartida)
     const juego = req.body.partida_JuegoID2
+    const categoria = req.body.partida_CategoriaID2
     const fecha = req.body.partida_fecha2
     const inicio = req.body.partida_inicio2
     const duracion = req.body.partida_duracion2
@@ -245,6 +253,7 @@ app.post('/administrarPartidas/editar',async(req,res)=>{
         }
     })
         partida.juegoId= juego
+        partida.categoriaId= categoria
         partida.fecha= fecha
         partida.hora= inicio
         partida.duracion= duracion
@@ -269,6 +278,70 @@ app.get('/administrarPartidas/eliminar/:codigo',async(req,res)=>{
     res.redirect('/administrarPartidas')
 })
 
+//FILTRAR PARTIDAS
+
+
+app.get('/administrarPartidas/filtrar/:filtro', async (req, res) => {
+    if(req.session.rol=="admin"){
+
+        const filtro = req.params.filtro
+
+        if(filtro == 'todos')
+        {
+            res.redirect('/administrarPartidas')
+        }
+        else
+        {
+            const juego = await db.Juego.findAll()
+            
+            const partidas = await db.Partida.findAll({
+                order:[
+                    ['fecha','DESC'],
+                    ['hora','DESC']
+                ]
+            });
+    
+            let nlistapartidas = []
+            for(let partida of partidas){
+                const Juego = await partida.getJuego()
+                if(partida.estado == filtro)
+                {
+                    nlistapartidas.push({
+                        id: partida.id,
+                        fecha: partida.fecha,
+                        hora: partida.hora,
+                        duracion: partida.duracion,
+                        estado: partida.estado,
+                        equipoA: partida.equipoA,
+                        equipoB: partida.equipoB,
+                        factorA: partida.factorA,
+                        factorB: partida.factorB,
+                        factorEmpate: partida.factorEmpate,
+                        Resultado: partida.Resultado,
+                        juegoNombre: Juego.nombre
+                    })
+                }
+            }
+    
+            res.render('administrarPartidas',{
+                partidas : nlistapartidas,
+                juego : juego,
+                rol : req.session.rol,
+                nombre : req.session.nombre
+            })
+
+        }
+
+        
+    }
+    else
+    {
+        res.redirect('/noAutorizado')
+    }
+})
+
+
+
 //Partidas
 app.get('/partidas', async(req,res)=>{
     const rol = req.session.rol 
@@ -277,12 +350,14 @@ app.get('/partidas', async(req,res)=>{
 
     const partidas = await db.Partida.findAll();
     const juegos = await db.Juego.findAll();
+    const categorias= await db.Categoria.findAll();
     
     res.render('partidas', {
         partidas : partidas,
         rol: rol,
         nombre : usuario,
         juegos : juegos,
+        categorias: categorias,
     })
 })
 
@@ -307,16 +382,85 @@ app.get('/partidas/:id_juego', async(req,res)=>{
             id : juegoId
         }
     })
+
+    const categorias= await db.Categoria.findAll();
     
     res.render('partidas', {
         partidas : partidas,
         rol: rol,
         nombre: nombre,
         juegos : juegos,
-        banners : banners
+        banners : banners,
+        categorias: categorias
     })
     
 })
+app.get('/partidas/filtro/:id', async(req,res)=>{
+    const categoriaid = req.params.id
+
+    const juegos= await db.Juego.findAll();
+
+    const banners = await db.Banner.findAll({
+        order :[
+            ['id', 'ASC']
+        ]
+    });
+
+    const categorias=await db.Categoria.findAll()
+
+    const partidas=await db.Partida.findAll({
+        where: {
+            categoriaId: categoriaid
+        }
+    })
+
+    res.render('partidas', {
+        partidas : partidas,
+        rol: req.session.rol,
+        nombre: req.session.nombre,
+        categorias: categorias,
+        banners : banners,
+        juegos : juegos
+    })
+})
+//no funciona
+app.get('/partidas/fechasproximas', async(req,res) => {
+    const pasado = get.Date()+2;
+    const fechasproximas = [];
+    console.log(pasado);
+
+    const partidas = await db.Partida.findAll();
+
+    partidas.forEach( (partida)=>{
+        if(partida.estado=="Pendiente"){
+            if(partidas.fecha <= pasado){
+                fechasproximas.push(partida)
+            }
+        }
+    })
+    console.log(fechasproximas);
+
+    const categorias = await db.Categoria.findAll();
+    const juegos = await db.Juego.findAll();
+    const banners = await db.Banner.findAll({
+        order :[
+            ['id', 'ASC']
+        ]
+    });
+
+    res.render('partidasFecha',{
+        partidas : fechasproximas,
+        rol: req.session.rol,
+        nombre: req.session.nombre,
+        categorias: categorias,
+        banners : banners,
+        juegos : juegos
+    })
+    
+})
+
+
+//ADMINISTRAR CATEGORÍAS - PRINCIPAL
 
 app.get('/administrarCategorias', async (req, res) => {
 

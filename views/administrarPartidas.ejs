@@ -11,7 +11,23 @@
         <%- include('header-rol') %>
         <h2 class="container">Administrar Partidas</h2>
 
+
         <div class="container ">
+
+            
+            <div class="dropdown">
+                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                  Estado:
+                </a>
+              
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <li><a class="dropdown-item" href="/administrarPartidas/filtrar/todos">Mostrar todos</a></li>
+                    <li><a class="dropdown-item" href="/administrarPartidas/filtrar/Pendiente">Pendiente</a></li>
+                    <li><a class="dropdown-item" href="/administrarPartidas/filtrar/Iniciado">Iniciado</a></li>
+                    <li><a class="dropdown-item" href="/administrarPartidas/filtrar/Finalizado">Finalizado</a></li>
+                </ul>
+            </div>
+            
             <table class="table container table-hover">
                 <thead>
                     <tr>
@@ -57,6 +73,19 @@
                                                                                 <option selected value="<%=juego.id%>"><%=juego.nombre %></option>
                                                                             <%} else {%>
                                                                                 <option  value="<%=juego.id%>"><%=juego.nombre %></option>
+                                                                            <% }%>
+                                                                        <% })%>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="form-group mt-3 ">
+                                                                    <label  for="input_starttime" class="form-label">Categoria:</label>
+                                                                    <select class="form-select" name="partida_CategoriaID2" >
+                                                                        <option value="-1">---Seleccione---</option>
+                                                                        <% categoria.forEach((categoria)=>{ %> 
+                                                                            <% if(categoria.id == partidas[i].categoriaId){ %>
+                                                                                <option selected value="<%=categoria.id%>"><%=categoria.nombre %></option>
+                                                                            <%} else {%>
+                                                                                <option  value="<%=categoria.id%>"><%=categoria.nombre %></option>
                                                                             <% }%>
                                                                         <% })%>
                                                                     </select>
@@ -149,6 +178,15 @@
                                                     <option value="-1">---Seleccione---</option>
                                                     <% juego.forEach((env)=>{ %> 
                                                         <option value="<%= env.id%>"><%= env.nombre %></option>
+                                                    <% })%>
+                                                </select>
+                                            </div>
+                                            <div class="form-group mt-3 ">
+                                                <label  for="input_starttime" class="form-label">Categoria:</label>
+                                                <select class="form-select" name="partida_CategoriaID" >
+                                                    <option value="-1">---Seleccione---</option>
+                                                    <% categoria.forEach((categoria)=>{ %> 
+                                                            <option  value="<%=categoria.id%>"><%=categoria.nombre %></option>                      
                                                     <% })%>
                                                 </select>
                                             </div>
