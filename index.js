@@ -277,12 +277,14 @@ app.get('/partidas', async(req,res)=>{
 
     const partidas = await db.Partida.findAll();
     const juegos = await db.Juego.findAll();
+    const categorias= await db.Categoria.findAll();
     
     res.render('partidas', {
         partidas : partidas,
         rol: rol,
         nombre : usuario,
         juegos : juegos,
+        categorias: categorias,
     })
 })
 
@@ -307,15 +309,88 @@ app.get('/partidas/:id_juego', async(req,res)=>{
             id : juegoId
         }
     })
+
+    const categorias= await db.Categoria.findAll();
     
     res.render('partidas', {
         partidas : partidas,
         rol: rol,
         nombre: nombre,
         juegos : juegos,
-        banners : banners
+        banners : banners,
+        categorias: categorias
     })
     
+})
+app.get('/partidas/filtro/:id', async(req,res)=>{
+    const categoriaid = req.params.id
+
+    const juegos= await db.Juego.findAll();
+
+    const banners = await db.Banner.findAll({
+        order :[
+            ['id', 'ASC']
+        ]
+    });
+
+    const categorias=await db.Categoria.findAll({
+        where: {
+            id: categoriaid
+        }
+    })
+    const partidas=await db.Partida.findAll({
+        where: {
+            categoriaId: categoriaid
+        }
+    })
+
+    res.render('partidas', {
+        partidas : partidas,
+        rol: req.session.rol,
+        nombre: req.session.nombre,
+        categorias: categorias,
+        banners : banners,
+        juegos : juegos
+    })
+})
+
+app.get('/partidas/fechasproximas', async(req,res) => {
+    const pasado = get.Date()+2;
+    const fechasproximas = [];
+    console.log(pasado)
+
+    const partidas = await db.Partida.findAll();
+    partidas.forEach( (partida)=>{
+        if(partida.estado=="Pendiente"){
+            if(partidas.fecha <= pasado){
+                fechasproximas.push(partida)
+            }
+        }
+    })
+    console.log(fechasproximas)
+    const categorias = await db.Categoria.findAll();
+    const juegos = await db.Juego.findAll();
+    const banners = await db.Banner.findAll({
+        order :[
+            ['id', 'ASC']
+        ]
+    });
+
+    res.render('partidasFecha',{
+        partidas : fechasproximas,
+        rol: req.session.rol,
+        nombre: req.session.nombre,
+        categorias: categorias,
+        banners : banners,
+        juegos : juegos
+    })
+    
+})
+
+app.get('/administrarCategorias', (req, res) => {
+
+    
+    res.render('administrarCategorias')
 })
 
 app.get('/administrarCategorias', async (req, res) => {
