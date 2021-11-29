@@ -545,6 +545,41 @@ app.get('/partidas/fechasproximas', async(req,res) => {
     
 })
 
+app.get('/partidas/fechasantiguas', async(req,res) => {
+    const pasado = get.Date()+2;
+    const fechasproximas = [];
+    console.log(pasado);
+
+    const partidas = await db.Partida.findAll();
+
+    partidas.forEach( (partida)=>{
+        if(partida.estado=="Pendiente"){
+            if(partidas.fecha <= pasado){
+                fechasproximas.push(partida)
+            }
+        }
+    })
+    console.log(fechasproximas);
+
+    const categorias = await db.Categoria.findAll();
+    const juegos = await db.Juego.findAll();
+    const banners = await db.Banner.findAll({
+        order :[
+            ['id', 'DESC']
+        ]
+    });
+
+    res.render('partidasFecha',{
+        partidas : fechasproximas,
+        rol: req.session.rol,
+        nombre: req.session.nombre,
+        categorias: categorias,
+        banners : banners,
+        juegos : juegos
+    })
+    
+})
+
 
 //ADMINISTRAR CATEGORÍAS - PRINCIPAL
 
@@ -904,6 +939,7 @@ app.post('/registro1', async (req, res) => {
     var distritoU = req.body.Distrito
     var pepsU = req.body.PEPu;
 
+    
     await db.Usuario.create({
         rol : 'usuario',
         nombre : nombreU,

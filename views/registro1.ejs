@@ -31,15 +31,15 @@
             <li>Paso 5</li>
         </ul>
 <form id="msform1" class="msform container" method="post" action="/registro1">
-            <div class="div-form">
+            <div class="div-form" id="div1">
                     <h2 class="fs-title">Paso 1</h2>
                 <center>
                     <input type="text" placeholder="Nombre" class="form-control" name='nombreU' required> 
                     <input type="text" placeholder="Apellido" class="form-control" name='apellidoU' required></center>
-                <button type="button" name="sig1" class="next action-button sig1" value="Siguiente">Siguiente</button>
+                <button type="button" id="sig1" name="sig1" class="next action-button" value="Siguiente">Siguiente</button>
             </div>
             <br>
-            <div class="div-form">
+            <div class="div-form" id="div2">
                     <h2 class="fs-title">Paso 2</h2>
                 <center>
                     <label id="etiqueta" class="form-label">DNI:</label>
@@ -49,11 +49,11 @@
                         <label for="formFile" class="form-label">Adjuntar foto</label>
                         <input class="form-control" type="file" id="fotoU">
                 </center>
-                <button type="button" name="ant2" class="previous action-button-previous">Anterior</button>
-                <button type="button" name="sig2" class="next action-button sig2">Siguiente</button>
+                <button type="button" id="ant2" name="ant2" class="previous action-button-previous">Anterior</button>
+                <button type="button" id="sig2" name="sig2" class="next action-button">Siguiente</button>
             </div>
             <br>
-            <div class="div-form">
+            <div class="div-form" id="div3">
                     <h2 class="fs-title">Paso 3</h2>
                 <center>
                     <input type="text" placeholder="Correo electrónico" class="form-control" name='correoU' required>
@@ -66,11 +66,11 @@
                     <center>
                             <input type="text" placeholder="Número telefónico" class="form-control" name='numeroU' required></center>
 
-                <button type="button" name="ant3" class="previous action-button-previous ant3">Anterior</button>
-                <button type="button" name="sig3" class="next action-button sig3">Siguiente</button>
+                <button type="button" id="ant3" name="ant3" class="previous action-button-previous ant3">Anterior</button>
+                <button type="button" id="sig3" name="sig3" class="next action-button">Siguiente</button>
             </div>
             <br>
-            <div class="div-form">
+            <div class="div-form" id="div4">
                     <h2 class="fs-title">Paso 4</h2>
                 <center>
                     <label id="etiqueta" class="form-label">Dirección:</label>
@@ -80,15 +80,15 @@
                     <label id="etiqueta" class="form-label">Departamento:</label>
                     <select class="form-select" aria-label="Default select example" name="Departamento" id="Departamento">
                         <option selected>Seleccione un departamento</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
+                        <option value="Lima">Lima</option>
+                        <option value="Ayacucho">Ayacucho</option>
+                        <option value="Amazonas">Amazonas</option>
+                        <option value="Cajamarca">Cajamarca</option>
                       </select>
                 </center>
                 <center>
                         <label id="etiqueta" class="form-label">Provincia:</label>
                         <select class="form-select" name="Provincia" aria-label="Default select example" id="Provincia">
-                          <% if(ubicaciones.length){  %> 
                           <option selected>Seleccione una provincia</option>
                             <option value="1">One</option>
                             <option value="2">Two</option>
@@ -105,16 +105,16 @@
                               </select>
                         </center>
 
-                <button type="button" name="ant3" class="previous action-button-previous ant4">Anterior</button>
-                <button type="button" name="sig4" class="next action-button sig4" >Siguiente</button>
+                <button type="button" id="ant4" name="ant3" class="previous action-button-previous ant4">Anterior</button>
+                <button type="button" id="sig4" name="sig4" class="next action-button" >Siguiente</button>
             </div>
             <br>
-            <div class="div-form">
+            <div class="div-form" id="div5">
                     <h2 class="fs-title">Paso 5</h2>
                 <center>
                         ¿Es una persona políticamente expuesta? (PEP)
                     <center>
-                            <select class="form-select" name="PEPu" aria-label="Default select example" id="Distrito">
+                            <select class="form-select" name="PEPu" aria-label="Default select example" id="pep">
                                 <option selected>Seleccione una opción</option>
                                 <option value="1">Si</option>
                                 <option value="0">No</option>
@@ -122,98 +122,102 @@
                       </center>
                   <center>
 
-                <button type="button" name="ant4" class="previous action-button-previous ant5">Anterior</button>
+                <button type="button" id="ant5" name="ant4" class="previous action-button-previous ant5">Anterior</button>
                 <button type="submit" name="sig5" class="action-button">Registrar</button>
             </div>
         </form>
+        
         <script>
-
-          //jQuery time
           var current_fs, next_fs, previous_fs; //fieldsets
-          var left, opacity, scale; //fieldset properties which we will animate
-          var animating; //flag to prevent quick multi-click glitches
-      
-          var numStep = 1;
-          var errStep = false;
-      
-          $(".next").click(function(){
-              console.log('Error: ' + errStep)
-              if(animating || errStep) return false;
-              animating = true;
-      
-              numStep++;
-      
-              current_fs = $(this).parent();
-              next_fs = $(this).parent().parent().next().children();
-      
-              //activate next step on progressbar using the index of next_fs
-              $("#progressbar li").eq($("div").index(next_fs)).addClass("active");
-      
-              //show the next fieldset
-              next_fs.show(); 
-              //hide the current fieldset with style
-              current_fs.animate({opacity: 0}, {
-                  step: function(now, mx) {
-                      //as the opacity of current_fs reduces to 0 - stored in "now"
-                      //1. scale current_fs down to 80%
-                      scale = 1 - (1 - now) * 0.2;
-                      //2. bring next_fs from the right(50%)
-                      left = (now * 50)+"%";
-                      //3. increase opacity of next_fs to 1 as it moves in
-                      opacity = 1 - now;
-                      current_fs.css({'transform': 'scale('+scale+')'});
-                      next_fs.css({'left': left, 'opacity': opacity});
-                  }, 
-                  duration: 1000, 
-                  complete: function(){
-                      current_fs.hide();
-                      animating = false;
-                  }, 
-                  //this comes from the custom easing plugin
-                  easing: 'easeInOutBack'
-              });
-              console.log(numStep);
-          });
-      
-          $(".previous").click(function(){
-              console.log('Error: ' + errStep)
-              if(animating || errStep) return false;
-              animating = true;
-      
-              numStep--;
-      
-              current_fs = $(this).parent();
-              previous_fs = $(this).parent().parent().prev().children();
-      
-              //de-activate current step on progressbar
-              $("#progressbar li").eq($("div").index(current_fs)).removeClass("active");
-      
-              //show the previous fieldset
-              previous_fs.show(); 
-              //hide the current fieldset with style
-              current_fs.animate({opacity: 0}, {
-                  step: function(now, mx) {
-                      //as the opacity of current_fs reduces to 0 - stored in "now"
-                      //1. scale previous_fs from 80% to 100%
-                      scale = 0.8 + (1 - now) * 0.2;
-                      //2. take current_fs to the right(50%) - from 0%
-                      left = ((1-now) * 50)+"%";
-                      //3. increase opacity of previous_fs to 1 as it moves in
-                      opacity = 1 - now;
-                      current_fs.css({'left': left});
-                      previous_fs.css({'transform': 'scale('+scale+')', 'opacity': opacity});
-                  }, 
-                  duration: 800, 
-                  complete: function(){
-                      current_fs.hide();
-                      animating = false;
-                  }, 
-                  //this comes from the custom easing plugin
-                  easing: 'easeInOutBack'
-              });
-              console.log(numStep);
-          });
-          </script>
+var left, opacity, scale; //fieldset properties which we will animate
+var animating; //flag to prevent quick multi-click glitches
+
+$("#sig1").click(function(){
+	$("#div2").show("slow");
+  $("#div1").hide();
+});
+
+$("#sig2").click(function(){
+	$("#div3").show("slow");
+  $("#div2").hide();
+});
+
+$("#sig3").click(function(){
+	$("#div4").show("slow");
+  $("#div3").hide();
+});
+
+$("#sig4").click(function(){
+	$("#div5").show("slow");
+  $("#div4").hide();
+});
+
+$("#ant2").click(function(){
+	$("#div1").show("slow");
+  $("#div2").hide();
+});
+
+$("#ant3").click(function(){
+	$("#div2").show("slow");
+  $("#div3").hide();
+});
+
+$("#ant4").click(function(){
+	$("#div3").show("slow");
+  $("#div4").hide();
+});
+
+$("#ant5").click(function(){
+	$("#div4").show("slow");
+  $("#div5").hide();
+});
+
+$(document).ready(function () {
+    $("#Departamento").change(function () {
+        var val = $(this).val();
+        if (val == "Lima") {
+            $("#Provincia").html("<option value='Lima'>Lima</option><option value='Cañete'>Cañete</option><option value='Yauyos'>Yauyos</option>");
+        } else if (val == "Amazonas") {
+            $("#Provincia").html("<option value='Chachapoyas'>Chachapoyas</option><option value='Utcubamba'>Ucubamba</option>");
+        } else if (val == "Ayacucho") {
+            $("#Provincia").html("<option value='Huanta'>Huanta</option><option value='La Mar'>La Mar</option>");
+        } else if (val == "Cajamarca") {
+            $("#Provincia").html("<option value='Cutervo'>Cutervo</option><option value='Santa Cruz'>Santa Cruz</option>");
+        }
+    });
+});
+
+$(document).ready(function () {
+    $("#Provincia").change(function () {
+        var val = $(this).val();
+        if (val == "Lima") {
+            $("#Distrito").html("<option value='Miraflores'>Miraflores</option><option value='Surco'>Surco</option><option value='Jesus Maria'>Jesus Maria</option>");
+        } else if (val == "Cañete") {
+            $("#Distrito").html("<option value='Asia'>Asia</option><option value='Cerro Azul'>Cerro Azul</option>");
+        } else if (val == "Yauyos") {
+            $("#Distrito").html("<option value='Alis'>Alis</option><option value='Chocos'>Chocos</option>");
+        } else if (val == "Chachapoyas") {
+            $("#Distrito").html("<option value='Asuncion'>Asuncion</option><option value='Balsas'>Balsas</option>");
+        }
+        else if (val == "Utcubamba") {
+            $("#Distrito").html("<option value='Bagua Grande'>Bagua Grande</option><option value='Cumba'>Cumba</option>");
+        }
+        else if (val == "Huanta") {
+            $("#Distrito").html("<option value='Huanta'>Huanta</option><option value='Ayahuanco'>Ayahuanco</option>");
+        }
+        else if (val == "La Mar") {
+            $("#Distrito").html("<option value='Anco'>Anco</option><option value='Ayna'>Ayna</option>");
+        }
+        else if (val == "Cutervo") {
+            $("#Distrito").html("<option value='San Andres de Cutervo'>San Andres de Cutervo</option><option value='Socota'>Socota</option>");
+        }
+        else if (val == "Santa Cruz") {
+            $("#Distrito").html("<option value='La Esperanza'>La Esperanza</option><option value='Ninabamba'>Ninabamba</option>");
+        }
+    });
+});
+
+        </script>
     <%- include('footer')%>
 
     </body>
