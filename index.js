@@ -243,8 +243,8 @@ app.post('/administrarPartidas/editar',async(req,res)=>{
    
     const EA = req.body.partida_EA2
     const EB = req.body.partida_EB2
-    const FA = req.body.partida_FA2
-    const FB = req.body.partida_FB2
+    const FA = req.body.partida_FA2 
+    const FB = req.body.partida_FB2 
     const FE = req.body.partida_FE2
     const resultado = req.body.partida_Resultado2
     const partida = await db.Partida.findOne({
@@ -905,7 +905,7 @@ app.post('/login', async (req, res) => {
         }}
         else{
             error = "1"
-            console.log("NO EXISTE")
+            console.log("No se encontró el usuario")
             res.render('errorlogin', {error: error})
         }
         
@@ -941,7 +941,7 @@ app.post('/registro1', async (req, res) => {
 
     
     await db.Usuario.create({
-        rol : 'usuario',
+        rol : 'user',
         nombre : nombreU,
         apellido : apellidoU,
         DNI: dniU,
