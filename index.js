@@ -928,35 +928,50 @@ app.get('/logout', (req, res) => {
     })
     console.log("Se cerró la sesión")
 })
-//ELIMINAR PARTIDAS DE HOJA DE APUESTAS=> ahorita esta en partidas, quitarlo.
-app.get('/partidas/eliminar/:id', async (req, res) => {
-    const partidaId = req.params.id
 
-    await db.Partida.destroy({
+
+app.post('/hojaDeApuesta', async (req,res) => {
+    const monto = req.body.apuesta_monto
+    const apuestaId = req.body.apuesta_id
+
+
+
+    const apuesta = await db.Apuesta.findOne({
         where : {
-            id : partidaId
+            id : apuestaId
         }
     })
 
-    res.redirect('/partidas')
+    const ganancia = monto * apuesta.factorApostado
 
-}) 
 
-app.get('/partidas/ganancia/', async (req,res) => {
+
+    apuesta.monto = monto
+    apuesta.gananciaPosible = ganancia
+
+    await apuesta.save()
     
+    res.redirect('/hojaDeApuestas')
 })
 
-//ELIMINAR PARTIDAS DE HOJA DE APUESTAS=> ahorita esta en partidas, quitarlo.
-app.get('/partidas/eliminar/:id', async (req, res) => {
-    const partidaId = req.params.id
+app.get('/historialDeApuestas', async(req,res)=>{
+    const apuestas = await db.Apuesta.findAll();
+    res.render('historial', {
+        apuestas : apuestas
+    })
+})
 
-    await db.Partida.destroy({
+//ELIMINAR PARTIDAS DE HOJA DE APUESTAS
+app.get('/hojaDeApuestas/eliminar/:id', async (req, res) => {
+    const apuestaId = req.params.id
+
+    await db.Apuesta.destroy({
         where : {
-            id : partidaId
+            id : apuestaId
         }
     })
 
-    res.redirect('/partidas')
+    res.redirect('/hojaDeApuestas')
 
 
 }) 

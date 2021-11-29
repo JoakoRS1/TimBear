@@ -27,17 +27,59 @@
                             <th>Factor</th>
                             <th>Monto</th>
                             <th>Ganancia posible</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <% apuestas.forEach( (apuesta) => { %>
+                        <% apuestas.forEach((apuesta) => { %>
+
+                       
                             <tr>
                                 <td><%= apuesta.equipoA %></td>
                                 <td><%= apuesta.equipoB %></td>
                                 <td><%= apuesta.equipoApostado %></td>
                                 <td><%= apuesta.factorApostado %></td>
-                                <td><input name="apuesta_monto" type="text" value="<%= apuesta.monto %>"></td>
-                                <td><%= apuesta.gananciaPosible %></td>
+                                <td>
+                                    <form action="/hojaDeApuesta" method="post">
+                                        <input type="hidden" name="apuesta_id" value="<%= apuesta.id %>">
+                                        <input type="hidden" name="apuesta_factorApostado" value="<%= apuesta.factorApostado %>">
+                                        <div>
+                                            <input name="apuesta_monto" 
+                                                type="number" 
+                                                class="form_control"
+                                                value="<%= apuesta.monto%>"/>
+                                        </div>
+                                        <button type="submit" class="btn btn-success">Actualizar</button>
+
+                                    </form>
+                                </td>
+                                <td name="apuesta_ganancia"><%= apuesta.gananciaPosible %></td>
+
+                                <td>
+                                    <button type="button" class="mt-1 mx-1 btn btn-primary" data-bs-toggle="modal" data-bs-target="#guardar_<%=apuesta.id%>">Guardar</button>
+                                    <div class="modal fade" id="guardar_<%= apuesta.id%>" tabindex="-1" aria-hidden="true" aria-labelledby="modalTitle">
+                                         <div class="modal-dialog">
+                                             <div class="modal-content">
+        
+                                                <form method="post" action="/historialDeApuestas">
+                                                    <input type="hidden" name="idA" value="<%= apuesta.id %>" />
+                                                    <div class="mb-3 mt-3">
+                                                        <label class="form-label">CONFIRMACIÓN</label>
+                                                        <div class="mb-3">
+                                                            <p>¿Desea continuar?</p>
+                                                        </div>
+                                                     <div class="modal-footer">   
+                                                            <button type="submit" class="btn btn-primary">Guardar</button>
+                                                     </div>
+                                                 </form>
+                                             </div>
+                                         </div>
+                                    </div>
+                                </div>
+                                    <a class="btn btn-primary"href="/hojaDeApuestas/eliminar/<%= apuesta.id%>">X</a>
+                                </td>
+                    
+                              
                         <% }) %>
                     </tbody>
                 </table>
