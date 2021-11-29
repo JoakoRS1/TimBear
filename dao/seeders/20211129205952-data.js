@@ -92,7 +92,6 @@ module.exports = {
      
     ])
 
-<<<<<<< HEAD
     await queryInterface.bulkInsert('Banner', [
       {
         nombre : "bannerprincipal",
@@ -121,7 +120,6 @@ module.exports = {
 
 
 
-=======
     await queryInterface.bulkInsert('Usuario',[
       {
         rol: "admin",
@@ -312,7 +310,6 @@ module.exports = {
       },
     
     ])
->>>>>>> f6d59c5af3c9dada39165c5c13fc27cca27218d0
 
 
 
