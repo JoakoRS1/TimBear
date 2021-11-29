@@ -149,7 +149,7 @@ app.post('/administrarBanners/editar', async(req,res)=>{
     res.redirect('/administrarBanners')
 })
 
-app.get('/administrarPartidas',async (req,res)=>{
+app.get('/administrarPartidas', async (req,res)=>{
     const juego = await db.Juego.findAll()
     const partidas = await db.Partida.findAll({
         order:[
@@ -269,6 +269,70 @@ app.get('/administrarPartidas/eliminar/:codigo',async(req,res)=>{
     res.redirect('/administrarPartidas')
 })
 
+//FILTRAR PARTIDAS
+
+
+app.get('/administrarPartidas/filtrar/:filtro', async (req, res) => {
+    if(req.session.rol=="admin"){
+
+        const filtro = req.params.filtro
+
+        if(filtro == 'todos')
+        {
+            res.redirect('/administrarPartidas')
+        }
+        else
+        {
+            const juego = await db.Juego.findAll()
+            
+            const partidas = await db.Partida.findAll({
+                order:[
+                    ['fecha','DESC'],
+                    ['hora','DESC']
+                ]
+            });
+    
+            let nlistapartidas = []
+            for(let partida of partidas){
+                const Juego = await partida.getJuego()
+                if(partida.estado == filtro)
+                {
+                    nlistapartidas.push({
+                        id: partida.id,
+                        fecha: partida.fecha,
+                        hora: partida.hora,
+                        duracion: partida.duracion,
+                        estado: partida.estado,
+                        equipoA: partida.equipoA,
+                        equipoB: partida.equipoB,
+                        factorA: partida.factorA,
+                        factorB: partida.factorB,
+                        factorEmpate: partida.factorEmpate,
+                        Resultado: partida.Resultado,
+                        juegoNombre: Juego.nombre
+                    })
+                }
+            }
+    
+            res.render('administrarPartidas',{
+                partidas : nlistapartidas,
+                juego : juego,
+                rol : req.session.rol,
+                nombre : req.session.nombre
+            })
+
+        }
+
+        
+    }
+    else
+    {
+        res.redirect('/noAutorizado')
+    }
+})
+
+
+
 //Partidas
 app.get('/partidas', async(req,res)=>{
     const rol = req.session.rol 
@@ -317,6 +381,8 @@ app.get('/partidas/:id_juego', async(req,res)=>{
     })
     
 })
+
+//ADMINISTRAR CATEGORÍAS - PRINCIPAL
 
 app.get('/administrarCategorias', async (req, res) => {
 
