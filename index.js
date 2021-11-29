@@ -7,6 +7,7 @@ const usuario = require('./dao/models/usuario')
 const app = express()
 
 
+
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
     extended:true
@@ -24,6 +25,9 @@ app.use(session({
 
 app.get('/', async(req,res)=>{
     const banners = await db.Banner.findAll({
+        where: {
+            estado: "activo"
+        },
         order :[
             ['id', 'ASC']
         ]
@@ -66,18 +70,26 @@ app.get('/administrarBanners', async (req, res)=>{
         ]
     });
     //console.log(torneos);
-    res.render('administrarBanner',{
-        banners: banners,
-        rol: req.session.rol,
-        nombre: req.session.nombre
-    })
+    if(req.session.rol=="admin"){
+        res.render('administrarBanner',{
+            banners: banners,
+            rol: req.session.rol,
+            nombre: req.session.nombre
+            })
+    }else{
+        res.redirect('/noAutorizado')
+    }
 })
 
 app.get('/administrarBanners/new', (req, res)=>{
+    if(req.session.rol=="admin"){
     res.render('newBanner',{
         rol: req.session.rol,
         nombre: req.session.nombre
     })
+    }else{
+        res.redirect('/noAutorizado')
+    }
 })
 
 app.post('/administrarBanners/new', async (req, res)=>{
@@ -86,6 +98,7 @@ app.post('/administrarBanners/new', async (req, res)=>{
     const urlI = req.body.urlimagen
     const burl = req.body.nuevourl
     const bestado = req.body.nuevoestado
+    
     
     await db.Banner.create({
         nombre: bnombre,
@@ -104,11 +117,15 @@ app.get('/administrarBanners/editar/:id', async (req,res) =>{
             id: idBanner
         }
     })
+    if(req.session.rol=="admin"){
     res.render('editarBanner', {
         banner: banner,
         rol: req.session.rol,
         nombre: req.session.nombre
     })
+    }else{
+        res.redirect('/noAutorizado')
+    }
 })
 
 app.post('/administrarBanners/editar', async(req,res)=>{
@@ -181,20 +198,8 @@ app.post('/administrarPartidas/agregar',async (req,res)=>{
     const fecha = req.body.partida_fecha
     const inicio = req.body.partida_inicio
     const duracion = req.body.partida_duracion
-    const estadoP = req.body.partida_Estado
-    var estado = 0
-    if(estadoP=="Pendiente"){
-        estado = 0
-    }
-    else if(estadoP=="Iniciado"){
-        estado = 1
-    }
-    else if(estadoP=="Finalizado"){
-        estado = 2
-    }
-    else{
-        estado = 3
-    }
+    const estado = req.body.partida_Estado
+   
     const EA = req.body.partida_EA
     const EB = req.body.partida_EB
     const FA = req.body.partida_FA
@@ -217,6 +222,7 @@ app.post('/administrarPartidas/agregar',async (req,res)=>{
     })
     res.redirect('/administrarPartidas')
 })
+
 app.post('/administrarPartidas/editar',async(req,res)=>{
     const idPartida = req.body.partida_id
     console.log("id: "+idPartida)
@@ -224,20 +230,9 @@ app.post('/administrarPartidas/editar',async(req,res)=>{
     const fecha = req.body.partida_fecha2
     const inicio = req.body.partida_inicio2
     const duracion = req.body.partida_duracion2
-    const estadoP = req.body.partida_Estado2
-    var estado = 0
-    if(estadoP=="Pendiente"){
-        estado = 0
-    }
-    else if(estadoP=="Iniciado"){
-        estado = 1
-    }
-    else if(estadoP=="Finalizado"){
-        estado = 2
-    }
-    else{   
-        estado = 3
-    }
+    const estado = req.body.partida_Estado2
+    
+   
     const EA = req.body.partida_EA2
     const EB = req.body.partida_EB2
     const FA = req.body.partida_FA2
@@ -263,6 +258,7 @@ app.post('/administrarPartidas/editar',async(req,res)=>{
         await partida.save()
         res.redirect('/administrarPartidas')
 })
+
 app.get('/administrarPartidas/eliminar/:codigo',async(req,res)=>{
     const idPartida = req.params.codigo
     await db.Partida.destroy({
@@ -278,21 +274,15 @@ app.get('/partidas', async(req,res)=>{
     const rol = req.session.rol 
     const usuario = req.session.nombre 
 
-    const banners = await db.Banner.findAll({
-        order :[
-            ['id', 'ASC']
-        ]
-    });  
 
     const partidas = await db.Partida.findAll();
     const juegos = await db.Juego.findAll();
-
+    
     res.render('partidas', {
         partidas : partidas,
         rol: rol,
         nombre : usuario,
         juegos : juegos,
-        banners : banners
     })
 })
 
@@ -317,7 +307,7 @@ app.get('/partidas/:id_juego', async(req,res)=>{
             id : juegoId
         }
     })
-
+    
     res.render('partidas', {
         partidas : partidas,
         rol: rol,
@@ -325,6 +315,7 @@ app.get('/partidas/:id_juego', async(req,res)=>{
         juegos : juegos,
         banners : banners
     })
+    
 })
 
 app.get('/administrarCategorias', async (req, res) => {
@@ -361,6 +352,7 @@ app.get('/administrarCategorias/nuevo', (req, res) => {
         res.redirect('/noAutorizado')
     }
 })
+
 app.post('/administrarCategorias/nuevo', async (req, res) => {
     const categoriaNombre = req.body.categoriaNombre
 
@@ -420,12 +412,16 @@ app.get('/AdministrarJuegos', async(req, res) => {
     });
     const categorias = await db.Categoria.findAll();
     
+    if(req.session.rol=="admin"){
     res.render('administrarJuegos', {
         juegos : juegos,
         rol: req.session.rol,
         nombre: req.session.nombre,
         categorias : categorias
     })
+    }else{
+        res.redirect('/noAutorizado')
+    }
 })
 
 app.post('/AdministrarJuegos/agregar', async(req, res) => {
@@ -492,13 +488,16 @@ app.get('/AdministrarClientes', async (req,res)=>{
             ['id', 'ASC']
         ]
     });
-
+    if(req.session.rol=="admin"){
     res.render('AdministrarClientes',{
         clientes : clientes,
         rol : req.session.rol,
         nombre: req.session.nombre,
         query : null
     })
+    }else{
+        res.redirect('/noAutorizado')
+    }
 })
 
 app.post('/AdministrarClientes/editar',async(req,res)=>{
@@ -532,7 +531,8 @@ app.post('/AdministrarClientes/editar',async(req,res)=>{
     res.redirect('/administrarClientes')
 })
 
-app.get('AdministrarClientes/filtrar', async(req, res) => {
+app.get('/AdministrarClientes/filtrar', async(req, res) => {
+    if(req.session.rol=="admin"){
     const filtro = req.body.search
 
     const clientes = await Usuario.findAll();
@@ -553,10 +553,14 @@ app.get('AdministrarClientes/filtrar', async(req, res) => {
         clientes : filtrados,
         filtro : filtro
     })
+    }else{
+        res.redirect('/noAutorizado')
+    }
 })
 
 /*
 app.get('/AdministrarClientes/filtrar', async(req, res) => {
+    if(req.session.rol=="admin"){
     const filtro = req.body.filtro;
     const clientes = await Usuario.findAll();
 
@@ -573,6 +577,9 @@ app.get('/AdministrarClientes/filtrar', async(req, res) => {
         clientes : clientesFiltrados,
         filtro : filtro
     })
+    }else{
+        res.redirect('/noAutorizado')
+    }
 
 })
 //fin mantenimiento cliente */
@@ -600,7 +607,7 @@ app.post('/login', async (req, res) => {
 
     if(usuarioA!= null){
         if(usuarioA.password == passwordA){
-            console.log("la clave ta bien")
+            console.log("Credenciales correctas")
             req.session.rol = usuarioA.rol
             req.session.nombre = usuarioA.nombre
             console.log("sesion rol: ", req.session.rol)
@@ -608,12 +615,14 @@ app.post('/login', async (req, res) => {
             res.redirect('/')
         }
         else{
-            console.log("la clave ta mal")
-            res.render('errorlogin')
+            const error = "0"
+            console.log("Contraseña incorrecta")
+            res.render('errorlogin', {error: error})
         }}
         else{
-            res.render('errorlogin')
+            error = "1"
             console.log("NO EXISTE")
+            res.render('errorlogin', {error: error})
         }
         
 })

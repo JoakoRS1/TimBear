@@ -10,12 +10,12 @@
     </head>
     <body class="">
         <%- include('header-rol') %>
-        <h1 class="">Partidas</h1>
+        <h1 class="container">Partidas</h1>
         <div class="card-body">
             <a class="link" href="/"> <-Regresar</a>
-            <%- include('banner') %>
+            <%- include('bannerspartidas') %>
             
-            <div class="m-md-5">
+            <div class="m-md-5 mt-3">
             <% if(partidas.length > 0){ %> 
             <% if(juegos.length>1){ 
                  juegos.forEach( (juego) => { %><a href="/partidas/<%=juego.id %>" ><%= juego.nombre %> | </a><% }) %>
