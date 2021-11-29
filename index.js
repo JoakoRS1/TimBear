@@ -280,7 +280,7 @@ app.get('/administrarPartidas/eliminar/:codigo',async(req,res)=>{
 
 //FILTRAR PARTIDAS
 
-
+//FILTRAR PARTIDAS POR ESTADO
 app.get('/administrarPartidas/filtrar/:filtro', async (req, res) => {
     if(req.session.rol=="admin"){
 
@@ -293,6 +293,8 @@ app.get('/administrarPartidas/filtrar/:filtro', async (req, res) => {
         else
         {
             const juego = await db.Juego.findAll()
+
+            const categorias = await db.Categoria.findAll()
             
             const partidas = await db.Partida.findAll({
                 order:[
@@ -326,6 +328,7 @@ app.get('/administrarPartidas/filtrar/:filtro', async (req, res) => {
             res.render('administrarPartidas',{
                 partidas : nlistapartidas,
                 juego : juego,
+                categoria : categorias,
                 rol : req.session.rol,
                 nombre : req.session.nombre
             })
@@ -340,6 +343,58 @@ app.get('/administrarPartidas/filtrar/:filtro', async (req, res) => {
     }
 })
 
+//FILTRAR PARTIDAS POR CATEGORIA
+app.get('/administrarPartidas/filtrarCategoria/:categoriaId', async (req, res) => {
+    if(req.session.rol=='admin')
+    {
+        const categoriaId = req.params.categoriaId
+        const juego = await db.Juego.findAll()
+
+            const categorias = await db.Categoria.findAll()
+
+            
+            const partidas = await db.Partida.findAll({
+                order:[
+                    ['fecha','DESC'],
+                    ['hora','DESC']
+                ]
+            });
+    
+            let nlistapartidas = []
+            for(let partida of partidas){
+                const Juego = await partida.getJuego()
+                if(partida.categoriaId == categoriaId)
+                {
+                    nlistapartidas.push({
+                        id: partida.id,
+                        fecha: partida.fecha,
+                        hora: partida.hora,
+                        duracion: partida.duracion,
+                        estado: partida.estado,
+                        equipoA: partida.equipoA,
+                        equipoB: partida.equipoB,
+                        factorA: partida.factorA,
+                        factorB: partida.factorB,
+                        factorEmpate: partida.factorEmpate,
+                        Resultado: partida.Resultado,
+                        juegoNombre: Juego.nombre
+                    })
+                }
+            }
+    
+            res.render('administrarPartidas',{
+                partidas : nlistapartidas,
+                juego : juego,
+                categoria : categorias,
+                rol : req.session.rol,
+                nombre : req.session.nombre
+            })
+    }
+    else
+    {
+        res.redirect('/noAutorizado')
+    }
+})
 
 
 //Partidas
@@ -719,6 +774,33 @@ app.get('/AdministrarClientes/filtrar', async(req, res) => {
 })
 
 //fin mantenimiento cliente */
+
+//VER HOJA DE APUESTAS
+
+app.get('/hojaDeApuestas', async (req, res) => {
+
+    if(req.session.rol == 'user')
+    {
+        const apuestas = await db.Apuesta.findAll({
+            order :[
+                ['id', 'ASC']
+            ]
+        })
+    
+        res.render('apuestas', {
+            apuestas: apuestas,
+            rol : req.session.rol,
+            nombre : req.session.nombre
+        })
+
+    }
+    else
+    {
+        res.redirect('/noAutorizado')
+    }
+
+})
+
 
 app.get('/login', (req,res) => {
     if(req.session.rol != undefined){
