@@ -1,5 +1,5 @@
 const  express=require('express')
-const PORT = 8080
+const PORT = process.env.PORT || 5000
 const bodyParser = require('body-parser')
 const session = require('express-session')
 const db = require('./dao/models')
@@ -49,13 +49,11 @@ app.get('/reglas',(req,res)=>{
         nombre: req.session.nombre})
 })
 
-
 app.get('/nosotros',(req,res)=>{
     res.render('nosotros',{
         rol: req.session.rol,
         nombre: req.session.nombre})
 })
-
 
 app.get('/PoliticasPrivacidad',(req,res)=>{
     res.render('PoliticasPrivacidad',{
@@ -396,7 +394,6 @@ app.get('/administrarPartidas/filtrarCategoria/:categoriaId', async (req, res) =
     }
 })
 
-
 //Partidas
 app.get('/partidas', async(req,res)=>{
     const rol = req.session.rol 
@@ -580,7 +577,6 @@ app.get('/partidas/fechasantiguas', async(req,res) => {
     
 })
 
-
 //ADMINISTRAR CATEGORÍAS - PRINCIPAL
 
 app.get('/administrarCategorias', async (req, res) => {
@@ -605,7 +601,6 @@ app.get('/administrarCategorias', async (req, res) => {
 })
 
 //NUEVA CATEGORÍA
-
 app.get('/administrarCategorias/nuevo', (req, res) => {
     if(req.session.rol == "admin")
     {
