@@ -852,11 +852,22 @@ app.get('/hojaDeApuestas', async (req, res) => {
                 ['id', 'ASC']
             ]
         })
+
+        var montoTotal = 0
+        var gananciaTotal = 0
+
+        for (let apuesta of apuestas)
+        {
+            montoTotal += apuesta.monto
+            gananciaTotal += apuesta.gananciaPosible
+        }
     
         res.render('apuestas', {
             apuestas: apuestas,
             rol : req.session.rol,
-            nombre : req.session.nombre
+            nombre : req.session.nombre,
+            montoTotal : montoTotal,
+            gananciaTotal : gananciaTotal
         })
 
     }
@@ -1000,9 +1011,16 @@ app.get('/historialDeApuestas', async(req,res)=>{
                 ['id', 'ASC']
             ]
         })
+        const partidas = await db.Partida.findAll({
+            order :[
+                ['id', 'ASC']
+            ]
+        })
+
     
         res.render('historial', {
             apuestas: apuestas,
+            partidas: partidas,
             rol : req.session.rol,
             nombre : req.session.nombre
         })
