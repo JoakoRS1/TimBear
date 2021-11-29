@@ -15,7 +15,7 @@
             <a class="link" href="/"> <-Regresar</a>
             <h1 class="">Historial de Apuestas</h1>
 
-            <% if(apuestas.length >0 || partidas.length>0) {%>
+            <% if(apuestas.length >0 && partidas.length>0) {%>
             <table class="table table-hover">
                 <thead>
                     <tr>
@@ -27,11 +27,17 @@
                         <th>Ganancia posible</th>
                         <th>Estado</th>
                         <th>Fecha</th>
-
+                        <th>Hora</th>
                         
                     </tr>
                 </thead>
                 <tbody>
+                    
+    
+                        
+                            
+    
+                    
                     <% apuestas.forEach((apuesta) => { %>
 
                    
@@ -41,21 +47,22 @@
                             <td><%= apuesta.equipoApostado %></td>
                             <td><%= apuesta.factorApostado %></td>
                             <td><%= apuesta.monto %></td>
-                            <td><%= apuesta.gananciaPosible %></td>
+                            <td><%= apuesta.gananciaPosible %></td> 
+                            <td>Pendiente</td>                            
                         </tr>
-                            
-    
+                    
                     <% }) %>
-                 
                 </tbody>
             </table>
+           
+
             <% } else{ %>
             
             <h3>Vacío</h3>
 
             <% } %>
         </div>
-
+      
     </div>
 
 
