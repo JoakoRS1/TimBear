@@ -44,7 +44,7 @@ module.exports = {
       {
         fecha : "2021-11-08 00:00:00+00",
         hora : "13:39:00",
-        duracion: "3",
+        duracion: "90",
         estado : "Pendiente", 
         equipoA : "Joselitos",
         equipoB : "Joselitas2",
@@ -60,13 +60,13 @@ module.exports = {
       {
         fecha : "2021-11-08 00:00:00+00",
         hora : "17:39:00",
-        duracion: "3",
+        duracion: "90",
         estado : "Iniciado", 
-        equipoA : "Joselitos",
-        equipoB : "Joselitas2",
-        factorA : "1",
-        factorB : "1.02",
-        factorEmpate : "1.01",
+        equipoA : "U",
+        equipoB : "AL",
+        factorA : "1.4",
+        factorB : "2.02",
+        factorEmpate : "20.01",
         Resultado : "EQUIPOA",
         createdAt : new Date(), 
         updatedAt : new Date(), 
@@ -76,13 +76,13 @@ module.exports = {
       {
         fecha : "2021-11-10 00:00:00+00",
         hora : "09:39:00",
-        duracion: "3",
+        duracion: "60",
         estado : "Finalizado", 
-        equipoA : "Joselitos",
-        equipoB : "Joselitas2",
-        factorA : "1",
-        factorB : "1.02",
-        factorEmpate : "1.01",
+        equipoA : "Equipo1",
+        equipoB : "Equipo2",
+        factorA : "3.2",
+        factorB : "1.12",
+        factorEmpate : "1.51",
         Resultado : "EQUIPOB",
         createdAt : new Date(), 
         updatedAt : new Date(), 
@@ -112,6 +112,7 @@ module.exports = {
       {
         nombre : "banner3",
         urlImagen : "https://static.springbuilder.site/fs/userFiles-v2/apuestatotal2/images/85-nba-desktop-2.jpg?v=1637902479",
+        url: "/partidas",
         estado: "activo",
         createdAt : new Date(), 
         updatedAt : new Date()
@@ -144,7 +145,7 @@ module.exports = {
         apellido: "Perez",
         DNI: "84101334",
         correo : "sam@mail.com",
-        password : "sam123",
+        password : "sam",
         numero: 263099103,
         direccion: "Calle Falsa 987",
         distrito : "Surco",
@@ -311,8 +312,18 @@ module.exports = {
     
     ])
 
-
-
+    await queryInterface.bulkInsert('Banner', [
+      {
+        equipoA: "Equipo1",
+        equipoB: "Equipo2",
+        equipoApostado: "A",
+        factorApostado: "3.2",
+        monto: "15",
+        gananciaPosible: "48",
+        createdAt : new Date(), 
+        updatedAt : new Date()
+        },
+      ])
   },
 
   down: async (queryInterface, Sequelize) => {
