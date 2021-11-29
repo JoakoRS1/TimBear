@@ -25,6 +25,9 @@ app.use(session({
 
 app.get('/', async(req,res)=>{
     const banners = await db.Banner.findAll({
+        where: {
+            estado: "activo"
+        },
         order :[
             ['id', 'ASC']
         ]
@@ -67,18 +70,26 @@ app.get('/administrarBanners', async (req, res)=>{
         ]
     });
     //console.log(torneos);
-    res.render('administrarBanner',{
-        banners: banners,
-        rol: req.session.rol,
-        nombre: req.session.nombre
-    })
+    if(req.session.rol=="admin"){
+        res.render('administrarBanner',{
+            banners: banners,
+            rol: req.session.rol,
+            nombre: req.session.nombre
+            })
+    }else{
+        res.redirect('/noAutorizado')
+    }
 })
 
 app.get('/administrarBanners/new', (req, res)=>{
+    if(req.session.rol=="admin"){
     res.render('newBanner',{
         rol: req.session.rol,
         nombre: req.session.nombre
     })
+    }else{
+        res.redirect('/noAutorizado')
+    }
 })
 
 app.post('/administrarBanners/new', async (req, res)=>{
@@ -106,11 +117,15 @@ app.get('/administrarBanners/editar/:id', async (req,res) =>{
             id: idBanner
         }
     })
+    if(req.session.rol=="admin"){
     res.render('editarBanner', {
         banner: banner,
         rol: req.session.rol,
         nombre: req.session.nombre
     })
+    }else{
+        res.redirect('/noAutorizado')
+    }
 })
 
 app.post('/administrarBanners/editar', async(req,res)=>{
@@ -207,6 +222,7 @@ app.post('/administrarPartidas/agregar',async (req,res)=>{
     })
     res.redirect('/administrarPartidas')
 })
+
 app.post('/administrarPartidas/editar',async(req,res)=>{
     const idPartida = req.body.partida_id
     console.log("id: "+idPartida)
@@ -242,6 +258,7 @@ app.post('/administrarPartidas/editar',async(req,res)=>{
         await partida.save()
         res.redirect('/administrarPartidas')
 })
+
 app.get('/administrarPartidas/eliminar/:codigo',async(req,res)=>{
     const idPartida = req.params.codigo
     await db.Partida.destroy({
@@ -265,7 +282,7 @@ app.get('/partidas', async(req,res)=>{
 
     const partidas = await db.Partida.findAll();
     const juegos = await db.Juego.findAll();
-
+    if(req.session.rol=="admin"){
     res.render('partidas', {
         partidas : partidas,
         rol: rol,
@@ -273,6 +290,9 @@ app.get('/partidas', async(req,res)=>{
         juegos : juegos,
         banners : banners
     })
+    }else{
+        res.redirect('/noAutorizado')
+    }
 })
 
 app.get('/partidas/:id_juego', async(req,res)=>{
@@ -296,7 +316,7 @@ app.get('/partidas/:id_juego', async(req,res)=>{
             id : juegoId
         }
     })
-
+    if(req.session.rol=="admin"){
     res.render('partidas', {
         partidas : partidas,
         rol: rol,
@@ -304,6 +324,9 @@ app.get('/partidas/:id_juego', async(req,res)=>{
         juegos : juegos,
         banners : banners
     })
+    }else{
+        res.redirect('/noAutorizado')
+    }
 })
 
 app.get('/administrarCategorias', async (req, res) => {
@@ -340,6 +363,7 @@ app.get('/administrarCategorias/nuevo', (req, res) => {
         res.redirect('/noAutorizado')
     }
 })
+
 app.post('/administrarCategorias/nuevo', async (req, res) => {
     const categoriaNombre = req.body.categoriaNombre
 
@@ -399,12 +423,16 @@ app.get('/AdministrarJuegos', async(req, res) => {
     });
     const categorias = await db.Categoria.findAll();
     
+    if(req.session.rol=="admin"){
     res.render('administrarJuegos', {
         juegos : juegos,
         rol: req.session.rol,
         nombre: req.session.nombre,
         categorias : categorias
     })
+    }else{
+        res.redirect('/noAutorizado')
+    }
 })
 
 app.post('/AdministrarJuegos/agregar', async(req, res) => {
@@ -471,13 +499,16 @@ app.get('/AdministrarClientes', async (req,res)=>{
             ['id', 'ASC']
         ]
     });
-
+    if(req.session.rol=="admin"){
     res.render('AdministrarClientes',{
         clientes : clientes,
         rol : req.session.rol,
         nombre: req.session.nombre,
         query : null
     })
+    }else{
+        res.redirect('/noAutorizado')
+    }
 })
 
 app.post('/AdministrarClientes/editar',async(req,res)=>{
@@ -511,7 +542,8 @@ app.post('/AdministrarClientes/editar',async(req,res)=>{
     res.redirect('/administrarClientes')
 })
 
-app.get('AdministrarClientes/filtrar', async(req, res) => {
+app.get('/AdministrarClientes/filtrar', async(req, res) => {
+    if(req.session.rol=="admin"){
     const filtro = req.body.search
 
     const clientes = await Usuario.findAll();
@@ -532,10 +564,14 @@ app.get('AdministrarClientes/filtrar', async(req, res) => {
         clientes : filtrados,
         filtro : filtro
     })
+    }else{
+        res.redirect('/noAutorizado')
+    }
 })
 
 /*
 app.get('/AdministrarClientes/filtrar', async(req, res) => {
+    if(req.session.rol=="admin"){
     const filtro = req.body.filtro;
     const clientes = await Usuario.findAll();
 
@@ -552,6 +588,9 @@ app.get('/AdministrarClientes/filtrar', async(req, res) => {
         clientes : clientesFiltrados,
         filtro : filtro
     })
+    }else{
+        res.redirect('/noAutorizado')
+    }
 
 })
 //fin mantenimiento cliente */
