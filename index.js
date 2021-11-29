@@ -645,8 +645,7 @@ app.post('/registro1', async (req, res) => {
     var depaU = req.body.Departamento
     var provinciaU = req.body.Provincia    
     var distritoU = req.body.Distrito
-    var pepsU = req.body.flexRadioDefault1;
-    var pepnU = req.body.flexRadioDefault2;
+    var pepsU = req.body.PEPu;
 
     await db.Usuario.create({
         rol : 'usuario',
