@@ -775,6 +775,33 @@ app.get('/AdministrarClientes/filtrar', async(req, res) => {
 
 //fin mantenimiento cliente */
 
+//VER HOJA DE APUESTAS
+
+app.get('/hojaDeApuestas', async (req, res) => {
+
+    if(req.session.rol == 'user')
+    {
+        const apuestas = await db.Apuesta.findAll({
+            order :[
+                ['id', 'ASC']
+            ]
+        })
+    
+        res.render('apuestas', {
+            apuestas: apuestas,
+            rol : req.session.rol,
+            nombre : req.session.nombre
+        })
+
+    }
+    else
+    {
+        res.redirect('/noAutorizado')
+    }
+
+})
+
+
 app.get('/login', (req,res) => {
     if(req.session.rol != undefined){
         res.redirect('/')
