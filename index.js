@@ -151,11 +151,14 @@ app.post('/administrarBanners/editar', async(req,res)=>{
 
 app.get('/administrarPartidas', async (req,res)=>{
     const juego = await db.Juego.findAll()
+    const categoria = await db.Categoria.findAll()
+
     const partidas = await db.Partida.findAll({
         order:[
             ['fecha','DESC'],
-            ['hora','DESC']
-        ]
+            ['hora','DESC'],
+        ],
+        
     });
 
     let nlistapartidas = []
@@ -174,12 +177,14 @@ app.get('/administrarPartidas', async (req,res)=>{
             factorEmpate: partida.factorEmpate,
             Resultado: partida.Resultado,
             juegoNombre: Juego.nombre
+            
         })
     }
     if(req.session.rol=="admin"){
         res.render('administrarPartidas',{
             partidas:nlistapartidas,
             juego:juego,
+            categoria :categoria ,
             rol: req.session.rol,
             nombre: req.session.nombre
         })
@@ -195,6 +200,7 @@ app.get('/noAutorizado',(req,res)=>{
 })
 app.post('/administrarPartidas/agregar',async (req,res)=>{
     const juego = req.body.partida_JuegoID
+    const categoria = req.body.partida_CategoriaID
     const fecha = req.body.partida_fecha
     const inicio = req.body.partida_inicio
     const duracion = req.body.partida_duracion
@@ -209,6 +215,7 @@ app.post('/administrarPartidas/agregar',async (req,res)=>{
 
     await db.Partida.create({
         juegoId: juego,
+        categoriaId:categoria,
         fecha: fecha,
         hora: inicio,
         duracion: duracion,
@@ -227,6 +234,7 @@ app.post('/administrarPartidas/editar',async(req,res)=>{
     const idPartida = req.body.partida_id
     console.log("id: "+idPartida)
     const juego = req.body.partida_JuegoID2
+    const categoria = req.body.partida_CategoriaID2
     const fecha = req.body.partida_fecha2
     const inicio = req.body.partida_inicio2
     const duracion = req.body.partida_duracion2
@@ -245,6 +253,7 @@ app.post('/administrarPartidas/editar',async(req,res)=>{
         }
     })
         partida.juegoId= juego
+        partida.categoriaId= categoria
         partida.fecha= fecha
         partida.hora= inicio
         partida.duracion= duracion
