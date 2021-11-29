@@ -457,11 +457,6 @@ app.get('/partidas/fechasproximas', async(req,res) => {
     
 })
 
-app.get('/administrarCategorias', (req, res) => {
-
-    
-    res.render('administrarCategorias')
-})
 
 //ADMINISTRAR CATEGORÍAS - PRINCIPAL
 
