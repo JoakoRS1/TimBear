@@ -11,7 +11,6 @@
     <body class="">
         <%- include('header-rol') %>
         <h1 class="container">Partidas</h1>
-        <form method="post" action="/partidas/fechasproximas">
         <div class="card-body">
             <a class="link" href="/"> <-Regresar</a>
             <%- include('bannerspartidas') %>
@@ -26,21 +25,28 @@
             <% } %>
             </div>
 
-            <% if(categorias.length>1) {%>                      
+                             
             <div class="mb-3">
                 <form method="post" action="partidas/filtro" >
-                <label class="form-label">Categoria:</label>
-                <select class="form-select" name="categoriafiltro">
-                    <option  value="null">----Seleccione una opción----</option>
-                    <% categorias.forEach( (categoria)=> { %>
-                    <option href="/partidas/filtro/<%= categoria.id%>" value="<%=categoria.nombre %>"><%= categoria.nombre %></option>
-                    <% }) %> 
-                </select>
-                <% } else{ %>
-                    <a class="link" href="/partidas"><- Regresar a Partidas</a>
-                    <h2> Partidas de <%= categorias.nombre %> </h2>
-            <% } %>
-        </form>
+                    <div class="dropdown">
+                        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                          Categoria:
+                        </a>
+                      
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <li><a class="dropdown-item" href="/partidas">Mostrar todos</a></li>
+                        <% categorias.forEach((categoria) => {  %>
+                            <li><a class="dropdown-item" href="/partidas/filtro/<%=categoria.id%>"><%=categoria.nombre%></a></li>
+                        <% })%>
+                        </ul>
+                    </div>
+                
+                    
+                    
+               
+                </form>
+                
+                <a href="/partidas/fechasproximas" class="btn btn-success">Fechas Proximas</a>
             </div>
             
                 <div class="table-responsive">
@@ -71,12 +77,11 @@
                     </tbody>
                 </table>
                 <% } else { %>
-                    <p>No hay partidas proximas aun.</p>
+                    <p>No hay partidas disponibles aun.</p>
                 <% } %>
             </div>
-        
         </div>
-    </form>
+
         <%- include('footer')%>
     </body>
 </html>

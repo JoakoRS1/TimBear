@@ -407,7 +407,7 @@ app.get('/partidas/filtro/:id', async(req,res)=>{
     });
 
     const categorias=await db.Categoria.findAll()
-    
+
     const partidas=await db.Partida.findAll({
         where: {
             categoriaId: categoriaid
@@ -423,13 +423,14 @@ app.get('/partidas/filtro/:id', async(req,res)=>{
         juegos : juegos
     })
 })
-
+//no funciona
 app.get('/partidas/fechasproximas', async(req,res) => {
     const pasado = get.Date()+2;
     const fechasproximas = [];
-    console.log(pasado)
+    console.log(pasado);
 
     const partidas = await db.Partida.findAll();
+
     partidas.forEach( (partida)=>{
         if(partida.estado=="Pendiente"){
             if(partidas.fecha <= pasado){
@@ -437,7 +438,8 @@ app.get('/partidas/fechasproximas', async(req,res) => {
             }
         }
     })
-    console.log(fechasproximas)
+    console.log(fechasproximas);
+
     const categorias = await db.Categoria.findAll();
     const juegos = await db.Juego.findAll();
     const banners = await db.Banner.findAll({
