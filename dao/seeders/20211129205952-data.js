@@ -35,9 +35,61 @@ module.exports = {
       {
         nombre : "Basketball",
         categoria : "NBA",
-        categoriaId: "2",
+        categoriaId: "3",
         createdAt : new Date(), 
         updatedAt : new Date()},
+     
+    ])
+
+    await queryInterface.bulkInsert('Partida', [
+      {
+        fecha : "2021-11-08 00:00:00+00",
+        hora : "01:39:00",
+        duracion: "3",
+        estado : "Pendiente", 
+        equipoA : "Joselitos",
+        equipoB : "Joselitas2",
+        factorA : "1",
+        factorB : "1.02",
+        factorEmpate : "1.01",
+        Resultado : "EMPATE",
+        createdAt : new Date(), 
+        updatedAt : new Date(), 
+        juegoId : "1",
+        categoriaId: "1",
+      },
+      {
+        fecha : "2021-11-08 00:00:00+00",
+        hora : "01:39:00",
+        duracion: "3",
+        estado : "Pendiente", 
+        equipoA : "Joselitos",
+        equipoB : "Joselitas2",
+        factorA : "1",
+        factorB : "1.02",
+        factorEmpate : "1.01",
+        Resultado : "EMPATE",
+        createdAt : new Date(), 
+        updatedAt : new Date(), 
+        juegoId : "1",
+        categoriaId: "1",
+      },
+      {
+        fecha : "2021-11-08 00:00:00+00",
+        hora : "01:39:00",
+        duracion: "3",
+        estado : "Pendiente", 
+        equipoA : "Joselitos",
+        equipoB : "Joselitas2",
+        factorA : "1",
+        factorB : "1.02",
+        factorEmpate : "1.01",
+        Resultado : "EMPATE",
+        createdAt : new Date(), 
+        updatedAt : new Date(), 
+        juegoId : "1",
+        categoriaId: "1",
+      },
      
     ])
 
