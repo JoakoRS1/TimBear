@@ -28,19 +28,21 @@
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Opciones
                         </a>
-                        <ul class="dropdown-menu" style="background-color: gainsboro" aria-labelledby="navbarDropdownMenuLink">
+                        <ul id="menuadmin" class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <li><a class="dropdown-item" href="/administrarBanners">Administrar Banners</a></li>
                             <li><a class="dropdown-item" href="/administrarCategorias">Administrar Categorias</a></li>
                             <li><a class="dropdown-item" href="/AdministrarJuegos">Administrar Juegos</a></li>
                             <li><a class="dropdown-item" href="/AdministrarPartidas">Administrar Partidas</a></li>
-                            <li><a class="dropdown-item" href="/AdministrarClientes">Administrar Clientes</a></li>
+                            <li><a class="dropdown-item" href="/AdministrarClientes">Administrar Clientes</a></li>     
                         </ul>
                     </li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="nav-link" href="/logout">Cerrar Sesión</a></li>
                 </ul>
             </div>
             
             <a href=""><button type="button" class="btn btn-light btn-success" >Admin <%= nombre %></button></a>
-            <a href="/logout"><button type="button" class="btn btn-light btn-success" >Cerrar Sesion</button></a>
+            <!--a href="/logout"><button type="button" class="btn btn-light btn-success" >Cerrar Sesion</button></a-->
         </div>
     </nav>
 </div>

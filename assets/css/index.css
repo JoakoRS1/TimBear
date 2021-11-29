@@ -16,6 +16,10 @@ width: 200px;
     text-align: center;
 }
 
+#menuadmin{
+    background-color: gainsboro;
+}
+
 /*form styles*/
 .msform {
     width: auto;

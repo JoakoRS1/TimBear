@@ -22,19 +22,20 @@
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                           Menu de Opciones
                         </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <ul id="menuadmin" class="dropdown-menu" aria-labelledby="navbarDropdown">
                           <li><a class="dropdown-item" href="/partidas">Partidas</a></li>
                           <li><a class="dropdown-item" href="#">Hoja de Apuestas</a></li>
                           <li><a class="dropdown-item" href="#">Historial</a></li>
-                          <li><hr class="dropdown-divider"></li>
-                          <li><a class="dropdown-item" href="/logout">Cerrar Sesión</a></li>
+                          
                         </ul>
                     </li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="nav-link" href="/logout">Cerrar Sesión</a></li>
                 </ul>
             </div>
             
             <a href=""><button type="button" class="btn btn-light btn-success" >Usuario <%= nombre %></button> 
-            <a href="/logout"><button type="button" class="btn btn-light btn-success" >Cerrar Sesion</button></a>
+            <!--a href="/logout"><button type="button" class="btn btn-light btn-success" >Cerrar Sesion</button></a-->
         </div>
     </nav>
 </div>

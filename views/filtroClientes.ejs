@@ -8,33 +8,25 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
     </head>
     <body class="">
-        <%- include('header-rol') %>
+        <%- include('menuadmin') %>
         <h2 class="container">Lista de Clientes Filtrada</h2>
-        <form method="post" action="/AdministrarClientes/filtro">
+        <form method="post" action="AdministrarClientes/filtrar">
         <div class="table-responsive container-fluid">
             <a class="link" href="/AdministrarClientes"> <-Regresar</a>
 
             <% if(clientes.length>0){ %>
             <div class="input-group rounded mb-3 mt-4">
-                <h3>Se encontro <%=filtro.length %> coincidencias.</h3>
+                <h3>Se encontro las siguientes coincidencias.</h3>
             </div>
 
             <table class="table container table-hover">
                 <thead>
                     <tr>
                         <th>Id Cliente</th>
-                        <th>Nombre</th>
-                        <th>Apellido</th>
+                        <th>Nombre Completo</th>
                         <th>DNI</th>
-                        <th>Foto</th>
                         <th>Correo Electrónico</th>
                         <th>Número telefonico</th>
-                        <th>Dirección</th>
-                        <th>Distrito</th>
-                        <th>Provincia</th>
-                        <th>Departamento</th>
-                        <th>PEP</th>
-                        <th>Estado</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -44,18 +36,10 @@
                         if(clientes[i].rol == "user"){ %>
                         <tr>
                             <td><%= clientes[i].id %></td>
-                            <td><%= clientes[i].nombre %></td>
-                            <td><%= clientes[i].apellido %></td>
+                            <td><%= clientes[i].nombre %> <%= clientes[i].apellido %></td>
                             <td><%= clientes[i].DNI %></td>
-                            <td><%= clientes[i].foto %></td>
                             <td><%= clientes[i].correo %></td>
-                            <td><%= clientes[i].numero %></td>
-                            <td><%= clientes[i].direccion %></td>
-                            <td><%= clientes[i].distrito %></td>
-                            <td><%= clientes[i].provincia %></td>
-                            <td><%= clientes[i].departamento %></td>
-                            <td><%= clientes[i].PEP %></td>
-                            <td><%= clientes[i].estado  %></td>
+                            <td><%= clientes[i].numero %></td>    
 
                             <td>
                                 <button type="button" class="mt-1 mx-1 btn btn-primary" data-bs-toggle="modal" data-bs-target="#editar_<%=i%>">Editar</button>
@@ -80,10 +64,6 @@
                                                             <div class="form-group">
                                                                 <label class="form-label">DNI:</label>
                                                                 <label class="form-label" ><%= clientes[i].DNI%></label>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label class="form-label">Foto:</label>
-                                                                <label class="form-label" ><%= clientes[i].foto%></label>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="form-label">Correo electrónico:</label>
@@ -133,8 +113,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a class="btn btn-primary mx-1 mt-1" href="/AdministrarClientes/eliminar/<%=clientes[i].id%>">Eliminar</a>
-
+                                
                             </td>
                         </tr>
                     <%}} }%>

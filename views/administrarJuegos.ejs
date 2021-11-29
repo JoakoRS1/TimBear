@@ -12,10 +12,9 @@
     <body class="">
         <%- include('menuadmin') %>
         <h1 class="">Administrar Juegos</h1>
-        
-        <div class="card-body">
-        <a class="link" href="/"> <-Regresar</a>
         <div class="container">
+        <a class="link" href="/"> <-Regresar</a>
+        <div class="table-responsive">
             <% if(juegos.length>0){ %>
             <table class="table table-hover">
                 <thead>
@@ -27,29 +26,93 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <% juegos.forEach( (juego) => { %>
+                    <% for(var i =0; i<juegos.length; i++){ %>
                         <tr>
-                            <td><%= juego.id %></td>
-                            <td><%= juego.nombre %></td>
-                            <td><%= juego.categoria %></td>
-                            <td><a href="/AdministrarJuegos/editar/<%=juego.id %>">Editar</a>
-                            <a href="/AdministrarJuegos/eliminar/<%=juego.id %>">Eliminar</a></td>
-                        </tr>
+                            <td><%= juegos[i].id %></td>
+                            <td><%= juegos[i].nombre %></td>
+                            <td><%= juegos[i].categoria %></td>
 
                         <!--Usar modal-->
-                    <% }) %>
+                        <td>
+                            <button type="button" class="mt-1 mx-1 btn btn-primary" data-bs-toggle="modal" data-bs-target="#editar_<%=i%>">Editar</button>
+                            <div class="modal fade" id="editar_<%=i%>" tabindex="-1" aria-hidden="true" aria-labelledby="modalTitle">
+                                 <div class="modal-dialog">
+                                     <div class="modal-content">
+
+                                        <form method="post" action="/AdministrarJuegos/editar">
+                                            <input type="hidden" name="idJ" value="<%= juegos[i].id %>" />
+                                            <div class="mb-3 mt-3">
+                                                <label class="form-label">Nombre:</label>
+                                                <input type="text" class="form-control" name="nuevonombre2" value="<%= juegos[i].nombre %>">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label class="form-label">Categoria:</label>
+                                                <select class="form-select" name="nuevacategoria2">
+                                                    <option value="-1">----Seleccione una opción----</option>
+                                                    <% categorias.forEach( (categoria)=> { %>
+                                                        <% if(categoria.id == juegos[i].categoriaId) { %>
+                                                        <option selected value="<%= categoria.nombre %>"><%= juegos[i].categoria %></option>
+                                                        <% } else { %>
+                                                        <option value="<%=categoria.nombre %>"><%= categoria.nombre %></option>
+                                                        <% } %>
+                                                    <% }) %>
+                                                </select>
+                                                     
+                                                 </div>
+                                             <div class="modal-footer">   
+                                                    <button type="submit" class="btn btn-primary">Guardar</button>
+                                             </div>
+                                         </form>
+                                     </div>
+                                 </div>
+                            </div>
+                            <a class="btn btn-primary mt-1 mx-1 " href="/AdministrarJuegos/eliminar/<%=juegos[i].id%>">Eliminar</a>
+                        </td>                                                                
+                     
+                    <% } %>
                 </tbody>
             </table>
+        </div>
             <% }else{ %>
-                <h2>No hay Juegos aún</h2>
+                <p>No hay Juegos aún</p>
             <% } %>
             <div align="right">
-                <a class="btn btn-success" href="/AdministrarJuegos/new">Nuevo</a>
-            </div> 
-        </div>
-        </div>
+            <button type="button" class="btn btn-success mt-2 mb-3 " data-bs-toggle="modal" data-bs-target="#agregar">Agregar</button>
+            </div>
+                <div class="modal fade" id="agregar" tabindex="-1" aria-hidden="true" aria-labelledby="modalTitle">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form class="form" method="post" action="/AdministrarJuegos/agregar">
 
-    
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="exampleModalLabel" >Agregar Juego</h4>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"class="btn-close" aria-hidden="true" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    
+                                        <div class="mb-3 mt-3">
+                                            <label class="form-label">Nombre:</label>
+                                            <input type="text" class="form-control" name="nuevonombre1">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Categoria:</label>
+                                            <select class="form-select" name="nuevacategoria1">
+                                                <option value="-1">----Seleccione una opción----</option>
+                                                <% categorias.forEach( (categoria)=> { %>
+                                                    <option value="<%=categoria.nombre %>"><%= categoria.nombre %></option>
+                                                <% }) %>
+                                            </select>
+                                        </div>
+                                </div>
+                                <div class="modal-footer">                     
+                                    <button type="submit" class="btn btn-primary">Guardar</button>  
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            
+    </div>
     <%- include('footer')%>
 </body>
 </html>

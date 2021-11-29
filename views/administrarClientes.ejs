@@ -4,59 +4,46 @@
         <title>Tim-Bear</title>
         <meta charset="utf-8" />
         <link rel="shortcut icon" href="/imagenes/logo.png" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
     </head>
     <body class="">
-        <%- include('header-rol') %>
+        <%- include('menuadmin') %>
         <h2 class="container">Administrar Clientes</h2>
-        <div class="table-responsive container-fluid">
+        <div class="container">
             <a class="link" href="/"> <-Regresar</a>
 
+            <div class="table-responsive">
             <div class="input-group rounded mb-3 mt-4">
-                <input type="text" placeholder="Search" class="form-control rounded mx-1 mt-1" name="<%filtro%>">
-                <a href="/administrarClientes/filtrar" class="btn">
-                    <img src="/imagenes/search.png" alt="Busqueda" class="img-fluid" width="18px" height="18px">
-                </a>
+                <form action="AdministrarClientes/filtrar" method="get">
+                    <div class="px-3 mx-auto row g-3 align-items-right">
+                        <input class="form-control me-2" type="text" name="filtro" placeholder="Buscar...">
+                        <button class="btn btn-sm btn-outline-success" type="submit">Buscar</button>
+                    </div>  
+              </form>
             </div>
 
-            <table class="table container table-hover">
+            <table class="table table-hover">
                 <thead>
                     <tr>
                         <th>Id Cliente</th>
-                        <th>Nombre</th>
-                        <th>Apellido</th>
+                        <th>Nombre Completo</th>
                         <th>DNI</th>
-                        <th>Foto</th>
                         <th>Correo Electrónico</th>
                         <th>Número telefonico</th>
-                        <th>Dirección</th>
-                        <th>Distrito</th>
-                        <th>Provincia</th>
-                        <th>Departamento</th>
-                        <th>PEP</th>
-                        <th>Estado</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     <% if(clientes.length){ 
-                        for(var i = 0;i < clientes.length;i++) { 
+                        for(var i = 0; i < clientes.length;i++) { 
                         if(clientes[i].rol == "user"){ %>
                         <tr>
                             <td><%= clientes[i].id %></td>
-                            <td><%= clientes[i].nombre %></td>
-                            <td><%= clientes[i].apellido %></td>
+                            <td><%= clientes[i].nombre %> <%= clientes[i].apellido %></td>
                             <td><%= clientes[i].DNI %></td>
-                            <td><%= clientes[i].foto %></td>
                             <td><%= clientes[i].correo %></td>
                             <td><%= clientes[i].numero %></td>
-                            <td><%= clientes[i].direccion %></td>
-                            <td><%= clientes[i].distrito %></td>
-                            <td><%= clientes[i].provincia %></td>
-                            <td><%= clientes[i].departamento %></td>
-                            <td><%= clientes[i].PEP %></td>
-                            <td><%= clientes[i].estado  %></td>
 
                             <td>
                                 <button type="button" class="mt-1 mx-1 btn btn-primary" data-bs-toggle="modal" data-bs-target="#editar_<%=i%>">Editar</button>
@@ -81,10 +68,6 @@
                                                             <div class="form-group">
                                                                 <label class="form-label">DNI:</label>
                                                                 <label class="form-label" ><%= clientes[i].DNI%></label>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label class="form-label">Foto:</label>
-                                                                <label class="form-label" ><%= clientes[i].foto%></label>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="form-label">Correo electrónico:</label>
@@ -134,13 +117,13 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a class="btn btn-primary mx-1 mt-1" href="/AdministrarClientes/eliminar/<%=clientes[i].id%>">Eliminar</a>
 
                             </td>
                         </tr>
                     <%}} }%>
                 </tbody>
             </table>
+        </div>
         </div>
         
         <%- include('footer')%>

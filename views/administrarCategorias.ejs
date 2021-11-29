@@ -15,6 +15,10 @@
         <div class="card-body">
         <a class="link" href="/"> <-Regresar</a>
         <div class="container">
+
+            <a href="/administrarCategorias/nuevo" class="btn btn-success mb-3">Nueva Categoría</a>
+
+            <% if(categorias.length >0) {%>
             <table class="table table-hover">
                 <thead>
                     <tr>
@@ -28,11 +32,19 @@
                         <tr>
                             <td><%= categoria.id %></td>
                             <td><%= categoria.nombre %></td>
-                            <td><a href="#">Editar</a></td>
+                            <td>
+                                <a href="/administrarCategorias/modificar/<%= categoria.id%>">Editar</a>
+                                <a href="/administrarCategorias/eliminar/<%= categoria.id%>">Eliminar</a>
+                            </td>
                         </tr>
                     <% }) %>
                 </tbody>
             </table>
+            <% } else{ %>
+            
+            <h3>No hay categorías disponibles</h3>
+
+            <% } %>
         </div>
 
         </div>

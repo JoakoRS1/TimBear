@@ -7,6 +7,7 @@ const usuario = require('./dao/models/usuario')
 const app = express()
 
 
+
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
     extended:true
@@ -24,6 +25,9 @@ app.use(session({
 
 app.get('/', async(req,res)=>{
     const banners = await db.Banner.findAll({
+        where: {
+            estado: "activo"
+        },
         order :[
             ['id', 'ASC']
         ]
@@ -66,28 +70,39 @@ app.get('/administrarBanners', async (req, res)=>{
         ]
     });
     //console.log(torneos);
-    res.render('administrarBanner',{
-        banners: banners,
-        rol: req.session.rol,
-        nombre: req.session.nombre
-    })
+    if(req.session.rol=="admin"){
+        res.render('administrarBanner',{
+            banners: banners,
+            rol: req.session.rol,
+            nombre: req.session.nombre
+            })
+    }else{
+        res.redirect('/noAutorizado')
+    }
 })
 
 app.get('/administrarBanners/new', (req, res)=>{
+    if(req.session.rol=="admin"){
     res.render('newBanner',{
         rol: req.session.rol,
         nombre: req.session.nombre
     })
+    }else{
+        res.redirect('/noAutorizado')
+    }
 })
 
 app.post('/administrarBanners/new', async (req, res)=>{
 
     const bnombre = req.body.nuevonombre
+    const urlI = req.body.urlimagen
     const burl = req.body.nuevourl
     const bestado = req.body.nuevoestado
     
+    
     await db.Banner.create({
         nombre: bnombre,
+        urlImagen: urlI,
         url: burl,
         estado: bestado
     })
@@ -102,11 +117,15 @@ app.get('/administrarBanners/editar/:id', async (req,res) =>{
             id: idBanner
         }
     })
+    if(req.session.rol=="admin"){
     res.render('editarBanner', {
         banner: banner,
         rol: req.session.rol,
         nombre: req.session.nombre
     })
+    }else{
+        res.redirect('/noAutorizado')
+    }
 })
 
 app.post('/administrarBanners/editar', async(req,res)=>{
@@ -134,7 +153,8 @@ app.get('/administrarPartidas',async (req,res)=>{
     const juego = await db.Juego.findAll()
     const partidas = await db.Partida.findAll({
         order:[
-            ['id','ASC']
+            ['fecha','DESC'],
+            ['hora','DESC']
         ]
     });
 
@@ -156,33 +176,30 @@ app.get('/administrarPartidas',async (req,res)=>{
             juegoNombre: Juego.nombre
         })
     }
-
-    res.render('administrarPartidas',{
-        partidas:nlistapartidas,
-        juego:juego,
-        nombre: req.session.nombre
+    if(req.session.rol=="admin"){
+        res.render('administrarPartidas',{
+            partidas:nlistapartidas,
+            juego:juego,
+            rol: req.session.rol,
+            nombre: req.session.nombre
+        })
+    }else{
+        res.redirect('/noAutorizado')
+    }
+})
+app.get('/noAutorizado',(req,res)=>{
+    res.render('noeresAdmin',{
+        rol: req.session.rol,
+            nombre: req.session.nombre
     })
 })
-
 app.post('/administrarPartidas/agregar',async (req,res)=>{
     const juego = req.body.partida_JuegoID
     const fecha = req.body.partida_fecha
     const inicio = req.body.partida_inicio
     const duracion = req.body.partida_duracion
-    const estadoP = req.body.partida_Estado
-    var estado = 0
-    if(estadoP=="Pendiente"){
-        estado = 0
-    }
-    else if(estadoP=="Iniciado"){
-        estado = 1
-    }
-    else if(estadoP=="Finalizado"){
-        estado = 2
-    }
-    else{
-        estado = 3
-    }
+    const estado = req.body.partida_Estado
+   
     const EA = req.body.partida_EA
     const EB = req.body.partida_EB
     const FA = req.body.partida_FA
@@ -205,6 +222,7 @@ app.post('/administrarPartidas/agregar',async (req,res)=>{
     })
     res.redirect('/administrarPartidas')
 })
+
 app.post('/administrarPartidas/editar',async(req,res)=>{
     const idPartida = req.body.partida_id
     console.log("id: "+idPartida)
@@ -212,20 +230,9 @@ app.post('/administrarPartidas/editar',async(req,res)=>{
     const fecha = req.body.partida_fecha2
     const inicio = req.body.partida_inicio2
     const duracion = req.body.partida_duracion2
-    const estadoP = req.body.partida_Estado2
-    var estado = 0
-    if(estadoP=="Pendiente"){
-        estado = 0
-    }
-    else if(estadoP=="Iniciado"){
-        estado = 1
-    }
-    else if(estadoP=="Finalizado"){
-        estado = 2
-    }
-    else{   
-        estado = 3
-    }
+    const estado = req.body.partida_Estado2
+    
+   
     const EA = req.body.partida_EA2
     const EB = req.body.partida_EB2
     const FA = req.body.partida_FA2
@@ -251,6 +258,7 @@ app.post('/administrarPartidas/editar',async(req,res)=>{
         await partida.save()
         res.redirect('/administrarPartidas')
 })
+
 app.get('/administrarPartidas/eliminar/:codigo',async(req,res)=>{
     const idPartida = req.params.codigo
     await db.Partida.destroy({
@@ -266,21 +274,15 @@ app.get('/partidas', async(req,res)=>{
     const rol = req.session.rol 
     const usuario = req.session.nombre 
 
-    const banners = await db.Banner.findAll({
-        order :[
-            ['id', 'ASC']
-        ]
-    });  
 
     const partidas = await db.Partida.findAll();
     const juegos = await db.Juego.findAll();
-
+    
     res.render('partidas', {
         partidas : partidas,
         rol: rol,
         nombre : usuario,
         juegos : juegos,
-        banners : banners
     })
 })
 
@@ -305,7 +307,7 @@ app.get('/partidas/:id_juego', async(req,res)=>{
             id : juegoId
         }
     })
-
+    
     res.render('partidas', {
         partidas : partidas,
         rol: rol,
@@ -313,107 +315,204 @@ app.get('/partidas/:id_juego', async(req,res)=>{
         juegos : juegos,
         banners : banners
     })
-})
-
-app.get('/administrarCategorias', (req, res) => {
-
     
-    res.render('administrarCategorias')
 })
+
+app.get('/administrarCategorias', async (req, res) => {
+
+    if(req.session.rol=="admin"){
+        const categorias = await db.Categoria.findAll({
+            order :[
+                ['id', 'ASC']
+            ]
+        })
+
+        res.render('administrarCategorias', {
+            categorias : categorias,
+            rol: req.session.rol,
+            nombre: req.session.nombre
+        })
+
+    }
+    else{
+        res.redirect('/noAutorizado')
+    }
+})
+
+//NUEVA CATEGORÍA
+
+app.get('/administrarCategorias/nuevo', (req, res) => {
+    if(req.session.rol == "admin")
+    {
+        res.render('nuevaCategoria')
+    }
+    else
+    {
+        res.redirect('/noAutorizado')
+    }
+})
+
+app.post('/administrarCategorias/nuevo', async (req, res) => {
+    const categoriaNombre = req.body.categoria_nombre
+
+    await db.Categoria.create({
+        nombre: categoriaNombre
+    })
+
+    res.redirect('/administrarCategorias')
+})
+
+//MODIFICAR CATEGORIAS
+
+app.get('/administrarCategorias/modificar/:id', async (req, res) => {
+    if(req.session.rol == "admin")
+    {
+        const idCategoria = req.params.id
+
+        const categoria = await db.Categoria.findOne({
+            where : {
+                id : idCategoria
+            }
+        })
+        
+    res.render('modificarCategoria', {
+        categoria : categoria
+    })
+
+    }
+    else
+    {
+        res.redirect('/noAutorizado')
+    }
+})
+
+app.post('/administrarCategorias/modificar', async (req, res) => {
+    const idCategoria = req.body.categoria_id
+    const nombreCategoria = req.body.categoria_nombre
+
+    const categoria = await db.Categoria.findOne({
+        where :{
+            id: idCategoria
+        }
+    })
+
+    categoria.nombre = nombreCategoria
+
+    await categoria.save()
+
+    res.redirect('/administrarCategorias')
+})
+
+//ELIMINAR CATEGORIAS
+app.get('/administrarCategorias/eliminar/:id', async (req, res) => {
+    const categoriaId = req.params.id
+
+    await db.Categoria.destroy({
+        where : {
+            id : categoriaId
+        }
+    })
+
+    res.redirect('/administrarCategorias')
+
+
+})
+
 
 //Mantenimiento Juego 
 app.get('/AdministrarJuegos', async(req, res) => {
-    const juegos = await db.Juego.findAll();
+    const juegos = await db.Juego.findAll({
+        order :[
+            ['id', 'ASC']
+        ]
+    });
+    const categorias = await db.Categoria.findAll();
     
+    if(req.session.rol=="admin"){
     res.render('administrarJuegos', {
         juegos : juegos,
-        rol: req.session.rol,
-        nombre: req.session.nombre
-    })
-})
-
-app.get('/AdministrarJuegos/new', async(req, res)=>{
-    //Cuando se cree la base de datos categoria:
-    const categorias = await db.Categoria.findAll();
-
-    res.render('newJuego',{
         rol: req.session.rol,
         nombre: req.session.nombre,
         categorias : categorias
     })
+    }else{
+        res.redirect('/noAutorizado')
+    }
 })
 
-app.post('/AdministrarJuegos/new', async(req, res) => {
-    const jnombre = req.body.nuevonombre
-    const jcategoria = req.body.nuevacategoria
+app.post('/AdministrarJuegos/agregar', async(req, res) => {
+    const jnombre = req.body.nuevonombre1
+    const jcategoria = req.body.nuevacategoria1
     await db.Juego.create({
         nombre: jnombre,
-        categoria: jcategoria,
+        categoria: jcategoria
     });
 
     res.redirect('/AdministrarJuegos')
 })
 
-app.get('/AdministrarJuego/editar/:id', async (req,res) =>{  
-    console.log(juego)
-    const idJuego = req.params.id
+app.post('/AdministrarJuegos/editar', async (req,res)=>{
+    const idJuego = req.body.idJ
+    const jnombre = req.body.nuevonombre2
+    const jcategoria = req.body.nuevacategoria2
+
     const juego = await db.Juego.findOne({
         where: {
             id: idJuego
         }
     })
-
-    //Cuando se cree la base de datos categoria:
-    const categorias = await db.Categoria.findAll();
-
-    res.render('editarJuego', {
-        juego: juego,
-        rol: req.session.rol,
-        nombre: req.session.nombre,
-        categorias : categorias
-    })
-})
-
-app.post('/AdministrarJuegos/editar', async (req,res)=>{
-    const idJuego = req.body.idJ
-    const jnombre = req.body.nuevonombre
-    const jcategoria = req.body.nuevacategoria
+    if(jcategoria ==-1){
+        //No se cambiara la categoria
+        jcategoria = juego.categoria;
+    }
     
-    const juego = await db.Juego.findOne({
-        where: {
-            id: idJuego
+    const categoria = await db.Categoria.findOne({
+        where : {
+            nombre : jcategoria
         }
     })
     
     juego.nombre = jnombre
     juego.categoria = jcategoria
+    juego.categoriaId = categoria.id
     
     await juego.save()
     res.redirect('/AdministrarJuegos')
 })
 
-app.get('/AdministrarJuegos/eliminar/:codigo',async(req,res)=>{
+app.get('/administrarJuegos/eliminar/:codigo',async(req,res)=>{
     const idJuego = req.params.codigo
+    await db.Partida.destroy({
+        where : {
+            juegoId : idJuego
+        }
+    })
+
     await db.Juego.destroy({
         where :{
             id : idJuego
         }
     })
-    res.redirect('/AdministrarJuegos')
+    res.redirect('/administrarJuegos')
 })
 //fin mantenimiento juego
 
 //Mantenimiento de clientes
 app.get('/AdministrarClientes', async (req,res)=>{
-    const clientes = await db.Usuario.findAll()
-    const filtro = 0;
-
+    const clientes = await db.Usuario.findAll({
+        order :[
+            ['id', 'ASC']
+        ]
+    });
+    if(req.session.rol=="admin"){
     res.render('AdministrarClientes',{
         clientes : clientes,
         rol : req.session.rol,
-        nombre: req.session.nombre,
-        filtro : filtro
+        nombre: req.session.nombre
     })
+    }else{
+        res.redirect('/noAutorizado')
+    }
 })
 
 app.post('/AdministrarClientes/editar',async(req,res)=>{
@@ -447,45 +546,35 @@ app.post('/AdministrarClientes/editar',async(req,res)=>{
     res.redirect('/administrarClientes')
 })
 
-app.get('/AdministrarClientes/eliminar/:codigo',async(req,res)=>{
-    const idCliente = req.params.codigo
-    await db.Usuario.destroy({
-        where :{
-            id : idCliente
-        }
-    })
-    res.redirect('/AdministrarClientes')
-})
-
 app.get('/AdministrarClientes/filtrar', async(req, res) => {
-    const filtro = req.body.filtro;
-    const clientes = await Usuario.findAll();
+    const filtroA = req.query.filtro;
+    console.log(filtroA);
+    const clientes = await db.Usuario.findAll();
 
-    res.render('filtroClientes',{
-        filtro : filtro,
-        clientes : clientes
-    })
+    const clientesFiltrados = [];
 
-})
-
-app.post('/AdministrarClientes/filtrar', async(req, res) => {
-    const filtro = req.body.filtro;
-    const clientes = await Usuario.findAll();
-
-    for(var i =0; i< clientes.length(); i++){
-        if(clientes[i].DNI.contains(filtro) || 
-            clientes[i].nombre.contains(filtro) ||     
-            clientes[i].apellido.contains(filtro)){
-            clientesFiltrados.push(clientes[i])
-        }
+    clientes.forEach( (cliente)=> {
+        if(cliente.DNI.includes(filtroA) || 
+        cliente.nombre.includes((filtroA)) ||     
+        cliente.apellido.includes(filtroA)){
+        clientesFiltrados.push(cliente);
     }
-    console.log(clientesFiltrados)
-
-    res.render('filtroClientes',{
-        clientes : clientesFiltrados
     })
+           
+    console.log(clientesFiltrados);
+    if(req.session.rol=="admin"){
+
+    res.render('filtroClientes', {
+        clientes : clientesFiltrados,
+        filtro : filtroA,
+        nombre : req.session.nombre
+    })
+    }else{
+        res.redirect('/noAutorizado')
+    }
 })
-//fin mantenimiento cliente
+
+//fin mantenimiento cliente */
 
 app.get('/login', (req,res) => {
     if(req.session.rol != undefined){
@@ -510,7 +599,7 @@ app.post('/login', async (req, res) => {
 
     if(usuarioA!= null){
         if(usuarioA.password == passwordA){
-            console.log("la clave ta bien")
+            console.log("Credenciales correctas")
             req.session.rol = usuarioA.rol
             req.session.nombre = usuarioA.nombre
             console.log("sesion rol: ", req.session.rol)
@@ -518,12 +607,14 @@ app.post('/login', async (req, res) => {
             res.redirect('/')
         }
         else{
-            console.log("la clave ta mal")
-            res.render('errorlogin')
+            const error = "0"
+            console.log("Contraseña incorrecta")
+            res.render('errorlogin', {error: error})
         }}
         else{
-            res.render('errorlogin')
+            error = "1"
             console.log("NO EXISTE")
+            res.render('errorlogin', {error: error})
         }
         
 })
