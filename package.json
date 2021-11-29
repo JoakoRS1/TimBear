@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
     "start:dev": "npx nodemon index.js",
     "db:drop" : "npx sequelize db:drop --config ./dao/config/config.json",
     "db:create" : "npx sequelize db:create --config ./dao/config/config.json",
