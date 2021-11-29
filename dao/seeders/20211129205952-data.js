@@ -38,13 +38,12 @@ module.exports = {
         categoriaId: "3",
         createdAt : new Date(), 
         updatedAt : new Date()},
-     
     ])
 
     await queryInterface.bulkInsert('Partida', [
       {
         fecha : "2021-11-08 00:00:00+00",
-        hora : "01:39:00",
+        hora : "13:39:00",
         duracion: "3",
         estado : "Pendiente", 
         equipoA : "Joselitos",
@@ -60,7 +59,7 @@ module.exports = {
       },
       {
         fecha : "2021-11-08 00:00:00+00",
-        hora : "01:39:00",
+        hora : "17:39:00",
         duracion: "3",
         estado : "Iniciado", 
         equipoA : "Joselitos",
@@ -75,8 +74,8 @@ module.exports = {
         categoriaId: "2",
       },
       {
-        fecha : "2021-11-08 00:00:00+00",
-        hora : "01:39:00",
+        fecha : "2021-11-10 00:00:00+00",
+        hora : "09:39:00",
         duracion: "3",
         estado : "Finalizado", 
         equipoA : "Joselitos",
@@ -93,7 +92,31 @@ module.exports = {
      
     ])
 
-
+    await queryInterface.bulkInsert('Banner', [
+      {
+        nombre : "bannerprincipal",
+        urlImagen : "https://static.springbuilder.site/fs/userFiles-v2/apuestatotal2/images/85-liga-peruana-final-desktop.jpg?v=1637901581",
+        url: "/partidas",
+        estado: "activo",
+        createdAt : new Date(), 
+        updatedAt : new Date()
+      },
+      {
+        nombre : "banner2",
+        urlImagen : "/https://static.springbuilder.site/fs/userFiles-v2/apuestatotal2/images/85-copa-libertadores-final-desktop.jpeg?v=1637963321",
+        url: "/partidas",
+        estado: "inactivo",
+        createdAt : new Date(), 
+        updatedAt : new Date()
+      },
+      {
+        nombre : "banner3",
+        urlImagen : "https://static.springbuilder.site/fs/userFiles-v2/apuestatotal2/images/85-nba-desktop-2.jpg?v=1637902479",
+        estado: "activo",
+        createdAt : new Date(), 
+        updatedAt : new Date()
+      },
+    ])
 
 
 
