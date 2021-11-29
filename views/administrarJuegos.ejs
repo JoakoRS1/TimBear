@@ -12,10 +12,9 @@
     <body class="">
         <%- include('menuadmin') %>
         <h1 class="">Administrar Juegos</h1>
-        
-        <div class="card-body">
-        <a class="link" href="/"> <-Regresar</a>
         <div class="container">
+        <a class="link" href="/"> <-Regresar</a>
+        <div class="table-responsive">
             <% if(juegos.length>0){ %>
             <table class="table table-hover">
                 <thead>
@@ -67,16 +66,19 @@
                                      </div>
                                  </div>
                             </div>
-                            <a class="btn btn-primary mx-1 mt-1" href="/AdministrarJuegos/eliminar/<%=juegos[i].id%>">Eliminar</a>
+                            <a class="btn btn-primary mt-1 mx-1 " href="/AdministrarJuegos/eliminar/<%=juegos[i].id%>">Eliminar</a>
                         </td>                                                                
                      
                     <% } %>
                 </tbody>
             </table>
+        </div>
             <% }else{ %>
-                <h2>No hay Juegos aún</h2>
+                <p>No hay Juegos aún</p>
             <% } %>
-            <button type="button" class="mt-5 mx-5 btn btn-primary" data-bs-toggle="modal" data-bs-target="#agregar">Agregar</button>
+            <div align="right">
+            <button type="button" class="btn btn-success mt-2 mb-3 " data-bs-toggle="modal" data-bs-target="#agregar">Agregar</button>
+            </div>
                 <div class="modal fade" id="agregar" tabindex="-1" aria-hidden="true" aria-labelledby="modalTitle">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -109,9 +111,8 @@
                         </div>
                     </div>
                 </div>
-
-</div>
-
+            
+    </div>
     <%- include('footer')%>
 </body>
 </html>
