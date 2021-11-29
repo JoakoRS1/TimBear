@@ -488,7 +488,7 @@ app.get('/partidas/filtro/:id', async(req,res)=>{
         juegos : juegos
     })
 })
-//no funciona
+
 app.get('/partidas/fechasproximas', async(req,res) => {
     const today = new Date();
     const pasado = new Date(today)
@@ -986,11 +986,30 @@ app.post('/hojaDeApuesta', async (req,res) => {
 })
 
 app.get('/historialDeApuestas', async(req,res)=>{
-    const apuestas = await db.Apuesta.findAll();
-    res.render('historial', {
-        apuestas : apuestas
-    })
+
+
+    if(req.session.rol == 'user')
+    {
+        const apuestas = await db.Apuesta.findAll({
+            order :[
+                ['id', 'ASC']
+            ]
+        })
+    
+        res.render('historial', {
+            apuestas: apuestas,
+            rol : req.session.rol,
+            nombre : req.session.nombre
+        })
+
+    }
+    else
+    {
+        res.redirect('/noAutorizado')
+    }
+
 })
+
 
 //ELIMINAR PARTIDAS DE HOJA DE APUESTAS
 app.get('/hojaDeApuestas/eliminar/:id', async (req, res) => {

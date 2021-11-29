@@ -1,88 +1,64 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Tim-Bear</title>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="shortcut icon" href="/imagenes/logo.png" />
-        <link rel="stylesheet" href="/css/index.css" type="text/css"> 
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
-    </head>
-    <body class="">
-        <%- include('header-rol') %>
-        <div class="card-body">
-            <div class="container">
-                
-                <a class="link" href="/"> <-Regresar</a>
-                <h1 class="">Hoja de Apuestas</h1>
+<head>
+    <title>Tim-Bear</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/imagenes/logo.png" />
+    <link rel="stylesheet" href="/css/index.css" type="text/css"> 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+</head>
+<body class="">
+    <%- include('header-rol') %>
+    <div class="card-body">
+        <div class="container">
+            
+            <a class="link" href="/"> <-Regresar</a>
+            <h1 class="">Historial de Apuestas</h1>
 
-                <% if(apuestas.length >0) {%>
-                <table class="table table-hover">
-                    <thead>
+            <% if(apuestas.length >0 || partidas.length>0) {%>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Equipo A</th>
+                        <th>Equipo B</th>
+                        <th>Apuesta</th>
+                        <th>Factor</th>
+                        <th>Monto</th>
+                        <th>Ganancia posible</th>
+                        <th>Estado</th>
+                        <th>Fecha</th>
+
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    <% apuestas.forEach((apuesta) => { %>
+
+                   
                         <tr>
-                            <th>Equipo A</th>
-                            <th>Equipo B</th>
-                            <th>Apuesta</th>
-                            <th>Factor</th>
-                            <th>Monto</th>
-                            <th>Ganancia posible</th>
-                            <th>Acciones</th>
+                            <td><%= apuesta.equipoA %></td>
+                            <td><%= apuesta.equipoB %></td>
+                            <td><%= apuesta.equipoApostado %></td>
+                            <td><%= apuesta.factorApostado %></td>
+                            <td><%= apuesta.monto %></td>
+                            <td><%= apuesta.gananciaPosible %></td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <% for(var i =0; i<apuestas.length; i++){ %>
+                            
+    
+                    <% }) %>
+                 
+                </tbody>
+            </table>
+            <% } else{ %>
+            
+            <h3>Vacío</h3>
 
-                       
-                            <tr>
-                                <td><%= apuestas[i].equipoA %></td>
-                                <td><%= apuestas[i].equipoB %></td>
-                                <td><%= apuestas[i].equipoApostado %></td>
-                                <td><%= apuestas[i].factorApostado %></td>
-                                <td><%= apuestas[i].monto %></td> 
-                                <td><%= apuestas[i].gananciaPosible %></td>
-                                <td><%= apuestas[i].fecha %></td>
-                                <td><%= apuestas[i].hora %></td>
-                                <td><%= apuestas[i].estado %></td>
-
-                                <td>
-                                    <button type="button" class="mt-1 mx-1 btn btn-primary" data-bs-toggle="modal" data-bs-target="#guardar_<%=i%>">Guardar</button>
-                                    <div class="modal fade" id="guardar_<%=i%>" tabindex="-1" aria-hidden="true" aria-labelledby="modalTitle">
-                                         <div class="modal-dialog">
-                                             <div class="modal-content">
-        
-                                                <form method="post" action="/historialDeApuestas">
-                                                    <input type="hidden" name="idA" value="<%= apuestas[i].id %>" />
-                                                    <div class="mb-3 mt-3">
-                                                        <label class="form-label">CONFIRMACIÓN</label>
-                                                        <div class="mb-3">
-                                                            <p>¿Desea continuar?</p>
-                                                        </div>
-                                                     <div class="modal-footer">   
-                                                            <button type="submit" class="btn btn-primary">Guardar</button>
-                                                     </div>
-                                                 </form>
-                                             </div>
-                                         </div>
-                                    </div>
-                                </div>
-                                    <a class="btn btn-primary"href="/hojaDeApuestas/eliminar/<%= apuestas[i].id%>">X</a>
-                                </td>
-                    
-                              
-                        <% } %>
-                    </tbody>
-                </table>
-                <% } else{ %>
-                
-                <h3>Vacio.</h3>
-
-                <% } %>
-            </div>
-
+            <% } %>
         </div>
 
+    </div>
 
-        <%- include('footer')%>
-    </body>
+
+    <%- include('footer')%>
+</body>
 </html>
