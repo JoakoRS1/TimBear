@@ -274,25 +274,16 @@ app.get('/partidas', async(req,res)=>{
     const rol = req.session.rol 
     const usuario = req.session.nombre 
 
-    const banners = await db.Banner.findAll({
-        order :[
-            ['id', 'ASC']
-        ]
-    });  
 
     const partidas = await db.Partida.findAll();
     const juegos = await db.Juego.findAll();
-    if(req.session.rol=="admin"){
+    
     res.render('partidas', {
         partidas : partidas,
         rol: rol,
         nombre : usuario,
         juegos : juegos,
-        banners : banners
     })
-    }else{
-        res.redirect('/noAutorizado')
-    }
 })
 
 app.get('/partidas/:id_juego', async(req,res)=>{
@@ -316,7 +307,7 @@ app.get('/partidas/:id_juego', async(req,res)=>{
             id : juegoId
         }
     })
-    if(req.session.rol=="admin"){
+    
     res.render('partidas', {
         partidas : partidas,
         rol: rol,
@@ -324,9 +315,7 @@ app.get('/partidas/:id_juego', async(req,res)=>{
         juegos : juegos,
         banners : banners
     })
-    }else{
-        res.redirect('/noAutorizado')
-    }
+    
 })
 
 app.get('/administrarCategorias', async (req, res) => {
