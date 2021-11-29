@@ -42,14 +42,15 @@
             <!--Tablas partidas por juego-->
             
                 
-                    <div class="m-md-5 mt-3">
+                <div class="m-md-5 mt-3">
                         <% juegos.forEach( (juego)=>{ %>
-        
+                            
                             <h2> Partidas de <%= juego.nombre %> </h2>
                        
-                        </div>
+                    </div>
                 <div class="table-responsive">
                   <% if(partidas.length > 0){ %> 
+                    
                         <% partidas.forEach( (partida)=> { %>
                             
                                
@@ -81,6 +82,7 @@
                             
                             </tr>
                             <% })  %>
+                            
                     </tbody>
                 </table> 
                 <% }  else { %>
