@@ -149,7 +149,7 @@ app.post('/administrarBanners/editar', async(req,res)=>{
     res.redirect('/administrarBanners')
 })
 
-app.get('/administrarPartidas',async (req,res)=>{
+app.get('/administrarPartidas', async (req,res)=>{
     const juego = await db.Juego.findAll()
     const partidas = await db.Partida.findAll({
         order:[
@@ -268,6 +268,70 @@ app.get('/administrarPartidas/eliminar/:codigo',async(req,res)=>{
     })
     res.redirect('/administrarPartidas')
 })
+
+//FILTRAR PARTIDAS
+
+
+app.get('/administrarPartidas/filtrar/:filtro', async (req, res) => {
+    if(req.session.rol=="admin"){
+
+        const filtro = req.params.filtro
+
+        if(filtro == 'todos')
+        {
+            res.redirect('/administrarPartidas')
+        }
+        else
+        {
+            const juego = await db.Juego.findAll()
+            
+            const partidas = await db.Partida.findAll({
+                order:[
+                    ['fecha','DESC'],
+                    ['hora','DESC']
+                ]
+            });
+    
+            let nlistapartidas = []
+            for(let partida of partidas){
+                const Juego = await partida.getJuego()
+                if(partida.estado == filtro)
+                {
+                    nlistapartidas.push({
+                        id: partida.id,
+                        fecha: partida.fecha,
+                        hora: partida.hora,
+                        duracion: partida.duracion,
+                        estado: partida.estado,
+                        equipoA: partida.equipoA,
+                        equipoB: partida.equipoB,
+                        factorA: partida.factorA,
+                        factorB: partida.factorB,
+                        factorEmpate: partida.factorEmpate,
+                        Resultado: partida.Resultado,
+                        juegoNombre: Juego.nombre
+                    })
+                }
+            }
+    
+            res.render('administrarPartidas',{
+                partidas : nlistapartidas,
+                juego : juego,
+                rol : req.session.rol,
+                nombre : req.session.nombre
+            })
+
+        }
+
+        
+    }
+    else
+    {
+        res.redirect('/noAutorizado')
+    }
+})
+
+
 
 //Partidas
 app.get('/partidas', async(req,res)=>{
@@ -392,6 +456,8 @@ app.get('/administrarCategorias', (req, res) => {
     
     res.render('administrarCategorias')
 })
+
+//ADMINISTRAR CATEGORÍAS - PRINCIPAL
 
 app.get('/administrarCategorias', async (req, res) => {
 
@@ -720,8 +786,7 @@ app.post('/registro1', async (req, res) => {
     var depaU = req.body.Departamento
     var provinciaU = req.body.Provincia    
     var distritoU = req.body.Distrito
-    var pepsU = req.body.flexRadioDefault1;
-    var pepnU = req.body.flexRadioDefault2;
+    var pepsU = req.body.PEPu;
 
     await db.Usuario.create({
         rol : 'usuario',
