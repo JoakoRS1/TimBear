@@ -21,7 +21,6 @@
     </head>
     <body class="">
         <%- include('menu')  %>
-    <div class="col">
         <center><h1>¡Crea una nueva cuenta!</h1></center>
         <br>
         <ul id="progressbar" role="progressbar">
@@ -32,15 +31,16 @@
             <li>Paso 5</li>
         </ul>
 <form id="msform1" class="msform container" method="post" action="/registro1">
-            <div class="div-form" id="sf1">
-                <h2 class="fs-title">Paso 1</h2>
+            <div class="div-form">
+                    <h2 class="fs-title">Paso 1</h2>
                 <center>
                     <input type="text" placeholder="Nombre" class="form-control" name='nombreU' required> 
                     <input type="text" placeholder="Apellido" class="form-control" name='apellidoU' required></center>
-                <button type="button" name="sig1" class="next action-button" value="Siguiente">Siguiente</button>
+                <button type="button" name="sig1" class="next action-button sig1" value="Siguiente">Siguiente</button>
             </div>
-            <div class="div-form" id="sf2" >
-                <h2 class="fs-title">Paso 2</h2>
+            <br>
+            <div class="div-form">
+                    <h2 class="fs-title">Paso 2</h2>
                 <center>
                     <label id="etiqueta" class="form-label">DNI:</label>
                     <input type="text" placeholder="Dni" class="form-control" name='dniU' required>
@@ -49,27 +49,29 @@
                         <label for="formFile" class="form-label">Adjuntar foto</label>
                         <input class="form-control" type="file" id="fotoU">
                 </center>
-                <button type="button" name="ant1" class="previous action-button-previous">Anterior</button>
-                <button type="button" name="sig2" class="next action-button">Siguiente</button>
+                <button type="button" name="ant2" class="previous action-button-previous">Anterior</button>
+                <button type="button" name="sig2" class="next action-button sig2">Siguiente</button>
             </div>
-            <div class="div-form" id="sf3">
-                <h2 class="fs-title">Paso 3</h2>
+            <br>
+            <div class="div-form">
+                    <h2 class="fs-title">Paso 3</h2>
                 <center>
                     <input type="text" placeholder="Correo electrónico" class="form-control" name='correoU' required>
-            </center>
-            <center>
-                    <input type="password" placeholder="Contraseña" class="form-control" name='contraU' id= required></center>
+                </center>
                 <center>
-                        <input type="password" placeholder="Confirmar contraseña" class="form-control" name='confirmarcontraU' required>
+                    <input type="password" placeholder="Contraseña" class="form-control" name='contraU' id="upass1" required></center>
+                <center>
+                        <input type="password" placeholder="Confirmar contraseña" class="form-control" id="upass2" name='confirmarcontraU' required>
                     </center>
                     <center>
                             <input type="text" placeholder="Número telefónico" class="form-control" name='numeroU' required></center>
 
-                <button type="button" name="ant2" class="previous action-button-previous">Anterior</button>
-                <button type="button" name="sig3" class="next action-button">Siguiente</button>
-                    </div>
-            <div class="div-form" id="sf4">
-                <h2 class="fs-title">Paso 4</h2>
+                <button type="button" name="ant3" class="previous action-button-previous ant3">Anterior</button>
+                <button type="button" name="sig3" class="next action-button sig3">Siguiente</button>
+            </div>
+            <br>
+            <div class="div-form">
+                    <h2 class="fs-title">Paso 4</h2>
                 <center>
                     <label id="etiqueta" class="form-label">Dirección:</label>
                     <input type="text" class="form-control" name="direcU" rows="3" required>
@@ -86,7 +88,8 @@
                 <center>
                         <label id="etiqueta" class="form-label">Provincia:</label>
                         <select class="form-select" name="Provincia" aria-label="Default select example" id="Provincia">
-                            <option selected>Seleccione una provincia</option>
+                          <% if(ubicaciones.length){  %> 
+                          <option selected>Seleccione una provincia</option>
                             <option value="1">One</option>
                             <option value="2">Two</option>
                             <option value="3">Three</option>
@@ -102,11 +105,12 @@
                               </select>
                         </center>
 
-                <button type="button" name="ant3" class="previous action-button-previous">Anterior</button>
-                <button type="button" name="sig4" class="next action-button">Siguiente</button>
-                    </div>
-            <div class="div-form" id="sf5">
-                <h2 class="fs-title">Paso 5</h2>
+                <button type="button" name="ant3" class="previous action-button-previous ant4">Anterior</button>
+                <button type="button" name="sig4" class="next action-button sig4" >Siguiente</button>
+            </div>
+            <br>
+            <div class="div-form">
+                    <h2 class="fs-title">Paso 5</h2>
                 <center>
                         ¿Es una persona políticamente expuesta? (PEP)
                     <center>
@@ -118,103 +122,98 @@
                       </center>
                   <center>
 
-                <button type="button" name="ant4" class="previous action-button-previous">Anterior</button>
+                <button type="button" name="ant4" class="previous action-button-previous ant5">Anterior</button>
                 <button type="submit" name="sig5" class="action-button">Registrar</button>
-                  </div>
+            </div>
         </form>
-    </div>  
-    <script>
+        <script>
 
-    //jQuery time
-    var current_fs, next_fs, previous_fs; //fieldsets
-    var left, opacity, scale; //fieldset properties which we will animate
-    var animating; //flag to prevent quick multi-click glitches
-
-    var numStep = 1;
-    var errStep = false;
-
-    $(".next").click(function(){
-        console.log('Error: ' + errStep)
-        if(animating || errStep) return false;
-        animating = true;
-
-        numStep++;
-
-        current_fs = $(this).parent();
-        next_fs = $(this).parent().parent().next().children();
-
-        //activate next step on progressbar using the index of next_fs
-        $("#progressbar li").eq($("div").index(next_fs)).addClass("active");
-
-        //show the next fieldset
-        next_fs.show(); 
-        //hide the current fieldset with style
-        current_fs.animate({opacity: 0}, {
-            step: function(now, mx) {
-                //as the opacity of current_fs reduces to 0 - stored in "now"
-                //1. scale current_fs down to 80%
-                scale = 1 - (1 - now) * 0.2;
-                //2. bring next_fs from the right(50%)
-                left = (now * 50)+"%";
-                //3. increase opacity of next_fs to 1 as it moves in
-                opacity = 1 - now;
-                current_fs.css({'transform': 'scale('+scale+')'});
-                next_fs.css({'left': left, 'opacity': opacity});
-            }, 
-            duration: 1000, 
-            complete: function(){
-                current_fs.hide();
-                animating = false;
-            }, 
-            //this comes from the custom easing plugin
-            easing: 'easeInOutBack'
-        });
-        console.log(numStep);
-    });
-
-    $(".previous").click(function(){
-        console.log('Error: ' + errStep)
-        if(animating || errStep) return false;
-        animating = true;
-
-        numStep--;
-
-        current_fs = $(this).parent();
-        previous_fs = $(this).parent().parent().prev().children();
-
-        //de-activate current step on progressbar
-        $("#progressbar li").eq($("div").index(current_fs)).removeClass("active");
-
-        //show the previous fieldset
-        previous_fs.show(); 
-        //hide the current fieldset with style
-        current_fs.animate({opacity: 0}, {
-            step: function(now, mx) {
-                //as the opacity of current_fs reduces to 0 - stored in "now"
-                //1. scale previous_fs from 80% to 100%
-                scale = 0.8 + (1 - now) * 0.2;
-                //2. take current_fs to the right(50%) - from 0%
-                left = ((1-now) * 50)+"%";
-                //3. increase opacity of previous_fs to 1 as it moves in
-                opacity = 1 - now;
-                current_fs.css({'left': left});
-                previous_fs.css({'transform': 'scale('+scale+')', 'opacity': opacity});
-            }, 
-            duration: 800, 
-            complete: function(){
-                current_fs.hide();
-                animating = false;
-            }, 
-            //this comes from the custom easing plugin
-            easing: 'easeInOutBack'
-        });
-
-        console.log(numStep);
-    });
-
-
-
-    </script>
+          //jQuery time
+          var current_fs, next_fs, previous_fs; //fieldsets
+          var left, opacity, scale; //fieldset properties which we will animate
+          var animating; //flag to prevent quick multi-click glitches
+      
+          var numStep = 1;
+          var errStep = false;
+      
+          $(".next").click(function(){
+              console.log('Error: ' + errStep)
+              if(animating || errStep) return false;
+              animating = true;
+      
+              numStep++;
+      
+              current_fs = $(this).parent();
+              next_fs = $(this).parent().parent().next().children();
+      
+              //activate next step on progressbar using the index of next_fs
+              $("#progressbar li").eq($("div").index(next_fs)).addClass("active");
+      
+              //show the next fieldset
+              next_fs.show(); 
+              //hide the current fieldset with style
+              current_fs.animate({opacity: 0}, {
+                  step: function(now, mx) {
+                      //as the opacity of current_fs reduces to 0 - stored in "now"
+                      //1. scale current_fs down to 80%
+                      scale = 1 - (1 - now) * 0.2;
+                      //2. bring next_fs from the right(50%)
+                      left = (now * 50)+"%";
+                      //3. increase opacity of next_fs to 1 as it moves in
+                      opacity = 1 - now;
+                      current_fs.css({'transform': 'scale('+scale+')'});
+                      next_fs.css({'left': left, 'opacity': opacity});
+                  }, 
+                  duration: 1000, 
+                  complete: function(){
+                      current_fs.hide();
+                      animating = false;
+                  }, 
+                  //this comes from the custom easing plugin
+                  easing: 'easeInOutBack'
+              });
+              console.log(numStep);
+          });
+      
+          $(".previous").click(function(){
+              console.log('Error: ' + errStep)
+              if(animating || errStep) return false;
+              animating = true;
+      
+              numStep--;
+      
+              current_fs = $(this).parent();
+              previous_fs = $(this).parent().parent().prev().children();
+      
+              //de-activate current step on progressbar
+              $("#progressbar li").eq($("div").index(current_fs)).removeClass("active");
+      
+              //show the previous fieldset
+              previous_fs.show(); 
+              //hide the current fieldset with style
+              current_fs.animate({opacity: 0}, {
+                  step: function(now, mx) {
+                      //as the opacity of current_fs reduces to 0 - stored in "now"
+                      //1. scale previous_fs from 80% to 100%
+                      scale = 0.8 + (1 - now) * 0.2;
+                      //2. take current_fs to the right(50%) - from 0%
+                      left = ((1-now) * 50)+"%";
+                      //3. increase opacity of previous_fs to 1 as it moves in
+                      opacity = 1 - now;
+                      current_fs.css({'left': left});
+                      previous_fs.css({'transform': 'scale('+scale+')', 'opacity': opacity});
+                  }, 
+                  duration: 800, 
+                  complete: function(){
+                      current_fs.hide();
+                      animating = false;
+                  }, 
+                  //this comes from the custom easing plugin
+                  easing: 'easeInOutBack'
+              });
+              console.log(numStep);
+          });
+          </script>
     <%- include('footer')%>
 
     </body>
