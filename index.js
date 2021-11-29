@@ -321,7 +321,6 @@ app.get('/partidas/:id_juego', async(req,res)=>{
 app.get('/administrarCategorias', async (req, res) => {
 
     if(req.session.rol=="admin"){
-        res.render('administrarCategorias')
         const categorias = await db.Categoria.findAll({
             order :[
                 ['id', 'ASC']
@@ -354,7 +353,7 @@ app.get('/administrarCategorias/nuevo', (req, res) => {
 })
 
 app.post('/administrarCategorias/nuevo', async (req, res) => {
-    const categoriaNombre = req.body.categoriaNombre
+    const categoriaNombre = req.body.categoria_nombre
 
     await db.Categoria.create({
         nombre: categoriaNombre
@@ -365,7 +364,7 @@ app.post('/administrarCategorias/nuevo', async (req, res) => {
 
 //MODIFICAR CATEGORIAS
 
-app.get('administrarCategorias/modificar/:id', async (req, res) => {
+app.get('/administrarCategorias/modificar/:id', async (req, res) => {
     if(req.session.rol == "admin")
     {
         const idCategoria = req.params.id
@@ -385,6 +384,23 @@ app.get('administrarCategorias/modificar/:id', async (req, res) => {
     {
         res.redirect('/noAutorizado')
     }
+})
+
+app.post('/administrarCategorias/modificar', async (req, res) => {
+    const idCategoria = req.body.categoria_id
+    const nombreCategoria = req.body.categoria_nombre
+
+    const categoria = await db.Categoria.findOne({
+        where :{
+            id: idCategoria
+        }
+    })
+
+    categoria.nombre = nombreCategoria
+
+    await categoria.save()
+
+    res.redirect('/administrarCategorias')
 })
 
 //ELIMINAR CATEGORIAS
