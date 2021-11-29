@@ -243,8 +243,8 @@ app.post('/administrarPartidas/editar',async(req,res)=>{
    
     const EA = req.body.partida_EA2
     const EB = req.body.partida_EB2
-    const FA = req.body.partida_FA2
-    const FB = req.body.partida_FB2
+    const FA = req.body.partida_FA2 
+    const FB = req.body.partida_FB2 
     const FE = req.body.partida_FE2
     const resultado = req.body.partida_Resultado2
     const partida = await db.Partida.findOne({
