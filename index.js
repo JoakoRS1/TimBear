@@ -941,7 +941,7 @@ app.post('/registro1', async (req, res) => {
 
     
     await db.Usuario.create({
-        rol : 'usuario',
+        rol : 'user',
         nombre : nombreU,
         apellido : apellidoU,
         DNI: dniU,
