@@ -17,12 +17,9 @@
             
             <div class="m-md-5 mt-3">
             <% if(partidas.length > 0){ %> 
-            <% if(juegos.length>1){ 
-                 juegos.forEach( (juego) => { %><a href="/partidas/<%=juego.id %>" ><%= juego.nombre %> | </a><% }) %>
-            <% } else { %>
                     <a class="link" href="/partidas"><- Regresar a Partidas</a>
-                    <h2> Partidas de <%= juegos.nombre %> </h2>
-            <% } %>
+                    <h2> Partidas Proximas </h2>
+            
             </div>
 
                              
@@ -46,7 +43,7 @@
                
                 </form>
                 
-                <a href="/partidas/fechasproximas" class="btn btn-success">Fechas Proximas</a>
+               
             </div>
             
                 <div class="table-responsive">

@@ -416,10 +416,10 @@ app.get('/partidas', async(req,res)=>{
     })
 })
 
-app.get('/partidas/:id_juego', async(req,res)=>{
+app.get('/partidas', async(req,res)=>{
     const rol = req.session.rol    
-    const juegoId = req.params.id_juego;
     const nombre = req.session.nombre
+    let listaPartidas = []
 
     const banners = await db.Banner.findAll({
         order :[
@@ -427,21 +427,34 @@ app.get('/partidas/:id_juego', async(req,res)=>{
         ]
     });
 
-    const partidas = await db.Partida.findAll({
-        where: {
-            juegoId : juegoId
-        }
-    });
+    const partidas = await db.Partida.findAll();
     const juegos = await db.Juego.findOne({
         where: {
             id : juegoId
         }
     })
+    for(let partida of partidas){
+            const Juego = await partida.getJuego()
+                listaPartidas.push({
+                        id: partida.id,
+                        fecha: partida.fecha,
+                        hora: partida.hora,
+                        duracion: partida.duracion,
+                        estado: partida.estado,
+                        equipoA: partida.equipoA,
+                        equipoB: partida.equipoB,
+                        factorA: partida.factorA,
+                        factorB: partida.factorB,
+                        factorEmpate: partida.factorEmpate,
+                        Resultado: partida.Resultado,
+                        juegoNombre: Juego.nombre
+                    })
+    }
 
     const categorias= await db.Categoria.findAll();
     
     res.render('partidas', {
-        partidas : partidas,
+        partidas : listaPartidas,
         rol: rol,
         nombre: nombre,
         juegos : juegos,
@@ -480,19 +493,37 @@ app.get('/partidas/filtro/:id', async(req,res)=>{
 })
 //no funciona
 app.get('/partidas/fechasproximas', async(req,res) => {
-    const pasado = get.Date()+2;
-    const fechasproximas = [];
+    const today = new Date();
+    const pasado = new Date(today)
+    pasado.setDate(pasado.getDate() + 2)    
+
+    let fechasproximas = [];
     console.log(pasado);
 
     const partidas = await db.Partida.findAll();
 
-    partidas.forEach( (partida)=>{
+    for(let partida of partidas){
+        const Juego = await partida.getJuego()
         if(partida.estado=="Pendiente"){
-            if(partidas.fecha <= pasado){
-                fechasproximas.push(partida)
+            if(partida.fecha < pasado){
+                //const Juego = await partida.getJuego()
+                fechasproximas.push({
+                        id: partida.id,
+                        fecha: partida.fecha,
+                        hora: partida.hora,
+                        duracion: partida.duracion,
+                        estado: partida.estado,
+                        equipoA: partida.equipoA,
+                        equipoB: partida.equipoB,
+                        factorA: partida.factorA,
+                        factorB: partida.factorB,
+                        factorEmpate: partida.factorEmpate,
+                        Resultado: partida.Resultado,
+                        juegoNombre: Juego.nombre
+                    })
             }
         }
-    })
+    }
     console.log(fechasproximas);
 
     const categorias = await db.Categoria.findAll();
@@ -897,6 +928,39 @@ app.get('/logout', (req, res) => {
     })
     console.log("Se cerró la sesión")
 })
+//ELIMINAR PARTIDAS DE HOJA DE APUESTAS=> ahorita esta en partidas, quitarlo.
+app.get('/partidas/eliminar/:id', async (req, res) => {
+    const partidaId = req.params.id
+
+    await db.Partida.destroy({
+        where : {
+            id : partidaId
+        }
+    })
+
+    res.redirect('/partidas')
+
+}) 
+
+app.get('/partidas/ganancia/', async (req,res) => {
+    
+})
+
+//ELIMINAR PARTIDAS DE HOJA DE APUESTAS=> ahorita esta en partidas, quitarlo.
+app.get('/partidas/eliminar/:id', async (req, res) => {
+    const partidaId = req.params.id
+
+    await db.Partida.destroy({
+        where : {
+            id : partidaId
+        }
+    })
+
+    res.redirect('/partidas')
+
+
+}) 
+
 
 app.listen(PORT,()=>{
     console.log(`El servidor se inicio en el puerto: ${PORT}`)
